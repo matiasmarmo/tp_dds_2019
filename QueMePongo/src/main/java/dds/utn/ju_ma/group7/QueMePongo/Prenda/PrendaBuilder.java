@@ -35,8 +35,11 @@ public class PrendaBuilder {
 	}
 
 	private void validarTodo() {
-		if(!this.tipoPrenda.esTelaValida(this.tipoTela)) {
+		if (!this.tipoPrenda.esTelaValida(this.tipoTela)) {
 			throw new PrendaInvalidaException("La tela elegida no se corresponde con el tipo de prenda");
+		}
+		if (this.colorSecundario == this.colorPrimario) {
+			throw new PrendaInvalidaException("El color secundario debe ser diferente del color primario");
 		}
 		Arrays.asList(this.tipoPrenda, this.tipoTela, this.colorPrimario)
 				.forEach(elemento -> Objects.requireNonNull(elemento));
