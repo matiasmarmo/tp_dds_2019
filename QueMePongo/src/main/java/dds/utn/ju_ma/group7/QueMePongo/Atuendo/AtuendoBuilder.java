@@ -33,7 +33,7 @@ public class AtuendoBuilder {
 		this.accesorio = accesorio;
 	}
 
-	void verificarCategoria(Prenda prenda, CategoriaPrenda categoria) {
+	private void verificarCategoria(Prenda prenda, CategoriaPrenda categoria) {
 		if (prenda.getCategoria() != categoria) {
 			throw new AtuendoInvalidoException("La categoria de una prenda fue invalida");
 		}
