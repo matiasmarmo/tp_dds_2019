@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Color {
-	
+
 	private int rojo;
 	private int verde;
 	private int azul;
-	
+
 	public Color(int rojo, int verde, int azul) {
 		this.rojo = rojo;
 		this.verde = verde;
@@ -26,9 +26,13 @@ public class Color {
 	public int getAzul() {
 		return azul;
 	}
-	
+
 	public List<Integer> getComponentes() {
 		return Arrays.asList(this.rojo, this.verde, this.azul);
+	}
+	
+	public boolean esIgualA(Color otroColor) {
+		return this.getAzul() == otroColor.getAzul() && this.getRojo() == otroColor.getRojo() && this.getVerde() == otroColor.getVerde();
 	}
 
 }

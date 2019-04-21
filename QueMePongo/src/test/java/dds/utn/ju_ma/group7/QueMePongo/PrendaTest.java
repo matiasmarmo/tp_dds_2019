@@ -78,13 +78,12 @@ public class PrendaTest {
 	}
 	
 	@Test
-	public void CategoriaCorrecta() {
+	public void categoriaCorrecta() {
 		Assert.assertEquals(CategoriaPrenda.SUPERIOR, remeraNegra.getCategoria());
 	}
 	@Test
-	public void NoesDeCategoriaInferior() {
+	public void noEsDeCategoriaInferior() {
 		Assert.assertFalse(remeraNegra.esDeCategoria(CategoriaPrenda.INFERIOR));
 	}
-	
 
 }
