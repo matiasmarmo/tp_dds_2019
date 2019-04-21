@@ -8,14 +8,7 @@ public class AtuendoBuilder {
 	private Prenda prendaSuperior;
 	private Prenda prendaInferior;
 	private Prenda calzado;
-	private Prenda accesorio;
-
-	public AtuendoBuilder(Prenda prendaSuperior, Prenda prendaInferior, Prenda calzado, Prenda accesorio) {
-		this.prendaSuperior = prendaSuperior;
-		this.prendaInferior = prendaInferior;
-		this.calzado = calzado;
-		this.accesorio = accesorio;
-	}
+	private Prenda accesorio = null;
 
 	public void setPrendaSuperior(Prenda prendaSuperior) {
 		this.prendaSuperior = prendaSuperior;
@@ -43,7 +36,7 @@ public class AtuendoBuilder {
 		verificarCategoria(this.prendaSuperior, CategoriaPrenda.SUPERIOR);
 		verificarCategoria(this.prendaInferior, CategoriaPrenda.INFERIOR);
 		verificarCategoria(this.calzado, CategoriaPrenda.CALZADO);
-		verificarCategoria(this.accesorio, CategoriaPrenda.ACCESORIO);
+		if(accesorio != null) { verificarCategoria(this.accesorio, CategoriaPrenda.ACCESORIO); }
 		return new Atuendo(this.prendaSuperior, this.prendaInferior, this.calzado, this.accesorio);
 	}
 }
