@@ -6,9 +6,9 @@ import java.util.Arrays;
 public enum TipoPrenda {
 
 	REMERA, BUZO,
-	JEAN, JOGGIN,
-	ZAPATILLAS,
-	COLLAR;
+	JEAN, JOGGIN,SHORT,
+	ZAPATILLAS, OJOTAS,
+	COLLAR, VINCHA;
 	
 	private List<TipoTela> telasPosibles;
 	private CategoriaPrenda categoria;
@@ -22,10 +22,16 @@ public enum TipoPrenda {
 		JEAN.categoria = CategoriaPrenda.INFERIOR;
 		JOGGIN.telasPosibles = Arrays.asList(TipoTela.NYLON);
 		JOGGIN.categoria = CategoriaPrenda.INFERIOR;
+		SHORT.telasPosibles = Arrays.asList(TipoTela.DRY_FIT);
+		SHORT.categoria = CategoriaPrenda.INFERIOR;
 		ZAPATILLAS.telasPosibles = Arrays.asList(TipoTela.NYLON);
 		ZAPATILLAS.categoria = CategoriaPrenda.CALZADO;
+		OJOTAS.telasPosibles = Arrays.asList(TipoTela.GOMA);
+		OJOTAS.categoria = CategoriaPrenda.CALZADO;
 		COLLAR.telasPosibles = Arrays.asList(TipoTela.SEDA);
 		COLLAR.categoria = CategoriaPrenda.ACCESORIO;
+		VINCHA.telasPosibles = Arrays.asList(TipoTela.PLASTICO);
+		VINCHA.categoria = CategoriaPrenda.ACCESORIO;
 	}
 	
 	public CategoriaPrenda getCategoria() {
@@ -35,5 +41,4 @@ public enum TipoPrenda {
 	public boolean esTelaValida(TipoTela tela) {
 		return this.telasPosibles.contains(tela);
 	}
-	
 }
