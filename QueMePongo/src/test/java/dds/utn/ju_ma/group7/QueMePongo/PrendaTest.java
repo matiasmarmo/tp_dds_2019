@@ -16,13 +16,10 @@ public class PrendaTest {
 	private Prenda remeraNegraYBlanca;
 	
 	private PrendaBuilder remeraDeCueroBuilder = new PrendaBuilder();
-	private Prenda remeraDeCuero;
 	
 	private PrendaBuilder remeraColoresInvalidosBuilder = new PrendaBuilder();
-	private Prenda remeraColoresInvalidos;
 	
 	private PrendaBuilder remeraNulaBuilder = new PrendaBuilder();
-	private Prenda remeraNula;
 	
 	private Color negro = new Color(0, 0, 0);
 	private Color blanco = new Color(255, 255, 255);
@@ -63,7 +60,7 @@ public class PrendaTest {
 	
 	@Test(expected = PrendaInvalidaException.class)
 	public void tipoTelaCorrespondeAlTipoPrenda() {
-		remeraDeCuero = remeraDeCueroBuilder.crearPrenda();
+		remeraDeCueroBuilder.crearPrenda();
 	}
 	
 	@Test
@@ -79,12 +76,12 @@ public class PrendaTest {
 	
 	@Test(expected = PrendaInvalidaException.class)
 	public void elColorSecundarioDebeSerDistintoAlPrimario() {
-		remeraColoresInvalidos = remeraColoresInvalidosBuilder.crearPrenda();
+		remeraColoresInvalidosBuilder.crearPrenda();
 	}
 	
 	@Test(expected = PrendaInvalidaException.class)
 	public void losParametrosTipoPrendaTipoTelaColorPrimarioSonObligatorios() {
-		remeraNula = remeraNulaBuilder.crearPrenda();
+		remeraNulaBuilder.crearPrenda();
 	}
 	
 	@Test

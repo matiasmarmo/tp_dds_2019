@@ -1,7 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Prenda;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class PrendaBuilder {
 	private TipoPrenda tipoPrenda;
