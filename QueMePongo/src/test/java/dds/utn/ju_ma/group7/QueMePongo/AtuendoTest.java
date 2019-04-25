@@ -1,14 +1,8 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
-import static org.junit.Assert.*;
-
-import javax.naming.InitialContext;
-
 import org.junit.Test;
-
 import org.junit.Assert;
-import org.junit.Test; // for @Test 
-import org.junit.Before; // for @Before
+import org.junit.Before;
 
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.*;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;

@@ -1,8 +1,8 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.Assert;
-import org.junit.Test; // for @Test 
-import org.junit.Before; // for @Before
 
 
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.*;

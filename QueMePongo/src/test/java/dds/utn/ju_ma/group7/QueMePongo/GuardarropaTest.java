@@ -1,9 +1,5 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
-import static org.junit.Assert.*;
-
-import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
-import dds.utn.ju_ma.group7.QueMePongo.Atuendo.AtuendoBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
@@ -11,9 +7,9 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Guardarropa;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.Assert;
-import org.junit.Test; // for @Test 
-import org.junit.Before; // for @Before
 
 public class GuardarropaTest {
 	
