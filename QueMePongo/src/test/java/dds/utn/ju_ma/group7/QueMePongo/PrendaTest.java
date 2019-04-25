@@ -55,6 +55,7 @@ public class PrendaTest {
 	public void remeraNegraCategoriaCorrecta() {
 		Assert.assertTrue(remeraNegra.esDeCategoria(CategoriaPrenda.SUPERIOR));
 	}
+	
 	@Test
 	public void remeraNegraYBlacaCategoriaCorrecta() {
 		remeraNegraYBlanca = remeraNegraYBlancaBuilder.crearPrenda();
@@ -64,23 +65,23 @@ public class PrendaTest {
 	@Test(expected = PrendaInvalidaException.class)
 	public void remeraConTelaInvalida() {
 		remeraDeCuero = remeraDeCueroBuilder.crearPrenda();
-		Assert.assertTrue(remeraDeCuero.esDeCategoria(CategoriaPrenda.SUPERIOR));
 	}
+	
 	@Test(expected = PrendaInvalidaException.class)
 	public void remeraColorSecundarioInvalido() {
 		remeraColoresInvalidos = remeraColoresInvalidosBuilder.crearPrenda();
-		Assert.assertTrue(remeraColoresInvalidos.esDeCategoria(CategoriaPrenda.SUPERIOR));
 	}
+	
 	@Test(expected = NullPointerException.class)
 	public void remeraNulaInvalida() {
 		remeraNula = remeraNulaBuilder.crearPrenda();
-		Assert.assertTrue(remeraNula.esDeCategoria(CategoriaPrenda.SUPERIOR));
 	}
 	
 	@Test
 	public void categoriaCorrecta() {
 		Assert.assertEquals(CategoriaPrenda.SUPERIOR, remeraNegra.getCategoria());
 	}
+	
 	@Test
 	public void noEsDeCategoriaInferior() {
 		Assert.assertFalse(remeraNegra.esDeCategoria(CategoriaPrenda.INFERIOR));
