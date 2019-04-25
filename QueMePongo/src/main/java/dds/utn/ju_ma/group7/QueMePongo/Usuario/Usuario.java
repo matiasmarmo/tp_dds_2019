@@ -2,6 +2,7 @@ package dds.utn.ju_ma.group7.QueMePongo.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 
@@ -17,8 +18,11 @@ public class Usuario {
 		this.guardarropas.add(guardarropa);
 	}
 	
-	public List<Atuendo> obtenerAtuendos(int indice) {
-		return this.guardarropas.get(indice).generarAtuendos();
+	public List<Atuendo> obtenerAtuendos() {
+		return this.guardarropas
+				.stream()
+				.flatMap( unGuardarropa -> unGuardarropa.generarStreamDeAtuendos() )
+				.collect(Collectors.toList());
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.common.collect.Sets;
 
@@ -27,8 +28,8 @@ public class Guardarropa {
 	private Set<Prenda> filtrarPrendasPorCategoria(CategoriaPrenda categoria) {
 		return this.prendas.stream().filter(prenda -> prenda.esDeCategoria(categoria)).collect(Collectors.toSet());
 	}
-
-	public List<Atuendo> generarAtuendos() {
+	
+	public Stream<Atuendo> generarStreamDeAtuendos() {
 		Set<Prenda> prendasSuperiores = this.filtrarPrendasPorCategoria(CategoriaPrenda.SUPERIOR);
 		Set<Prenda> prendasInferiores = this.filtrarPrendasPorCategoria(CategoriaPrenda.INFERIOR);
 		Set<Prenda> calzados = this.filtrarPrendasPorCategoria(CategoriaPrenda.CALZADO);
@@ -36,6 +37,10 @@ public class Guardarropa {
 		Set<List<Prenda>> combinaciones = Sets
 				.cartesianProduct(Arrays.asList(prendasSuperiores, prendasInferiores, calzados, accesorios));
 		return combinaciones.stream().map(combinacion -> new Atuendo(combinacion.get(0), combinacion.get(1),
-				combinacion.get(2), combinacion.get(3))).collect(Collectors.toList());
+				combinacion.get(2), combinacion.get(3)));
+	}
+
+	public List<Atuendo> generarAtuendos() {
+		return this.generarStreamDeAtuendos().collect(Collectors.toList());
 	}
 }
