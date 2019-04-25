@@ -52,38 +52,43 @@ public class PrendaTest {
 	}
 	
 	@Test
-	public void remeraNegraCategoriaCorrecta() {
-		Assert.assertTrue(remeraNegra.esDeCategoria(CategoriaPrenda.SUPERIOR));
+	public void sePuedeSaberElTipoPrenda() {
+		Assert.assertEquals(TipoPrenda.REMERA, remeraNegra.getTipoPrenda());
 	}
 	
 	@Test
-	public void remeraNegraYBlacaCategoriaCorrecta() {
-		remeraNegraYBlanca = remeraNegraYBlancaBuilder.crearPrenda();
-		Assert.assertTrue(remeraNegraYBlanca.esDeCategoria(CategoriaPrenda.SUPERIOR));
+	public void laCategoriaEsConsistenteConElTipoPrenda() {
+		Assert.assertEquals(CategoriaPrenda.SUPERIOR, remeraNegra.getCategoria());
 	}
 	
 	@Test(expected = PrendaInvalidaException.class)
-	public void remeraConTelaInvalida() {
+	public void tipoTelaCorrespondeAlTipoPrenda() {
 		remeraDeCuero = remeraDeCueroBuilder.crearPrenda();
 	}
 	
+	@Test
+	public void prendaPuedeTenerColorPrimarioYSecundario() {
+		remeraNegraYBlanca = remeraNegraYBlancaBuilder.crearPrenda();
+		Assert.assertTrue(remeraNegraYBlanca.getColorSecundario().esIgualA(blanco));
+	}
+	
+	@Test
+	public void elColorSecundarioEsOpcional() {
+		Assert.assertNull(remeraNegra.getColorSecundario());
+	}
+	
 	@Test(expected = PrendaInvalidaException.class)
-	public void remeraColorSecundarioInvalido() {
+	public void elColorSecundarioDebeSerDistintoAlPrimario() {
 		remeraColoresInvalidos = remeraColoresInvalidosBuilder.crearPrenda();
 	}
 	
 	@Test(expected = NullPointerException.class)
-	public void remeraNulaInvalida() {
+	public void losParametrosTipoPrendaTipoTelaColorPrimarioSonObligatorios() {
 		remeraNula = remeraNulaBuilder.crearPrenda();
 	}
 	
 	@Test
-	public void categoriaCorrecta() {
-		Assert.assertEquals(CategoriaPrenda.SUPERIOR, remeraNegra.getCategoria());
-	}
-	
-	@Test
-	public void noEsDeCategoriaInferior() {
+	public void sePuedeConsultarLaCategoriaDeLaPrenda() {
 		Assert.assertFalse(remeraNegra.esDeCategoria(CategoriaPrenda.INFERIOR));
 	}
 
