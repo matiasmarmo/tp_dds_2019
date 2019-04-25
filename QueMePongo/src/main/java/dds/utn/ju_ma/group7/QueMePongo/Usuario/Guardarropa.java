@@ -28,7 +28,11 @@ public class Guardarropa {
 	private Set<Prenda> filtrarPrendasPorCategoria(CategoriaPrenda categoria) {
 		return this.prendas.stream().filter(prenda -> prenda.esDeCategoria(categoria)).collect(Collectors.toSet());
 	}
-	
+
+	private Atuendo contruirAtuendoDesdeCombinacion(List<Prenda> combinacion) {
+		return new Atuendo(combinacion.get(0), combinacion.get(1), combinacion.get(2), combinacion.get(3));
+	}
+
 	public Stream<Atuendo> generarStreamDeAtuendos() {
 		Set<Prenda> prendasSuperiores = this.filtrarPrendasPorCategoria(CategoriaPrenda.SUPERIOR);
 		Set<Prenda> prendasInferiores = this.filtrarPrendasPorCategoria(CategoriaPrenda.INFERIOR);
@@ -36,8 +40,7 @@ public class Guardarropa {
 		Set<Prenda> accesorios = this.filtrarPrendasPorCategoria(CategoriaPrenda.ACCESORIO);
 		Set<List<Prenda>> combinaciones = Sets
 				.cartesianProduct(Arrays.asList(prendasSuperiores, prendasInferiores, calzados, accesorios));
-		return combinaciones.stream().map(combinacion -> new Atuendo(combinacion.get(0), combinacion.get(1),
-				combinacion.get(2), combinacion.get(3)));
+		return combinaciones.stream().map(combinacion -> this.contruirAtuendoDesdeCombinacion(combinacion));
 	}
 
 	public List<Atuendo> generarAtuendos() {
