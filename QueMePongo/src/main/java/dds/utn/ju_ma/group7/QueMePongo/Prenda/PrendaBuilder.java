@@ -35,13 +35,22 @@ public class PrendaBuilder {
 	}
 
 	private void validarTodo() {
+		Arrays.asList(this.tipoPrenda, this.tipoTela, this.colorPrimario)
+				.forEach(elemento -> this.validarNulo(elemento));
+		
 		if (!this.tipoPrenda.esTelaValida(this.tipoTela)) {
 			throw new PrendaInvalidaException("La tela elegida no se corresponde con el tipo de prenda");
 		}
+		
 		if (this.colorSecundario != null && this.colorPrimario.esIgualA(this.colorSecundario)) {
 			throw new PrendaInvalidaException("El color secundario debe ser diferente del color primario");
 		}
-		Arrays.asList(this.tipoPrenda, this.tipoTela, this.colorPrimario)
-				.forEach(elemento -> Objects.requireNonNull(elemento));
+
+	}
+
+	private void validarNulo(Object elemento) {
+		if (elemento == null) {
+			throw new PrendaInvalidaException("Los parametros obligatorios no pueden ser nulos");
+		}
 	}
 }

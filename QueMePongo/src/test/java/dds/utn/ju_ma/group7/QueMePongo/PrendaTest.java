@@ -82,7 +82,7 @@ public class PrendaTest {
 		remeraColoresInvalidos = remeraColoresInvalidosBuilder.crearPrenda();
 	}
 	
-	@Test(expected = NullPointerException.class)
+	@Test(expected = PrendaInvalidaException.class)
 	public void losParametrosTipoPrendaTipoTelaColorPrimarioSonObligatorios() {
 		remeraNula = remeraNulaBuilder.crearPrenda();
 	}
