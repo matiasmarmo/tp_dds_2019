@@ -117,12 +117,12 @@ public class GuardarropaTest {
 	
 	@Test
 	public void elGuardarropaCompletoGeneraDosAtuendos() {
-		Assert.assertTrue(guardarropaCompleto.generarAtuendos().size() == 2);
+		Assert.assertEquals(2, guardarropaCompleto.generarAtuendos().size());
 	}
 	
 	@Test
 	public void elGuardarropaIncompletoNoGeneraAtuendos() {
-		Assert.assertTrue(guardarropaIncompleto.generarAtuendos().size() == 0);
+		Assert.assertEquals(0, guardarropaIncompleto.generarAtuendos().size());
 	}
 	
 	@Test
@@ -133,6 +133,6 @@ public class GuardarropaTest {
 		//      2 calzados
 		//      2 accesorios
 		// Cuenta que deberia realizar: 3C1 * 3C1 * 2C1 * 2C1 = 36 atuendos distintos
-		Assert.assertTrue(guardarropaConMuchasPrendas.generarAtuendos().size() == 36);
+		Assert.assertEquals(36, guardarropaConMuchasPrendas.generarAtuendos().size());
 	}
 }
