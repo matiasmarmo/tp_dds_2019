@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 public class GuardarropaTest {
-	
+
 	private Guardarropa guardarropaCompleto = new Guardarropa();
 	private Guardarropa guardarropaIncompleto = new Guardarropa();
 	private PrendaBuilder remeraNegraBuilder = new PrendaBuilder();
@@ -27,53 +27,53 @@ public class GuardarropaTest {
 	private Prenda collarDivino;
 	private Color negro = new Color(0, 0, 0);
 	private Color blanco = new Color(255, 255, 255);
-	
+
 	@Before
 	public void init() {
-		
+
 		remeraNegraBuilder.setTipoPrenda(TipoPrenda.REMERA);
 		remeraNegraBuilder.setTipoTela(TipoTela.ALGODON);
 		remeraNegraBuilder.setColorPrimario(negro);
 		remeraNegra = remeraNegraBuilder.crearPrenda();
-		
+
 		remeraBlancaBuilder.setTipoPrenda(TipoPrenda.REMERA);
 		remeraBlancaBuilder.setTipoTela(TipoTela.ALGODON);
 		remeraBlancaBuilder.setColorPrimario(blanco);
 		remeraBlanca = remeraBlancaBuilder.crearPrenda();
-		
+
 		jeanBuilder.setTipoPrenda(TipoPrenda.JEAN);
 		jeanBuilder.setTipoTela(TipoTela.CUERO);
 		jeanBuilder.setColorPrimario(negro);
 		jeanNegro = jeanBuilder.crearPrenda();
-		
+
 		zapatillasBuilder.setTipoPrenda(TipoPrenda.ZAPATILLAS);
 		zapatillasBuilder.setTipoTela(TipoTela.NYLON);
 		zapatillasBuilder.setColorPrimario(negro);
 		zapatillasNegras = zapatillasBuilder.crearPrenda();
-		
+
 		collarDivinoBuilder.setTipoPrenda(TipoPrenda.COLLAR);
 		collarDivinoBuilder.setTipoTela(TipoTela.SEDA);
 		collarDivinoBuilder.setColorPrimario(blanco);
 		collarDivino = collarDivinoBuilder.crearPrenda();
-		
+
 		guardarropaCompleto.agregarPrenda(remeraNegra);
 		guardarropaCompleto.agregarPrenda(remeraBlanca);
 		guardarropaCompleto.agregarPrenda(jeanNegro);
 		guardarropaCompleto.agregarPrenda(zapatillasNegras);
 		guardarropaCompleto.agregarPrenda(collarDivino);
-		
+
 		guardarropaIncompleto.agregarPrenda(remeraNegra);
 		guardarropaIncompleto.agregarPrenda(jeanNegro);
 		guardarropaIncompleto.agregarPrenda(collarDivino);
 	}
-	
+
 	@Test
-	public void elGuardarropaCompletoGeneraDosAtuendos() {
+	public void unGuardarropaCompletoGeneraAtuendos() {
 		Assert.assertEquals(2, guardarropaCompleto.generarAtuendos().size());
 	}
-	
+
 	@Test
-	public void elGuardarropaIncompletoNoGeneraAtuendos() {
+	public void unGuardarropaDebeEstarCompletoParaGenerarAtuendos() {
 		Assert.assertEquals(0, guardarropaIncompleto.generarAtuendos().size());
 	}
 }
