@@ -1,22 +1,19 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
-import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Guardarropa;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Assert;
-
-public class GuardarropaTest {
+public class GuardarropaTest extends Fixture {
 
 	private Guardarropa guardarropaCompleto = new Guardarropa();
 	private Guardarropa guardarropaIncompleto = new Guardarropa();
-	private PrendaBuilder remeraNegraBuilder = new PrendaBuilder();
-	private Prenda remeraNegra;
 	private PrendaBuilder remeraBlancaBuilder = new PrendaBuilder();
 	private Prenda remeraBlanca;
 	private PrendaBuilder jeanBuilder = new PrendaBuilder();
@@ -25,16 +22,9 @@ public class GuardarropaTest {
 	private Prenda zapatillasNegras;
 	private PrendaBuilder collarDivinoBuilder = new PrendaBuilder();
 	private Prenda collarDivino;
-	private Color negro = new Color(0, 0, 0);
-	private Color blanco = new Color(255, 255, 255);
 
 	@Before
 	public void init() {
-
-		remeraNegraBuilder.setTipoPrenda(TipoPrenda.REMERA);
-		remeraNegraBuilder.setTipoTela(TipoTela.ALGODON);
-		remeraNegraBuilder.setColorPrimario(negro);
-		remeraNegra = remeraNegraBuilder.crearPrenda();
 
 		remeraBlancaBuilder.setTipoPrenda(TipoPrenda.REMERA);
 		remeraBlancaBuilder.setTipoTela(TipoTela.ALGODON);
