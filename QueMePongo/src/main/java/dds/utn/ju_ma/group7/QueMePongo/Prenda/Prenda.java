@@ -7,7 +7,6 @@ public class Prenda {
 	private final Color colorSecundario;
 
 	public Prenda(TipoPrenda tipoPrenda, TipoTela tipoTela, Color colorPrimario, Color colorSecundario) {
-		super();
 		this.tipoPrenda = tipoPrenda;
 		this.tipoTela = tipoTela;
 		this.colorPrimario = colorPrimario;
