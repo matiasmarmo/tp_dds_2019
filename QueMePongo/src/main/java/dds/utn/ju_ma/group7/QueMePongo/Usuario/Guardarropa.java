@@ -18,7 +18,11 @@ public class Guardarropa {
 	protected List<Prenda> prendas;
 
 	public Guardarropa() {
-		this.prendas = new ArrayList<>();
+		this.prendas = new ArrayList<Prenda>();
+	}
+	
+	public void agregarPrendas(List<Prenda> prendas) {
+		prendas.forEach(prenda -> this.agregarPrenda(prenda));
 	}
 
 	public void agregarPrenda(Prenda prenda) {
