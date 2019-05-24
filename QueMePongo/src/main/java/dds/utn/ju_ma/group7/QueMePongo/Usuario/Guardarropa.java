@@ -15,7 +15,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 
 public class Guardarropa {
 
-	private List<Prenda> prendas;
+	protected List<Prenda> prendas;
 
 	public Guardarropa() {
 		this.prendas = new ArrayList<>();
