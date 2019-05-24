@@ -2,6 +2,7 @@ package dds.utn.ju_ma.group7.QueMePongo.Usuario;
 
 import java.util.List;
 
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 
 public class UsuarioPremium extends Usuario {

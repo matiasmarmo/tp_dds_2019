@@ -4,11 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.Guardarropa;
 
 public class GuardarropaTest extends Fixture {
 

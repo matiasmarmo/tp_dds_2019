@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 
 public abstract class Usuario {

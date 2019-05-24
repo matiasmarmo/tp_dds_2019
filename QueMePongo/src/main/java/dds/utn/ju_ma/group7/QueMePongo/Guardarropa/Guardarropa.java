@@ -1,4 +1,4 @@
-package dds.utn.ju_ma.group7.QueMePongo.Usuario;
+package dds.utn.ju_ma.group7.QueMePongo.Guardarropa;
 
 import java.util.ArrayList;
 import java.util.Arrays;
