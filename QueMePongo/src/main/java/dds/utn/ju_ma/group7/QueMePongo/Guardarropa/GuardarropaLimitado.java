@@ -6,9 +6,10 @@ public class GuardarropaLimitado extends Guardarropa{
 	
 	private static final int limite = 50;
 	
+	@Override
 	public void agregarPrenda(Prenda prenda) {
 		if(this.prendas.size() >= GuardarropaLimitado.limite) {
-			throw new GuardarropaLlenoExcepcion("El Guardarropa esta lleno.");
+			throw new GuardarropaLlenoException("El Guardarropa esta lleno.");
 		}
 		this.prendas.add(prenda);
 	}

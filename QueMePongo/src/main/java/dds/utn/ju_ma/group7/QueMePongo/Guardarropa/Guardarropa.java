@@ -34,7 +34,7 @@ public class Guardarropa {
 
 	public void agregarPrenda(Prenda prenda, String imagen) {
 		prenda.setImagen(imagen);
-		this.prendas.add(prenda);
+		this.agregarPrenda(prenda);
 	}
 
 	private Set<InterfazPrenda> filtrarPrendasPorCategoria(CategoriaPrenda categoria) {
