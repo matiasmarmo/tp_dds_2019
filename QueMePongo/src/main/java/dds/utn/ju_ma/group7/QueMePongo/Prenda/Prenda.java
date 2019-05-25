@@ -6,24 +6,15 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Prenda {
+public class Prenda implements InterfazPrenda {
 	private final TipoPrenda tipoPrenda;
 	private final TipoTela tipoTela;
 	private final Color colorPrimario;
 	private final Color colorSecundario;
 	private BufferedImage imagen;
 	
-	private static Prenda prendaNula = null;
-	
-	public static Prenda PrendaNula() {
-		if(Prenda.prendaNula == null) {
-			Prenda.prendaNula = new Prenda(null, null, null, null);
-		}
-		return Prenda.prendaNula;
-	}
-	
 	public boolean esPrendaNula() {
-		return Prenda.prendaNula == null ? false : this == Prenda.prendaNula;
+		return false;
 	}
 
 	public Prenda(TipoPrenda tipoPrenda, TipoTela tipoTela, Color colorPrimario, Color colorSecundario) {
