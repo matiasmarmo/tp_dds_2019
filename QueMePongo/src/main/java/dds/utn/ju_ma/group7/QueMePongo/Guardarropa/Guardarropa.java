@@ -23,12 +23,17 @@ public class Guardarropa {
 	public Guardarropa() {
 		this.prendas = new ArrayList<Prenda>();
 	}
-	
+
 	public void agregarPrendas(List<Prenda> prendas) {
 		prendas.forEach(prenda -> this.agregarPrenda(prenda));
 	}
 
 	public void agregarPrenda(Prenda prenda) {
+		this.prendas.add(prenda);
+	}
+
+	public void agregarPrenda(Prenda prenda, String imagen) {
+		prenda.setImagen(imagen);
 		this.prendas.add(prenda);
 	}
 
@@ -43,24 +48,22 @@ public class Guardarropa {
 		List<Prenda> prendasSuperiores = combinacion.subList(3, combinacion.size());
 		return new Atuendo(prendasSuperiores, inferior, calzado, accesorio);
 	}
-	
+
 	private Set<InterfazPrenda> prendasSuperioresDeJerarquia(int jerarquia) {
-		return this.prendas.stream()
-				.filter(prenda -> (prenda.esDeCategoria(CategoriaPrenda.SUPERIOR) && prenda.getJerarquia() == jerarquia))
+		return this.prendas.stream().filter(
+				prenda -> (prenda.esDeCategoria(CategoriaPrenda.SUPERIOR) && prenda.getJerarquia() == jerarquia))
 				.collect(Collectors.toSet());
 	}
-	
+
 	private List<Prenda> aplanarCombinacion(List<InterfazPrenda> combinacion) {
-		return combinacion.stream()
-				.filter(prenda -> !prenda.esPrendaNula())
-				.map(prenda -> (Prenda) prenda)
+		return combinacion.stream().filter(prenda -> !prenda.esPrendaNula()).map(prenda -> (Prenda) prenda)
 				.collect(Collectors.toList());
 	}
-	
+
 	private List<Set<InterfazPrenda>> generarCombinacionesDePrendasSuperiores() {
 		List<Set<InterfazPrenda>> prendasDeJerarquias = new ArrayList<>();
-		List<Integer> jerarquias = IntStream.rangeClosed(0, TipoPrenda.jerarquiaMaxima)
-				.boxed().collect(Collectors.toList());
+		List<Integer> jerarquias = IntStream.rangeClosed(0, TipoPrenda.jerarquiaMaxima).boxed()
+				.collect(Collectors.toList());
 		jerarquias.forEach(jerarquia -> {
 			Set<InterfazPrenda> prendasDeLaJerarquia = this.prendasSuperioresDeJerarquia(jerarquia);
 			prendasDeLaJerarquia.add(new PrendaNula());
@@ -80,8 +83,7 @@ public class Guardarropa {
 		subconjuntosDePrendas.add(0, prendasInferiores);
 		subconjuntosDePrendas.addAll(combinacionesPrendasSuperiores);
 		Set<List<InterfazPrenda>> productoCartesiano = Sets.cartesianProduct(subconjuntosDePrendas);
-		return productoCartesiano.stream()
-				.map(combinacion -> this.aplanarCombinacion(combinacion))
+		return productoCartesiano.stream().map(combinacion -> this.aplanarCombinacion(combinacion))
 				.filter(combinacion -> combinacion.size() >= 4)
 				.map(combinacion -> this.contruirAtuendoDesdeCombinacion(combinacion));
 	}
