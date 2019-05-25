@@ -1,22 +1,24 @@
 package dds.utn.ju_ma.group7.QueMePongo.Atuendo;
+import java.util.List;
+
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 
 public class Atuendo {
 	
-	private final Prenda prendaSuperior;
+	private final List<Prenda> prendasSuperiores;
 	private final Prenda prendaInferior;
 	private final Prenda calzado;
 	private final Prenda accesorio;
 	
-	public Atuendo(Prenda prendaSuperior, Prenda prendaInferior, Prenda calzado, Prenda accesorio) {
-		this.prendaSuperior = prendaSuperior;
+	public Atuendo(List<Prenda> prendasSuperiores, Prenda prendaInferior, Prenda calzado, Prenda accesorio) {
+		this.prendasSuperiores = prendasSuperiores;
 		this.prendaInferior = prendaInferior;
 		this.calzado = calzado;
 		this.accesorio = accesorio;
 	}
 
-	public Prenda getPrendaSuperior() {
-		return prendaSuperior;
+	public List<Prenda> getPrendasSuperiores() {
+		return this.prendasSuperiores;
 	}
 
 	public Prenda getPrendaInferior() {
