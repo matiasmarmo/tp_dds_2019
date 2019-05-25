@@ -73,5 +73,15 @@ public class PrendaTest extends Fixture {
 	public void sePuedeConsultarLaCategoriaDeLaPrenda() {
 		Assert.assertFalse(remeraNegra.esDeCategoria(CategoriaPrenda.INFERIOR));
 	}
+	
+	@Test(expected = ImagenInvalidaException.class)
+	public void elPathDeLaImagenDeLaPrendaNoPuedeSerNulo() {
+		remeraNegra.setImagen(null);
+	}
+	
+	@Test(expected = ImagenInvalidaException.class)
+	public void elPathDeLaImagenDeLaPrendaDebeSerValido() {
+		remeraNegra.setImagen("");
+	}
 
 }

@@ -57,6 +57,8 @@ public class Prenda implements InterfazPrenda {
 			this.imagen = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			throw new ImagenInvalidaException("No se pudo cargar la imagen");
+		} catch (NullPointerException e) {
+			throw new ImagenInvalidaException("El path no puede ser nulo");
 		}
 	}
 	
