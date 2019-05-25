@@ -38,7 +38,7 @@ public enum TipoPrenda {
 		SHORT.categoria = CategoriaPrenda.INFERIOR;
 		SHORT.nivelAbrigo = 3;
 		
-		ZAPATILLAS.telasPosibles = Arrays.asList(TipoTela.NYLON);
+		ZAPATILLAS.telasPosibles = Arrays.asList(TipoTela.NYLON, TipoTela.CUERO);
 		ZAPATILLAS.categoria = CategoriaPrenda.CALZADO;
 		ZAPATILLAS.nivelAbrigo = 20;
 		
@@ -46,7 +46,7 @@ public enum TipoPrenda {
 		OJOTAS.categoria = CategoriaPrenda.CALZADO;
 		OJOTAS.nivelAbrigo = 5;
 		
-		COLLAR.telasPosibles = Arrays.asList(TipoTela.SEDA);
+		COLLAR.telasPosibles = Arrays.asList(TipoTela.SEDA, TipoTela.PLASTICO);
 		COLLAR.categoria = CategoriaPrenda.ACCESORIO;
 		
 		VINCHA.telasPosibles = Arrays.asList(TipoTela.PLASTICO);
@@ -68,4 +68,7 @@ public enum TipoPrenda {
 	public int getJerarquia() {
 		return this.jerarquia;
 	}
+	
+	public static final int jerarquiaMaxima = 2;
+	
 }

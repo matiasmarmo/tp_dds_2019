@@ -12,6 +12,19 @@ public class Prenda {
 	private final Color colorPrimario;
 	private final Color colorSecundario;
 	private BufferedImage imagen;
+	
+	private static Prenda prendaNula = null;
+	
+	public static Prenda PrendaNula() {
+		if(Prenda.prendaNula == null) {
+			Prenda.prendaNula = new Prenda(null, null, null, null);
+		}
+		return Prenda.prendaNula;
+	}
+	
+	public boolean esPrendaNula() {
+		return Prenda.prendaNula == null ? false : this == Prenda.prendaNula;
+	}
 
 	public Prenda(TipoPrenda tipoPrenda, TipoTela tipoTela, Color colorPrimario, Color colorSecundario) {
 		this.tipoPrenda = tipoPrenda;
@@ -38,6 +51,10 @@ public class Prenda {
 
 	public CategoriaPrenda getCategoria() {
 		return this.tipoPrenda.getCategoria();
+	}
+	
+	public int getJerarquia() {
+		return this.tipoPrenda.getJerarquia();
 	}
 	
 	public BufferedImage getImagen() {
