@@ -28,5 +28,9 @@ public abstract class Usuario {
 				.flatMap( unGuardarropa -> unGuardarropa.generarStreamDeAtuendos() )
 				.collect(Collectors.toList());
 	}
+	
+	public void haySugerenciasNuevas() {
+		System.out.println( "Hay sugerencias nuevas" );
+	}
 
 }
