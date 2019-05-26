@@ -49,15 +49,15 @@ public class Atuendo {
 	}
 	
 	public boolean esAdecuadoATemperatura(double temperatura) {
-		return this.getNivelAbrigo() > temperatura;
+		return this.getNivelAbrigo() > temperatura && this.getNivelAbrigo() < (temperatura * 2 );
 	}
 	
 	public boolean esAdecuadoAViento(double viento) {
-		return this.getNivelAbrigo() > viento;
+		return this.getNivelAbrigo() > viento && this.getNivelAbrigo() < (viento * 2);
 	}
 	
 	public boolean esAdecuadoAProbabilidadLluvia(double probabilidadLluvia) {
-		return this.getNivelAbrigo() > probabilidadLluvia;
+		return this.getNivelAbrigo() > probabilidadLluvia && this.getNivelAbrigo() < (probabilidadLluvia * 2 );
 	}
 	
 }
