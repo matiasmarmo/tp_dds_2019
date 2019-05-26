@@ -12,7 +12,7 @@ public class Prenda implements InterfazPrenda {
 	private final Color colorPrimario;
 	private final Color colorSecundario;
 	private BufferedImage imagen;
-	
+
 	public boolean esPrendaNula() {
 		return false;
 	}
@@ -43,15 +43,19 @@ public class Prenda implements InterfazPrenda {
 	public CategoriaPrenda getCategoria() {
 		return this.tipoPrenda.getCategoria();
 	}
-	
+
+	public int getNivelAbrigo() {
+		return this.tipoPrenda.getNivelAbrigo();
+	}
+
 	public int getJerarquia() {
 		return this.tipoPrenda.getJerarquia();
 	}
-	
+
 	public BufferedImage getImagen() {
 		return this.imagen;
 	}
-	
+
 	public void setImagen(String path) {
 		try {
 			this.imagen = ImageIO.read(new File(path));
@@ -61,9 +65,9 @@ public class Prenda implements InterfazPrenda {
 			throw new ImagenInvalidaException("El path no puede ser nulo");
 		}
 	}
-	
+
 	public boolean esDeCategoria(CategoriaPrenda categoria) {
 		return this.getCategoria() == categoria;
 	}
-	
+
 }
