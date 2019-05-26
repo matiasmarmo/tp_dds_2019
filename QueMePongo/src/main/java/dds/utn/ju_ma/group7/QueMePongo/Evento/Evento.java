@@ -57,7 +57,7 @@ public class Evento {
 	}
 	
 	public void serSugerido() {
-		this.setSugerencias(Sugeridor.sugerencias(guardarropa.generarAtuendos()));
+		this.setSugerencias(Sugeridor.sugerir(guardarropa.generarAtuendos()));
 		usuario.haySugerenciasNuevas();
 	}
 	

@@ -20,12 +20,11 @@ public class Sugeridor {
 	}
 	
 	private static List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos){
-		//proveedorClima.instance();
 		double temperatura = Sugeridor.proveedorClima.getTemperatura(new Date());
 		return atuendos.stream().filter(unAtuendo -> unAtuendo.esAdecuadoATemperatura(temperatura)).collect(Collectors.toList());
 	}
 
-	public static List<Sugerencia> sugerencias(List<Atuendo> atuendos) {
+	public static List<Sugerencia> sugerir(List<Atuendo> atuendos) {
 		List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
 		List<Atuendo> atuendosAdecuados = Sugeridor.filtrarAtuendosPorTemperatura(atuendos);
 		atuendosAdecuados.stream().forEach(unAtuendo -> sugerencias.add(new Sugerencia(unAtuendo)));
