@@ -1,8 +1,8 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
-import java.util.Calendar;
+import java.util.Date;
 
 public interface ProveedorClima {
-	
-	public double getTemperatura(Calendar fecha);	
+
+	public double getTemperatura(Date fecha);
 }

@@ -1,10 +1,10 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
-import java.util.Calendar;
+import java.util.Date;
 
 public class ProveedorMockInvierno implements ProveedorClima {
 
-	public double getTemperatura(Calendar fecha) {
+	public double getTemperatura(Date fecha) {
 		return 8;
 	}
 }
