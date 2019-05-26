@@ -43,8 +43,21 @@ public class Atuendo {
 		todas.add(this.accesorio);
 		return todas;
 	}
-	
+
 	public int getNivelAbrigo() {
 		return this.todasLasPrendas().stream().mapToInt(unaPrenda -> unaPrenda.getNivelAbrigo()).sum();
 	}
+	
+	public boolean esAdecuadoATemperatura(double temperatura) {
+		return this.getNivelAbrigo() > temperatura;
+	}
+	
+	public boolean esAdecuadoAViento(double viento) {
+		return this.getNivelAbrigo() > viento;
+	}
+	
+	public boolean esAdecuadoAProbabilidadLluvia(double probabilidadLluvia) {
+		return this.getNivelAbrigo() > probabilidadLluvia;
+	}
+	
 }
