@@ -1,10 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
 import java.util.Calendar;
-import java.util.Date;
-
 import javax.ws.rs.core.MediaType;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import com.sun.jersey.api.client.Client;
@@ -72,11 +69,8 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 		return gradosKelvin - 273.15;
 	}
 
-	public double getTemperatura(Date fecha) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(fecha);
-
-		JSONObject pronostico = pronosticoEspecifico(calendar);
+	public double getTemperatura(Calendar fecha) {
+		JSONObject pronostico = pronosticoEspecifico(fecha);
 		double temperaturaKelvin = pronostico.getJSONObject("main").getInt("temp");
 		return kelvinToCelsius(temperaturaKelvin);
 	}

@@ -1,21 +1,20 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.Sugeridor;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class Evento {
-	private Date fecha;
+	private Calendar fecha;
 	private String descripcion;
 	private List<Sugerencia> sugerencias;
 	private Usuario usuario;
 	private Guardarropa guardarropa;
 	
-	public Evento(Usuario usuario, Guardarropa guardarropa, Date fecha, String descripcion) {
+	public Evento(Usuario usuario, Guardarropa guardarropa, Calendar fecha, String descripcion) {
 		this.usuario = usuario;
 		this.guardarropa = guardarropa;
 		this.fecha = fecha;
@@ -23,12 +22,11 @@ public class Evento {
 		this.sugerencias = null;
 	}
 	
-	public boolean esProximo(Date unaFecha) {
-		long diff = this.fecha.getTime() - unaFecha.getTime();
-		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) < 4; 
+	public boolean esProximo(Calendar unaFecha) {
+		return (unaFecha.get(Calendar.DAY_OF_MONTH) - this.fecha.get(Calendar.DAY_OF_MONTH)) < 4;
 	}
 	
-	public Date getFecha() {
+	public Calendar getFecha() {
 		return fecha;
 	}
 

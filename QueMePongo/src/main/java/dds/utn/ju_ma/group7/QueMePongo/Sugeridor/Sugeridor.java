@@ -1,7 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +20,7 @@ public class Sugeridor {
 	}
 	
 	private static List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos){
-		double temperatura = Sugeridor.proveedorClima.getTemperatura(new Date());
+		double temperatura = Sugeridor.proveedorClima.getTemperatura(Calendar.getInstance());
 		return atuendos.stream().filter(unAtuendo -> unAtuendo.esAdecuadoATemperatura(temperatura)).collect(Collectors.toList());
 	}
 
