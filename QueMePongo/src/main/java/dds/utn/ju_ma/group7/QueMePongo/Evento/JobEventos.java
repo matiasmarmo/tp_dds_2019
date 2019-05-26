@@ -9,7 +9,7 @@ public class JobEventos extends TimerTask {
 	@Override
 	public void run() {
 		List<Evento> eventosProximos = RepositorioEventos.eventosProximos(Calendar.getInstance());
-		eventosProximos.stream().forEach(unEvento -> unEvento.serSugerido());
+		eventosProximos.stream().forEach(unEvento -> unEvento.serSugerido(Calendar.getInstance()));
 	}
 
 }

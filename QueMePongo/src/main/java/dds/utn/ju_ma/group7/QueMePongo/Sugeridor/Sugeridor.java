@@ -19,14 +19,14 @@ public class Sugeridor {
 		Sugeridor.proveedorClima = proveedorClima;
 	}
 	
-	private static List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos){
-		double temperatura = Sugeridor.proveedorClima.getTemperatura(Calendar.getInstance());
+	private static List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos, Calendar fecha){
+		double temperatura = Sugeridor.proveedorClima.getTemperatura(fecha);
 		return atuendos.stream().filter(unAtuendo -> unAtuendo.esAdecuadoATemperatura(temperatura)).collect(Collectors.toList());
 	}
 
-	public static List<Sugerencia> sugerir(List<Atuendo> atuendos) {
+	public static List<Sugerencia> sugerir(List<Atuendo> atuendos, Calendar fecha) {
 		List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
-		List<Atuendo> atuendosAdecuados = Sugeridor.filtrarAtuendosPorTemperatura(atuendos);
+		List<Atuendo> atuendosAdecuados = Sugeridor.filtrarAtuendosPorTemperatura(atuendos, fecha);
 		atuendosAdecuados.stream().forEach(unAtuendo -> sugerencias.add(new Sugerencia(unAtuendo)));
 		return sugerencias;
 	}
