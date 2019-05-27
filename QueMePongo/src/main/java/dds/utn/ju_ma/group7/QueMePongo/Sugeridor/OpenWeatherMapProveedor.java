@@ -60,11 +60,11 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 	}
 
 	private JSONObject pronosticoEspecifico(Calendar fechaBuscada) {
-		JSONArray pronostricoCincoDias = getPronosticoCincoDias();
+		JSONArray pronosticoCincoDias = getPronosticoCincoDias();
 		String fecha;
 		JSONObject pronosticoBuscado;
-		for (int i = 0; i < pronostricoCincoDias.length(); i++) {
-			pronosticoBuscado = pronostricoCincoDias.getJSONObject(i);
+		for (int i = 0; i < pronosticoCincoDias.length(); i++) {
+			pronosticoBuscado = pronosticoCincoDias.getJSONObject(i);
 			fecha = pronosticoBuscado.getString("dt_txt");
 			if (fechaCoincide(fecha, fechaBuscada)) {
 				return pronosticoBuscado;
@@ -82,10 +82,17 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 	}
 
 	public double getTemperatura(Calendar fecha) {
+		fecha = redondearFecha(fecha);
 		JSONObject pronostico = pronosticoEspecifico(fecha);
 		double temperaturaK = pronostico.getJSONObject("main").getInt("temp");
 		double temperaturaC = kelvinToCelsius(temperaturaK);
 		return truncarADosDecimales(temperaturaC);
 	}
-
+	
+	private Calendar redondearFecha(Calendar fecha) {
+		int hour = fecha.get(Calendar.HOUR_OF_DAY);
+		if(hour % 3 == 1) { fecha.set(Calendar.HOUR_OF_DAY, hour+2); }
+		else if(hour % 3 == 2) { fecha.set(Calendar.HOUR_OF_DAY, hour+1); }
+		return fecha;
+	}
 }
