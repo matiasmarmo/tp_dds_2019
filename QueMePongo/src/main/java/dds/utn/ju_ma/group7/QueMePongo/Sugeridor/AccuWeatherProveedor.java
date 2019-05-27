@@ -13,7 +13,7 @@ import com.sun.jersey.api.client.ClientResponse;
 public class AccuWeatherProveedor implements ProveedorClima {
 	
 	private Client client;
-	private static final String API = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/3433955";
+	private static final String API = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/7894";
 	private String key_id = "fFxKUeG6TDOtXsENyMMm26tGutGTAVyr";
 	
 	public AccuWeatherProveedor() {
