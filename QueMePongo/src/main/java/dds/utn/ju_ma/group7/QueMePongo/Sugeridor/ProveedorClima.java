@@ -5,4 +5,5 @@ import java.util.Calendar;
 public interface ProveedorClima {
 
 	public double getTemperatura(Calendar fecha);
+	
 }
