@@ -5,7 +5,7 @@ import java.util.Calendar;
 public class ProveedorMockVerano implements ProveedorClima {
 
 	public double getTemperatura(Calendar fecha) {
-		return 35;
+		return 25;
 	}
 
 }
