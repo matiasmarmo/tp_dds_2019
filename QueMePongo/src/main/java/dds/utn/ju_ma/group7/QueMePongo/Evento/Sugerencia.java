@@ -19,7 +19,7 @@ public class Sugerencia {
 		return estado;
 	}
 	
-	private void setEstado(EstadoSugerencia estado) {
+	public void setEstado(EstadoSugerencia estado) {
 		this.estado = estado;
 	}
 	
