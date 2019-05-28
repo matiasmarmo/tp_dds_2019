@@ -52,7 +52,7 @@ public class Atuendo {
 		 if(-temperatura+50 < 10) {
 			 return 10;
 		 } 
-		 return -temperatura+50;
+		 return -temperatura;
 	}
 	
 	public boolean esAdecuadoATemperatura(double temperatura) {
