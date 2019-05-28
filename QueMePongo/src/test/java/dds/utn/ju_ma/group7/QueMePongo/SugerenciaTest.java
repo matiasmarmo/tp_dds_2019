@@ -78,7 +78,7 @@ public class SugerenciaTest extends Fixture {
 	@Test
 	public void deshacerOperacion() {
 		sugerencia.rechazar();
-		sugerencia.setEstado(EstadoSugerencia.PENDIENTE);
+		sugerencia.deshacerOperacion();
 		Assert.assertEquals(EstadoSugerencia.PENDIENTE, sugerencia.getEstado());
 	}
 

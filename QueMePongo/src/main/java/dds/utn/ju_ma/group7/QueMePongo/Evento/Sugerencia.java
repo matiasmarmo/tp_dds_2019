@@ -19,7 +19,7 @@ public class Sugerencia {
 		return estado;
 	}
 	
-	public void setEstado(EstadoSugerencia estado) {
+	private void setEstado(EstadoSugerencia estado) {
 		this.estado = estado;
 	}
 	
@@ -29,6 +29,10 @@ public class Sugerencia {
 	
 	public void rechazar() {
 		this.setEstado(EstadoSugerencia.RECHAZADA);
+	}
+	
+	public void deshacerOperacion() {
+		this.setEstado(EstadoSugerencia.PENDIENTE);
 	}
 	
 }
