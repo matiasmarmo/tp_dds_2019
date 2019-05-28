@@ -62,6 +62,9 @@ public class SugeridorTest extends Fixture {
 		collarBuilder.setTipoPrenda(TipoPrenda.COLLAR).setTipoTela(TipoTela.SEDA).setColorPrimario(negro);
 		collar = collarBuilder.crearPrenda();
 		
+		atuendoNegro = new Atuendo(prendasSupPobre,pantalonNegro,zapatosNegros,collar);
+		atuendoNegroConBuzo = new Atuendo(prendasSupFuerte,pantalonNegro,zapatosNegros,collar);
+		
 		prendasSupPobre.add(remeraNegra);
 		prendasSupFuerte.add(remeraNegra);
 		prendasSupFuerte.add(buzo);
@@ -71,10 +74,6 @@ public class SugeridorTest extends Fixture {
 		atuendosVeranoEinvierno.add(atuendoNegroConBuzo);
 		
 		fecha1.set(2019, 05, 27, 18, 0);
-		
-		atuendoNegro = new Atuendo(prendasSupPobre,pantalonNegro,zapatosNegros,collar);
-		atuendoNegroConBuzo = new Atuendo(prendasSupFuerte,pantalonNegro,zapatosNegros,collar);
-		
 	}
 	
 	@Test
@@ -83,19 +82,19 @@ public class SugeridorTest extends Fixture {
 	}
 	
 	@Test
-	public void elAtuendoSinBuzoTieneNivelDeAbrigo65() { 
+	public void elAtuendoConBuzoTieneNivelDeAbrigo65() { 
 		Assert.assertEquals(atuendoNegroConBuzo.getNivelAbrigo(), 65);
 	}
 
 	@Test
 	public void sugiereRopaDeVeranoConMockVerano() { // al sugeridor le ofrezco solo el atuendo de verano y me lo devuelve
 		Sugeridor.setProveedorClima(proveedor1);
-		Assert.assertEquals(Sugeridor.sugerir(atuendosSoloVerano, fecha1).size(), 0);
+		Assert.assertEquals(Sugeridor.sugerir(atuendosSoloVerano, fecha1).size(), 1);
 	}
 	
 	@Test
 	public void sugiereRopaDeInviernoConMockInvierno() { // al sugeridor le ofrezco un atuendo de verano y otro de invierno y solo devuelve el de invierno
 		Sugeridor.setProveedorClima(proveedor2);
-		Assert.assertEquals(Sugeridor.sugerir(atuendosVeranoEinvierno, fecha1).size(), 0);
+		Assert.assertEquals(Sugeridor.sugerir(atuendosVeranoEinvierno, fecha1).size(), 1);
 	}
 }
