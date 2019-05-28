@@ -48,8 +48,15 @@ public class Atuendo {
 		return this.todasLasPrendas().stream().mapToInt(unaPrenda -> unaPrenda.getNivelAbrigo()).sum();
 	}
 	
+	public double linealidadAbrigo(double temperatura) {
+		 if(-temperatura+50 < 10) {
+			 return 10;
+		 } 
+		 return -temperatura+50;
+	}
+	
 	public boolean esAdecuadoATemperatura(double temperatura) {
-		return this.getNivelAbrigo() > temperatura && this.getNivelAbrigo() < (temperatura * 2 );
+		return this.getNivelAbrigo() > this.linealidadAbrigo(temperatura) && this.getNivelAbrigo() < (this.linealidadAbrigo(temperatura) * 2 );
 	}
 	
 }
