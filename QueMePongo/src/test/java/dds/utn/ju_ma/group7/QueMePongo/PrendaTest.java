@@ -1,37 +1,11 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.*;
 
 public class PrendaTest extends Fixture {
-
-	private PrendaBuilder remeraNegraYBlancaBuilder = new PrendaBuilder();
-	private Prenda remeraNegraYBlanca;
-	private PrendaBuilder remeraDeCueroBuilder = new PrendaBuilder();
-	private PrendaBuilder remeraColoresInvalidosBuilder = new PrendaBuilder();
-	private PrendaBuilder remeraNulaBuilder = new PrendaBuilder();
-
-	@Before
-	public void init() {
-
-		remeraNegraYBlancaBuilder.setTipoPrenda(TipoPrenda.REMERA);
-		remeraNegraYBlancaBuilder.setTipoTela(TipoTela.ALGODON);
-		remeraNegraYBlancaBuilder.setColorPrimario(negro);
-		remeraNegraYBlancaBuilder.setColorSecundario(blanco);
-
-		remeraDeCueroBuilder.setTipoPrenda(TipoPrenda.REMERA);
-		remeraDeCueroBuilder.setTipoTela(TipoTela.CUERO);
-		remeraDeCueroBuilder.setColorPrimario(negro);
-
-		remeraColoresInvalidosBuilder.setTipoPrenda(TipoPrenda.REMERA);
-		remeraColoresInvalidosBuilder.setTipoTela(TipoTela.ALGODON);
-		remeraColoresInvalidosBuilder.setColorPrimario(negro);
-		remeraColoresInvalidosBuilder.setColorSecundario(negro);
-
-	}
 
 	@Test
 	public void sePuedeSaberElTipoPrenda() {
