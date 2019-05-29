@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
-import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.Sugeridor;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class Evento {
@@ -60,13 +59,8 @@ public class Evento {
 		return this.sugerencias != null;
 	}
 
-	public void setSugerencias(List<Sugerencia> sugerencias) {
+	public void serSugerido(List<Sugerencia> sugerencias) {
 		this.sugerencias = sugerencias;
-	}
-
-	public void serSugerido(Calendar fecha) {
-		this.setSugerencias(Sugeridor.sugerir(guardarropa.generarAtuendos(), fecha));
-		usuario.haySugerenciasNuevas();
 	}
 	
 	public boolean esDeUsuario(Usuario usuario) {

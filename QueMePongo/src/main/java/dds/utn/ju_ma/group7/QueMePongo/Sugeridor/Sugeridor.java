@@ -6,29 +6,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 
 public class Sugeridor {
-	private static ProveedorClima proveedorClima;
+	
+	private ProveedorClima proveedorClima;
 
-	public ProveedorClima getProveedorClima() {
-		return proveedorClima;
-	}
-
-	public static void setProveedorClima(ProveedorClima proveedorClima) {
-		Sugeridor.proveedorClima = proveedorClima;
+	public Sugeridor(ProveedorClima proveedorClima) {
+		this.proveedorClima = proveedorClima;
 	}
 	
-	private static List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos, Calendar fecha){
-		double temperatura = Sugeridor.proveedorClima.getTemperatura(fecha);
+	private List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos, Calendar fecha){
+		double temperatura = this.proveedorClima.getTemperatura(fecha);
 		return atuendos.stream().filter(unAtuendo -> unAtuendo.esAdecuadoATemperatura(temperatura)).collect(Collectors.toList());
 	}
 
-	public static List<Sugerencia> sugerir(List<Atuendo> atuendos, Calendar fecha) {
-		List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
-		List<Atuendo> atuendosAdecuados = Sugeridor.filtrarAtuendosPorTemperatura(atuendos, fecha);
-		atuendosAdecuados.stream().forEach(unAtuendo -> sugerencias.add(new Sugerencia(unAtuendo)));
-		return sugerencias;
+	public void sugerir(Evento evento) {
+		List<Sugerencia> sugerencias = new ArrayList<>();
+		List<Atuendo> atuendosAdecuados = this.filtrarAtuendosPorTemperatura(
+				evento.getGuardarropa().generarAtuendos(), 
+				evento.getFecha());
+		atuendosAdecuados.forEach(unAtuendo -> sugerencias.add(new Sugerencia(unAtuendo)));
+		evento.serSugerido(sugerencias);
 	}
 
 }
