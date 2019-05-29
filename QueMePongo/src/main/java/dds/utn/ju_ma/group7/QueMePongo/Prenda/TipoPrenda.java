@@ -32,7 +32,7 @@ public enum TipoPrenda {
 		
 		JOGGIN.telasPosibles = Arrays.asList(TipoTela.NYLON);
 		JOGGIN.categoria = CategoriaPrenda.INFERIOR;
-		JOGGIN.nivelAbrigo = 5;
+		JOGGIN.nivelAbrigo = 10;
 		
 		SHORT.telasPosibles = Arrays.asList(TipoTela.DRY_FIT);
 		SHORT.categoria = CategoriaPrenda.INFERIOR;
@@ -48,9 +48,11 @@ public enum TipoPrenda {
 		
 		COLLAR.telasPosibles = Arrays.asList(TipoTela.SEDA, TipoTela.PLASTICO);
 		COLLAR.categoria = CategoriaPrenda.ACCESORIO;
+		COLLAR.nivelAbrigo = 0;
 		
 		VINCHA.telasPosibles = Arrays.asList(TipoTela.PLASTICO);
 		VINCHA.categoria = CategoriaPrenda.ACCESORIO;
+		VINCHA.nivelAbrigo = 0;
 	}
 	
 	public CategoriaPrenda getCategoria() {

@@ -1,7 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
@@ -22,17 +22,13 @@ public class Evento {
 		this.sugerencias = null;
 	}
 
-	private int daysBetween(Date d1, Date d2) {
-		return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
-	}
-
 	public boolean esProximo(Calendar unaFecha) {
 
 		if (unaFecha.after(fecha)) {
 			throw new EventoInvalidoException("La fecha introducida ha caducado");
 		}
-
-		return this.daysBetween(this.fecha.getTime(), unaFecha.getTime()) <= 5;
+		
+		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) < 5;
 	}
 
 	public Calendar getFecha() {
