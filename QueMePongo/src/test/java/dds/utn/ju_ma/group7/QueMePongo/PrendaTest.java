@@ -57,5 +57,11 @@ public class PrendaTest extends Fixture {
 	public void elPathDeLaImagenDeLaPrendaDebeSerValido() {
 		remeraNegra.setImagen("");
 	}
+	
+	@Test
+	public void imagenValida() {
+		String imagenRemeraGithub = "file:///../src/imagenRemeraGithub.png";
+		remeraNegra.setImagen(imagenRemeraGithub);
+	}
 
 }
