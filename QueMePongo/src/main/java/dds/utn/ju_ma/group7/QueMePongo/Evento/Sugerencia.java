@@ -35,4 +35,8 @@ public class Sugerencia {
 		this.setEstado(EstadoSugerencia.PENDIENTE);
 	}
 	
+	public boolean esDeEstado(EstadoSugerencia estado) {
+		return this.estado == estado;
+	}
+	
 }

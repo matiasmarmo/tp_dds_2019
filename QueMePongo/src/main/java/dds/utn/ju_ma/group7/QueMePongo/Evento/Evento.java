@@ -68,5 +68,9 @@ public class Evento {
 		this.setSugerencias(Sugeridor.sugerir(guardarropa.generarAtuendos(), fecha));
 		usuario.haySugerenciasNuevas();
 	}
+	
+	public boolean esDeUsuario(Usuario usuario) {
+		return this.usuario == usuario;
+	}
 
 }
