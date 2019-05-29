@@ -9,6 +9,7 @@ import org.junit.Before;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
@@ -53,8 +54,12 @@ public class Fixture {
 	
 	protected Atuendo atuendo;
 	protected Sugerencia sugerencia;
+	protected Sugerencia sugerencia2;
+	protected Sugerencia sugerencia3;
+	protected List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
 	
-	private Usuario usuario;
+	protected Usuario usuario;
+	protected Usuario otroUsuario;
 	
 	protected List<Prenda> prendasSupPobre = new ArrayList<Prenda>();
 	protected List<Atuendo> atuendosSoloVerano = new ArrayList<Atuendo>();
@@ -69,6 +74,7 @@ public class Fixture {
 	
 	protected Calendar fechaProxima = Calendar.getInstance();
 	protected Calendar fechaLejana = Calendar.getInstance();
+	protected Calendar fechaActual = Calendar.getInstance();
 	
 	protected Evento eventoVerano;
 	protected Evento eventoInvierno;
@@ -123,7 +129,17 @@ public class Fixture {
 		
 		atuendo = guardarropaCompleto.generarAtuendos().get(0);
 		sugerencia = new Sugerencia(atuendo);
+		sugerencia2 = new Sugerencia(atuendoNegro);
+		sugerencia3 = new Sugerencia(atuendoNegroConBuzo);
+		
+		sugerencia.aceptar();
+		sugerencia2.aceptar();
+		sugerencia3.rechazar();
 
+		sugerencias.add(sugerencia);
+		sugerencias.add(sugerencia2);
+		sugerencias.add(sugerencia3);
+		
 		prendasSupPobre.add(remeraNegra);
 		prendasSupFuerte.add(remeraNegra);
 		prendasSupFuerte.add(buzo);
@@ -136,6 +152,7 @@ public class Fixture {
 		atuendosVeranoEinvierno.add(atuendoNegroConBuzo);
 		
 		usuario = new UsuarioPremium();
+		otroUsuario = new UsuarioPremium();
 		
 		guardarropasVerano = new Guardarropa();
 		guardarropasVerano.agregarPrenda(remeraNegra);
@@ -149,6 +166,8 @@ public class Fixture {
 		guardarropasVeranoEInvierno.agregarPrenda(pantalonNegro);
 		guardarropasVeranoEInvierno.agregarPrenda(zapatosNegros);
 		guardarropasVeranoEInvierno.agregarPrenda(collar);
+		
+		fechaActual.setTime(new Date());
 		
 		fechaProxima.setTime(new Date());
 		fechaProxima.add(Calendar.DATE, 2);

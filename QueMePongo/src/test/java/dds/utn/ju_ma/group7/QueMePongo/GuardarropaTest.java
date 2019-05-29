@@ -15,4 +15,5 @@ public class GuardarropaTest extends Fixture {
 		Assert.assertEquals(0, guardarropaIncompleto.generarAtuendos().size());
 	}
 	
+	
 }
