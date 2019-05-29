@@ -16,6 +16,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 public class Fixture {
 
@@ -52,11 +54,15 @@ public class Fixture {
 	protected Atuendo atuendo;
 	protected Sugerencia sugerencia;
 	
+	private Usuario usuario;
+	
 	protected List<Prenda> prendasSupPobre = new ArrayList<Prenda>();
 	protected List<Atuendo> atuendosSoloVerano = new ArrayList<Atuendo>();
+	protected Guardarropa guardarropasVerano;
 	
 	protected List<Prenda> prendasSupFuerte = new ArrayList<Prenda>();
 	protected List<Atuendo> atuendosVeranoEinvierno = new ArrayList<Atuendo>();
+	protected Guardarropa guardarropasVeranoEInvierno;
 	
 	protected Atuendo atuendoNegro;
 	protected Atuendo atuendoNegroConBuzo;
@@ -64,8 +70,8 @@ public class Fixture {
 	protected Calendar fechaProxima = Calendar.getInstance();
 	protected Calendar fechaLejana = Calendar.getInstance();
 	
-	protected Evento eventoProximo;
-	protected Evento eventoLejano;
+	protected Evento eventoVerano;
+	protected Evento eventoInvierno;
 
 	@Before
 	public void initFixture() {
@@ -122,18 +128,36 @@ public class Fixture {
 		prendasSupFuerte.add(remeraNegra);
 		prendasSupFuerte.add(buzo);
 		
+		atuendoNegro = new Atuendo(prendasSupPobre,pantalonNegro,zapatosNegros,collar);
+		atuendoNegroConBuzo = new Atuendo(prendasSupFuerte,pantalonNegro,zapatosNegros,collar);
+		
 		atuendosSoloVerano.add(atuendoNegro);
 		atuendosVeranoEinvierno.add(atuendoNegro);
 		atuendosVeranoEinvierno.add(atuendoNegroConBuzo);
 		
-		atuendoNegro = new Atuendo(prendasSupPobre,pantalonNegro,zapatosNegros,collar);
-		atuendoNegroConBuzo = new Atuendo(prendasSupFuerte,pantalonNegro,zapatosNegros,collar);
+		usuario = new UsuarioPremium();
+		
+		guardarropasVerano = new Guardarropa();
+		guardarropasVerano.agregarPrenda(remeraNegra);
+		guardarropasVerano.agregarPrenda(pantalonNegro);
+		guardarropasVerano.agregarPrenda(zapatosNegros);
+		guardarropasVerano.agregarPrenda(collar);
+		
+		guardarropasVeranoEInvierno = new Guardarropa();
+		guardarropasVeranoEInvierno.agregarPrenda(remeraNegra);
+		guardarropasVeranoEInvierno.agregarPrenda(buzo);
+		guardarropasVeranoEInvierno.agregarPrenda(pantalonNegro);
+		guardarropasVeranoEInvierno.agregarPrenda(zapatosNegros);
+		guardarropasVeranoEInvierno.agregarPrenda(collar);
 		
 		fechaProxima.setTime(new Date());
 		fechaProxima.add(Calendar.DATE, 2);
 		
 		fechaLejana.setTime(new Date());
-		fechaLejana.add(Calendar.DATE, 10);
+		fechaLejana.add(Calendar.DATE, 100);
+		
+		eventoInvierno = new Evento(usuario, guardarropasVeranoEInvierno, fechaProxima, "Un evento de invierno");
+		eventoVerano = new Evento(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
 	}
 	
 }
