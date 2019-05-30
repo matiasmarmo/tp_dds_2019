@@ -1,5 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Guardarropa;
 
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.GuardarropaLlenoException;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 
 public class GuardarropaLimitado extends Guardarropa{

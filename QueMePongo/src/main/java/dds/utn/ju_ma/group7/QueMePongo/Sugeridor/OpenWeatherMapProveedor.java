@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.FechaInexistenteException;
+
 public class OpenWeatherMapProveedor implements ProveedorClima {
 	
 	private Client client;
@@ -70,7 +72,7 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 				return pronosticoBuscado;
 			}
 		}
-		throw new FechaInexistenteExcepcion("No existe la fecha buscada dentro del pronostico de 5 dias");
+		throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");
 	}
 
 	private double kelvinToCelsius(double gradosKelvin) {

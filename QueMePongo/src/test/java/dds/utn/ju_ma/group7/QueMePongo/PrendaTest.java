@@ -3,6 +3,8 @@ package dds.utn.ju_ma.group7.QueMePongo;
 import org.junit.Test;
 import org.junit.Assert;
 
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.ImagenInvalidaException;
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.PrendaInvalidaException;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.*;
 
 public class PrendaTest extends Fixture {

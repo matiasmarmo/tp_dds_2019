@@ -1,4 +1,4 @@
-package dds.utn.ju_ma.group7.QueMePongo.Guardarropa;
+package dds.utn.ju_ma.group7.QueMePongo.Excepciones;
 
 public class GuardarropaLlenoException extends RuntimeException{
 	

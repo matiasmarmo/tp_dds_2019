@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.ImagenInvalidaException;
+
 public class Prenda implements InterfazPrenda {
 	private final TipoPrenda tipoPrenda;
 	private final TipoTela tipoTela;

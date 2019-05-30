@@ -4,6 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
 
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 

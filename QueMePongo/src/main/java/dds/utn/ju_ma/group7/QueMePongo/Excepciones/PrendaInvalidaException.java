@@ -1,4 +1,4 @@
-package dds.utn.ju_ma.group7.QueMePongo.Prenda;
+package dds.utn.ju_ma.group7.QueMePongo.Excepciones;
 
 public class PrendaInvalidaException extends RuntimeException {
 
