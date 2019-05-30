@@ -2,8 +2,7 @@ package dds.utn.ju_ma.group7.QueMePongo;
 
 import org.junit.Test;
 
-import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorMockInvierno;
-import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorMockVerano;
+import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorMock;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.Sugeridor;
 
 import java.util.Calendar;
@@ -26,14 +25,14 @@ public class SugeridorTest extends Fixture {
 
 	@Test
 	public void elEventoDeVeranoSoloTieneUnaSugerencia() {
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMockVerano());
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(15));
 		sugeridor.sugerir(eventoVerano);
 		Assert.assertEquals(1, eventoVerano.getSugerencias().size());
 	}
 	
 	@Test
 	public void elEventoDeInviernoTieneDosSugerencias() {
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMockInvierno());
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(15));
 		sugeridor.sugerir(eventoInvierno);
 		Assert.assertEquals(2, eventoInvierno.getSugerencias().size());
 	}
