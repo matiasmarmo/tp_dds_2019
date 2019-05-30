@@ -55,9 +55,7 @@ public class AccuWeatherProveedor implements ProveedorClima {
 	
 	private boolean fechaCoincide(String fechaString, Calendar fechaBuscada) {
 		Calendar fechaCalendar = strignJsonToCalendar(fechaString);
-		return fechaCalendar.get(Calendar.YEAR) == fechaBuscada.get(Calendar.YEAR)
-				&& fechaCalendar.get(Calendar.MONTH) == fechaBuscada.get(Calendar.MONTH)
-				&& fechaCalendar.get(Calendar.DAY_OF_MONTH) == fechaBuscada.get(Calendar.DAY_OF_MONTH);
+		return fechaCalendar.get(Calendar.DAY_OF_MONTH) == fechaBuscada.get(Calendar.DAY_OF_MONTH);
 	}
 	
 	private JSONObject pronosticoEspecifico(Calendar fechaBuscada) {
