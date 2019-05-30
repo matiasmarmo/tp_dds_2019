@@ -1,9 +1,17 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
 import java.util.Calendar;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import javax.ws.rs.core.MediaType;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.google.common.graph.ElementOrder;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -58,19 +66,28 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 		return fechaCalendar.get(Calendar.DAY_OF_MONTH) == fechaBuscada.get(Calendar.DAY_OF_MONTH)
 				&& fechaCalendar.get(Calendar.HOUR_OF_DAY) == fechaBuscada.get(Calendar.HOUR_OF_DAY);
 	}
+	
+	private Stream<JSONObject> jsonArraytoStream(JSONArray jsonArray){
+		return IntStream
+				.range(0, jsonArray.length())
+				.mapToObj(elemento -> jsonArray.getJSONObject(elemento));
+	}
+	
+	private JSONObject filtrarPorFecha(Stream<JSONObject> pronosticos, Calendar fecha) {
+		try {
+			return pronosticos
+					.filter(pronostico -> fechaCoincide(pronostico.getString("dt_txt"), fecha))
+					.collect(Collectors.toList())
+					.iterator().next();
+		} catch (Exception e) {
+			throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");
+		}
+	}
 
 	private JSONObject pronosticoEspecifico(Calendar fechaBuscada) {
 		JSONArray pronosticoCincoDias = getPronosticoCincoDias();
-		String fecha;
-		JSONObject pronosticoBuscado;
-		for (int i = 0; i < pronosticoCincoDias.length(); i++) {
-			pronosticoBuscado = pronosticoCincoDias.getJSONObject(i);
-			fecha = pronosticoBuscado.getString("dt_txt");
-			if (fechaCoincide(fecha, fechaBuscada)) {
-				return pronosticoBuscado;
-			}
-		}
-		throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");
+		Stream<JSONObject> pronosticosStream = jsonArraytoStream(pronosticoCincoDias);
+		return filtrarPorFecha(pronosticosStream, fechaBuscada);
 	}
 
 	private double kelvinToCelsius(double gradosKelvin) {
