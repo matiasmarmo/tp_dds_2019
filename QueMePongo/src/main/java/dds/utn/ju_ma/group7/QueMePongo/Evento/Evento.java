@@ -1,6 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 public class Evento {
 	private Calendar fecha;
 	private String descripcion;
-	private List<Sugerencia> sugerencias;
+	private List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
 	private Usuario usuario;
 	private Guardarropa guardarropa;
 
@@ -20,7 +21,6 @@ public class Evento {
 		this.guardarropa = guardarropa;
 		this.fecha = fecha;
 		this.descripcion = descripcion;
-		this.sugerencias = null;
 	}
 
 	public boolean esProximo(Calendar unaFecha) {
@@ -28,7 +28,7 @@ public class Evento {
 		if (unaFecha.after(fecha)) {
 			throw new EventoInvalidoException("La fecha introducida ha caducado");
 		}
-		
+
 		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) < 5;
 	}
 
@@ -53,13 +53,17 @@ public class Evento {
 	}
 
 	public boolean fueSugerido() {
-		return this.sugerencias != null;
+		return !this.sugerencias.isEmpty();
 	}
 
 	public void serSugerido(List<Sugerencia> sugerencias) {
-		this.sugerencias = sugerencias;
+		if (sugerencias.isEmpty()) {
+			throw new EventoInvalidoException("No hay sugerencias");
+		} else {
+			this.sugerencias = sugerencias;
+		}
 	}
-	
+
 	public boolean esDeUsuario(Usuario usuario) {
 		return this.usuario == usuario;
 	}
