@@ -9,6 +9,7 @@ import org.junit.Before;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
@@ -77,6 +78,9 @@ public class Fixture {
 	
 	protected Evento eventoVerano;
 	protected Evento eventoInvierno;
+	protected Evento quince;
+	
+	protected RepositorioEventos repositorioEventos = new RepositorioEventos();
 
 	@Before
 	public void initFixture() {

@@ -25,7 +25,8 @@ public class JobEventos extends TimerTask {
 	
 	@Override
 	public void run() {
-		List<Evento> eventosProximos = RepositorioEventos.eventosProximos(Calendar.getInstance());
+		RepositorioEventos repositorioEventos = new RepositorioEventos();
+		List<Evento> eventosProximos = repositorioEventos.eventosProximos(Calendar.getInstance());
 		eventosProximos.forEach(unEvento -> this.sugeridor.sugerir(unEvento));
 	}
 
