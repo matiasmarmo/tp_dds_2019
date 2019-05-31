@@ -1,6 +1,10 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.ws.rs.core.MediaType;
 
@@ -16,7 +20,7 @@ public class AccuWeatherProveedor implements ProveedorClima {
 	
 	private Client client;
 	private static final String API = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/7894";
-	private String key_id = "fFxKUeG6TDOtXsENyMMm26tGutGTAVyr";
+	private String key_id = "0yMLbaqAcUXajQDilhGxZNGZnhWDl1SP";
 	
 	public AccuWeatherProveedor() {
 		this.client = Client.create();
@@ -58,18 +62,27 @@ public class AccuWeatherProveedor implements ProveedorClima {
 		return fechaCalendar.get(Calendar.DAY_OF_MONTH) == fechaBuscada.get(Calendar.DAY_OF_MONTH);
 	}
 	
-	private JSONObject pronosticoEspecifico(Calendar fechaBuscada) {
-		JSONArray pronostricoCincoDias = getPronosticoCincoDias();
-		String fecha;
-		JSONObject pronosticoBuscado;
-		for (int i = 0; i < pronostricoCincoDias.length(); i++) {
-			pronosticoBuscado = pronostricoCincoDias.getJSONObject(i);
-			fecha = pronosticoBuscado.getString("Date");
-			if (fechaCoincide(fecha, fechaBuscada)) {
-				return pronosticoBuscado;
-			}
+	private Stream<JSONObject> jsonArraytoStream(JSONArray jsonArray){
+		return IntStream
+				.range(0, jsonArray.length())
+				.mapToObj(elemento -> jsonArray.getJSONObject(elemento));
+	}
+	
+	private JSONObject filtrarPorFecha(Stream<JSONObject> pronosticos, Calendar fecha) {
+		List<JSONObject> pronosticoBuscadoLista = pronosticos
+			.filter(pronostico -> fechaCoincide(pronostico.getString("Date"), fecha))
+			.collect(Collectors.toList());
+		if(pronosticoBuscadoLista.size() == 0) {
+			throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");			
+		} else {
+			return pronosticoBuscadoLista.iterator().next();
 		}
-		throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");
+	}
+	
+	private JSONObject pronosticoEspecifico(Calendar fechaBuscada) {
+		JSONArray pronosticoCincoDias = getPronosticoCincoDias();
+		Stream<JSONObject> pronosticosStream = jsonArraytoStream(pronosticoCincoDias);
+		return filtrarPorFecha(pronosticosStream, fechaBuscada);
 	}
 	
 	private double fahrenheitToCelsius(double gradosFahrenheit) {

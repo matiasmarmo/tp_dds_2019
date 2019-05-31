@@ -1,17 +1,15 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
 import java.util.Calendar;
-import java.util.stream.Collector;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
 import javax.ws.rs.core.MediaType;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.google.common.graph.ElementOrder;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -74,13 +72,13 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 	}
 	
 	private JSONObject filtrarPorFecha(Stream<JSONObject> pronosticos, Calendar fecha) {
-		try {
-			return pronosticos
-					.filter(pronostico -> fechaCoincide(pronostico.getString("dt_txt"), fecha))
-					.collect(Collectors.toList())
-					.iterator().next();
-		} catch (Exception e) {
-			throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");
+		List<JSONObject> pronosticoBuscadoLista = pronosticos
+			.filter(pronostico -> fechaCoincide(pronostico.getString("dt_txt"), fecha))
+			.collect(Collectors.toList());
+		if(pronosticoBuscadoLista.size() == 0) {
+			throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");			
+		} else {
+			return pronosticoBuscadoLista.iterator().next();
 		}
 	}
 

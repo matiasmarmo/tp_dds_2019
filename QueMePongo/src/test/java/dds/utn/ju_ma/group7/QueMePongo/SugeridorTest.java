@@ -32,7 +32,7 @@ public class SugeridorTest extends Fixture {
 	
 	@Test
 	public void elEventoDeInviernoTieneDosSugerencias() {
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(15));
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(10));
 		sugeridor.sugerir(eventoInvierno);
 		Assert.assertEquals(2, eventoInvierno.getSugerencias().size());
 	}
