@@ -1,14 +1,17 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
+import java.io.StringReader;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import javax.ws.rs.core.MediaType;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -27,7 +30,7 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 		this.client = Client.create();
 	}
 
-	private JSONArray getPronosticoCincoDias() {
+	private JsonArray getPronosticoCincoDias() {
 		ClientResponse response = 
 				this.client.resource(API)
 				.queryParam("lat", lat_CABA)
@@ -39,8 +42,11 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 		String jsonString = response.getEntity(String.class);
 		response.close();
 		client.destroy();
-		JSONObject pronostico = new JSONObject(jsonString);
-		JSONArray pronosticoCincoDias = pronostico.getJSONArray("list");
+		
+		JsonReader pronosticoJsonReader = Json.createReader(new StringReader(jsonString));
+		JsonObject pronostico = pronosticoJsonReader.readObject();
+		pronosticoJsonReader.close();
+		JsonArray pronosticoCincoDias = pronostico.getJsonArray("list");
 		return pronosticoCincoDias;
 	}
 
@@ -65,16 +71,15 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 				&& fechaCalendar.get(Calendar.HOUR_OF_DAY) == fechaBuscada.get(Calendar.HOUR_OF_DAY);
 	}
 	
-	private Stream<JSONObject> jsonArraytoStream(JSONArray jsonArray){
-		return IntStream
-				.range(0, jsonArray.length())
-				.mapToObj(elemento -> jsonArray.getJSONObject(elemento));
+	private Stream<JsonObject> jsonArraytoStream(JsonArray jsonArray){
+		return jsonArray.stream().map(JsonValue -> JsonValue.asJsonObject());
 	}
 	
-	private JSONObject filtrarPorFecha(Stream<JSONObject> pronosticos, Calendar fecha) {
-		List<JSONObject> pronosticoBuscadoLista = pronosticos
-			.filter(pronostico -> fechaCoincide(pronostico.getString("dt_txt"), fecha))
-			.collect(Collectors.toList());
+	private JsonObject filtrarPorFecha(Stream<JsonObject> pronosticos, Calendar fecha) {
+		List<JsonObject> pronosticoBuscadoLista = pronosticos
+				.filter(pronostico -> fechaCoincide(pronostico.getString("dt_txt"), fecha))
+				.collect(Collectors.toList());
+		
 		if(pronosticoBuscadoLista.size() == 0) {
 			throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");			
 		} else {
@@ -82,9 +87,9 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 		}
 	}
 
-	private JSONObject pronosticoEspecifico(Calendar fechaBuscada) {
-		JSONArray pronosticoCincoDias = getPronosticoCincoDias();
-		Stream<JSONObject> pronosticosStream = jsonArraytoStream(pronosticoCincoDias);
+	private JsonObject pronosticoEspecifico(Calendar fechaBuscada) {
+		JsonArray pronosticoCincoDias = getPronosticoCincoDias();
+		Stream<JsonObject> pronosticosStream = jsonArraytoStream(pronosticoCincoDias);
 		return filtrarPorFecha(pronosticosStream, fechaBuscada);
 	}
 
@@ -98,8 +103,8 @@ public class OpenWeatherMapProveedor implements ProveedorClima {
 
 	public double getTemperatura(Calendar fecha) {
 		fecha = redondearFecha(fecha);
-		JSONObject pronostico = pronosticoEspecifico(fecha);
-		double temperaturaK = pronostico.getJSONObject("main").getInt("temp");
+		JsonObject pronostico = pronosticoEspecifico(fecha);
+		double temperaturaK = pronostico.getJsonObject("main").getJsonNumber("temp").doubleValue();
 		double temperaturaC = kelvinToCelsius(temperaturaK);
 		return truncarADosDecimales(temperaturaC);
 	}

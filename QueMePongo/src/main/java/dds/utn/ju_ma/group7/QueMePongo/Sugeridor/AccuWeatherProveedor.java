@@ -1,15 +1,16 @@
 package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
+import java.io.StringReader;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.ws.rs.core.MediaType;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -26,7 +27,7 @@ public class AccuWeatherProveedor implements ProveedorClima {
 		this.client = Client.create();
 	}
 	
-	private JSONArray getPronosticoCincoDias() {
+	private JsonArray getPronosticoCincoDias() {
 		ClientResponse response = 
 				this.client.resource(API)
 				.queryParam("apikey", key_id)
@@ -39,8 +40,11 @@ public class AccuWeatherProveedor implements ProveedorClima {
 		String jsonString = response.getEntity(String.class);
 		response.close();
 		client.destroy();
-		JSONObject pronostico = new JSONObject(jsonString);
-		JSONArray pronosticoCincoDias = pronostico.getJSONArray("DailyForecasts");
+		
+		JsonReader pronosticoJsonReader = Json.createReader(new StringReader(jsonString));
+		JsonObject pronostico = pronosticoJsonReader.readObject();
+		pronosticoJsonReader.close();
+		JsonArray pronosticoCincoDias = pronostico.getJsonArray("DailyForecasts");
 		return pronosticoCincoDias;
 	}
 	
@@ -59,29 +63,32 @@ public class AccuWeatherProveedor implements ProveedorClima {
 	
 	private boolean fechaCoincide(String fechaString, Calendar fechaBuscada) {
 		Calendar fechaCalendar = strignJsonToCalendar(fechaString);
-		return fechaCalendar.get(Calendar.DAY_OF_MONTH) == fechaBuscada.get(Calendar.DAY_OF_MONTH);
+		int diaProvisto = fechaCalendar.get(Calendar.DAY_OF_MONTH);
+		int diaBuscado = fechaBuscada.get(Calendar.DAY_OF_MONTH);
+		boolean coinciden = diaBuscado == diaProvisto;
+		return coinciden;
 	}
 	
-	private Stream<JSONObject> jsonArraytoStream(JSONArray jsonArray){
-		return IntStream
-				.range(0, jsonArray.length())
-				.mapToObj(elemento -> jsonArray.getJSONObject(elemento));
+	private Stream<JsonObject> jsonArrayToStream(JsonArray jsonArray){
+		return jsonArray.stream().map(JsonValue -> JsonValue.asJsonObject());
 	}
 	
-	private JSONObject filtrarPorFecha(Stream<JSONObject> pronosticos, Calendar fecha) {
-		List<JSONObject> pronosticoBuscadoLista = pronosticos
-			.filter(pronostico -> fechaCoincide(pronostico.getString("Date"), fecha))
-			.collect(Collectors.toList());
+	private JsonObject filtrarPorFecha(Stream<JsonObject> pronosticos, Calendar fecha) {
+		List<JsonObject> pronosticoBuscadoLista = pronosticos
+				.filter(pronostico -> fechaCoincide(pronostico.getString("Date"), fecha))
+				.collect(Collectors.toList());
+		
 		if(pronosticoBuscadoLista.size() == 0) {
 			throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");			
 		} else {
+			System.out.println(pronosticoBuscadoLista.size());
 			return pronosticoBuscadoLista.iterator().next();
 		}
 	}
 	
-	private JSONObject pronosticoEspecifico(Calendar fechaBuscada) {
-		JSONArray pronosticoCincoDias = getPronosticoCincoDias();
-		Stream<JSONObject> pronosticosStream = jsonArraytoStream(pronosticoCincoDias);
+	private JsonObject pronosticoEspecifico(Calendar fechaBuscada) {
+		JsonArray pronosticoCincoDias = getPronosticoCincoDias();
+		Stream<JsonObject> pronosticosStream = jsonArrayToStream(pronosticoCincoDias);
 		return filtrarPorFecha(pronosticosStream, fechaBuscada);
 	}
 	
@@ -94,10 +101,10 @@ public class AccuWeatherProveedor implements ProveedorClima {
 	}
 	
 	public double getTemperatura(Calendar fecha) {
-		JSONObject pronostico = pronosticoEspecifico(fecha);
-		JSONObject temperaturaJsonObject = pronostico.getJSONObject("Temperature");
-		double minimaF = temperaturaJsonObject.getJSONObject("Minimum").getDouble("Value");
-		double maximaF = temperaturaJsonObject.getJSONObject("Maximum").getDouble("Value");
+		JsonObject pronostico = pronosticoEspecifico(fecha);
+		JsonObject temperaturaJsonObject = pronostico.getJsonObject("Temperature");
+		double minimaF = temperaturaJsonObject.getJsonObject("Minimum").getJsonNumber("Value").doubleValue();
+		double maximaF = temperaturaJsonObject.getJsonObject("Maximum").getJsonNumber("Value").doubleValue();
 		double minimaC = fahrenheitToCelsius(minimaF);
 		double maximaC = fahrenheitToCelsius(maximaF);
 		double resC = (minimaC + maximaC) / 2;
