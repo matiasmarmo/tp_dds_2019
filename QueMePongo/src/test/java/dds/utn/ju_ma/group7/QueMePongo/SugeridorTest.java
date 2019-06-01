@@ -41,8 +41,6 @@ public class SugeridorTest extends Fixture {
 	public void elEventoDeInviernoEsProximo() {
 		Calendar fechaActual = Calendar.getInstance();
 		fechaActual.setTime(new Date());
-		System.out.println(fechaActual.toString());
-		System.out.println(eventoInvierno.getFecha().toString());
 		Assert.assertTrue(eventoInvierno.esProximo(fechaActual));
 	}
 	
