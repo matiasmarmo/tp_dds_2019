@@ -48,14 +48,9 @@ public class AccuWeatherProveedor extends HttpProveedor {
 		JsonObject temperaturaJsonObject = pronostico.getJsonObject("Temperature");
 		double minimaF = temperaturaJsonObject.getJsonObject("Minimum").getJsonNumber("Value").doubleValue();
 		double maximaF = temperaturaJsonObject.getJsonObject("Maximum").getJsonNumber("Value").doubleValue();
-		double minimaC = fahrenheitToCelsius(minimaF);
-		double maximaC = fahrenheitToCelsius(maximaF);
+		double minimaC = ModuloAlgebraico.fahrenheitToCelsius(minimaF);
+		double maximaC = ModuloAlgebraico.fahrenheitToCelsius(maximaF);
 		double resC = (minimaC + maximaC) / 2;
-		return truncarADosDecimales(resC);
+		return ModuloAlgebraico.truncarADosDecimales(resC);
 	}
-	
-	private double fahrenheitToCelsius(double gradosFahrenheit) {
-		return (gradosFahrenheit - 32)* 5/9;
-	}
-
 }

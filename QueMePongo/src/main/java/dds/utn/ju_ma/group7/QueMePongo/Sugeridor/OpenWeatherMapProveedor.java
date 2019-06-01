@@ -48,11 +48,11 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 	}
 	
 	public double getTemperatura(Calendar fecha) {
-		fecha = redondearFecha(fecha);
+		fecha = ModuloAlgebraico.redondearFecha(fecha);
 		JsonObject pronostico = pronosticoEspecifico(fecha);
 		double temperaturaK = pronostico.getJsonObject("main").getJsonNumber("temp").doubleValue();
 		double temperaturaC = kelvinToCelsius(temperaturaK);
-		return truncarADosDecimales(temperaturaC);
+		return ModuloAlgebraico.truncarADosDecimales(temperaturaC);
 	}
 
 	protected boolean fechaCoincide(String fechaString, Calendar fechaBuscada) {
@@ -63,21 +63,5 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 
 	private double kelvinToCelsius(double gradosKelvin) {
 		return gradosKelvin - 273.15;
-	}
-
-	private Calendar redondearFecha(Calendar fecha) {
-		int hour = fecha.get(Calendar.HOUR_OF_DAY);
-		int day = fecha.get(Calendar.DAY_OF_MONTH);
-		if (hour == 24) {
-			fecha.set(Calendar.HOUR_OF_DAY, 0);
-			fecha.set(Calendar.DAY_OF_MONTH, day + 1);
-		} else if (hour == 23 || hour == 22) {
-			fecha.set(Calendar.HOUR_OF_DAY, 21);
-		} else if (hour % 3 == 1) {
-			fecha.set(Calendar.HOUR_OF_DAY, hour + 2);
-		} else if (hour % 3 == 2) {
-			fecha.set(Calendar.HOUR_OF_DAY, hour + 1);
-		}
-		return fecha;
 	}
 }

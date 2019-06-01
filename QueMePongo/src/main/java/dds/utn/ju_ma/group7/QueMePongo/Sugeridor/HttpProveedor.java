@@ -93,14 +93,8 @@ public abstract class HttpProveedor implements ProveedorClima {
 	
 	public JsonObject pronosticoEspecifico(Calendar fechaBuscada) {
 		JsonArray pronosticoCincoDias = getPronosticoCincoDias();
-		Stream<JsonObject> pronosticosStream = jsonArraytoStream(pronosticoCincoDias);	
-		
-		// El filtrar por fecha para openweather anda mal
+		Stream<JsonObject> pronosticosStream = jsonArraytoStream(pronosticoCincoDias);
 		return filtrarPorFecha(pronosticosStream, fechaBuscada);
-	}
-	
-	protected double truncarADosDecimales(double numero) {
-		return Math.floor(numero * 100) / 100;
 	}
 }
 
