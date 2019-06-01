@@ -12,6 +12,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
+import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
@@ -84,6 +85,8 @@ public class Fixture {
 
 	@Before
 	public void initFixture() {
+		
+		QueMePongoConfiguration.inicializar(1);
 
 		remeraNegraBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(negro);
 		remeraNegra = remeraNegraBuilder.crearPrenda();
