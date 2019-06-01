@@ -71,6 +71,4 @@ public enum TipoPrenda {
 		return this.jerarquia;
 	}
 	
-	public static final int jerarquiaMaxima = 2;
-	
 }
