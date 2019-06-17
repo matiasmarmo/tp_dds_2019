@@ -12,16 +12,6 @@ import org.junit.Assert;
 
 public class SugeridorTest extends Fixture {
 	
-	
-	@Test
-	public void elAtuendoSinBuzoTieneNivelDeAbrigo40() { 
-		Assert.assertEquals(40, atuendoNegro.getNivelAbrigo());
-	}
-
-	@Test
-	public void elAtuendoConBuzoTieneNivelDeAbrigo70() {
-		Assert.assertEquals(70, atuendoNegroConBuzo.getNivelAbrigo());
-	}
 
 	@Test
 	public void elEventoDeVeranoSoloTieneUnaSugerencia() {
