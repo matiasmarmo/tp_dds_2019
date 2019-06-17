@@ -11,7 +11,6 @@ import java.util.Date;
 import org.junit.Assert;
 
 public class SugeridorTest extends Fixture {
-	
 
 	@Test
 	public void elEventoDeVeranoSoloTieneUnaSugerencia() {
