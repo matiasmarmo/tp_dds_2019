@@ -1,16 +1,20 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
+import org.omg.CosNaming.NamingContextExtPackage.AddressHelper;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
-import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoRepetitivo;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.TipoRecurrencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;
@@ -24,6 +28,9 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 public class Fixture {
+	
+	protected Calendar hace3DiasCalendar;
+	protected Calendar manianaCalendar;
 
 	protected PrendaBuilder remeraNegraBuilder = new PrendaBuilder();
 	protected Prenda remeraNegra;
@@ -80,9 +87,13 @@ public class Fixture {
 	protected Calendar fechaLejana = Calendar.getInstance();
 	protected Calendar fechaActual = Calendar.getInstance();
 	
-	protected Evento eventoVerano;
-	protected Evento eventoInvierno;
-	protected Evento quince;
+	protected EventoUnico eventoVerano;
+	protected EventoUnico eventoInvierno;
+	protected EventoUnico quince;
+	
+	protected EventoRepetitivo irATrabajar;
+	protected EventoRepetitivo eventoRepetitivoNoProximo;
+	protected EventoRepetitivo eventoMensualProximo;
 	
 	protected RepositorioEventos repositorioEventos = new RepositorioEventos();
 
@@ -90,6 +101,11 @@ public class Fixture {
 	public void initFixture() {
 		
 		QueMePongoConfiguration.inicializar(1);
+		
+		hace3DiasCalendar = Calendar.getInstance();
+		hace3DiasCalendar.add(Calendar.DATE, -3);
+		manianaCalendar = Calendar.getInstance();
+		manianaCalendar.add(Calendar.DATE, 1);
 
 		remeraNegraBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(negro);
 		remeraNegra = remeraNegraBuilder.crearPrenda();
@@ -184,8 +200,11 @@ public class Fixture {
 		fechaLejana.setTime(new Date());
 		fechaLejana.add(Calendar.DATE, 100);
 		
-		eventoInvierno = new Evento(usuario, guardarropasVeranoEInvierno, fechaProxima, "Un evento de invierno");
-		eventoVerano = new Evento(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
+		eventoInvierno = new EventoUnico(usuario, guardarropasVeranoEInvierno, fechaProxima, "Un evento de invierno");
+		eventoVerano = new EventoUnico(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
+		irATrabajar = new EventoRepetitivo(usuario, guardarropasVeranoEInvierno, "Hay que laburar", hace3DiasCalendar, TipoRecurrencia.DIARIA);
+		eventoRepetitivoNoProximo = new EventoRepetitivo(usuario, guardarropaCompleto, "Falta para este", hace3DiasCalendar, TipoRecurrencia.ANUAL);
+		eventoMensualProximo = new EventoRepetitivo(usuario, guardarropaCompleto, "Hay que sugerirlo", manianaCalendar, TipoRecurrencia.MENSUAL);
 	}
 	
 }
