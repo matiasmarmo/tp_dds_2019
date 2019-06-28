@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
-import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 
 public class Sugeridor {
@@ -22,11 +22,11 @@ public class Sugeridor {
 		return atuendos.stream().filter(unAtuendo -> unAtuendo.esAdecuadoATemperatura(temperatura)).collect(Collectors.toList());
 	}
 
-	public void sugerir(EventoUnico evento) {
+	public void sugerir(Evento evento) {
 		List<Sugerencia> sugerencias = new ArrayList<>();
 		List<Atuendo> atuendosAdecuados = this.filtrarAtuendosPorTemperatura(
-				evento.getGuardarropa().generarAtuendos(), 
-				evento.getFecha());
+				evento.getGuardarropa().generarAtuendos(),
+				evento.getProximaFecha(Calendar.getInstance()));
 		atuendosAdecuados.forEach(unAtuendo -> sugerencias.add(new Sugerencia(unAtuendo)));
 		evento.serSugerido(sugerencias);
 	}

@@ -1,14 +1,11 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
-import org.omg.CosNaming.NamingContextExtPackage.AddressHelper;
-
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoRepetitivo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;

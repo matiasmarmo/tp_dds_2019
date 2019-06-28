@@ -4,6 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
@@ -27,6 +28,11 @@ public class EventoRepetitivo implements Evento {
 		this.cargarSiguienteInstancia(this.fechaInicio);
 	}
 	
+	@Override
+	public Guardarropa getGuardarropa() {
+		return this.guardarropa;
+	}
+	
 	private EventoUnico obtenerProximaInstancia(Calendar fechaMinima) {
 		EventoUnico ultimaInstanciaRegistrada = this.instancias.get(this.instancias.size() - 1);
 		if(ultimaInstanciaRegistrada.esPosteriorA(fechaMinima)) {
@@ -46,7 +52,7 @@ public class EventoRepetitivo implements Evento {
 			return this.tipoRecurrencia.obtenerFechaSiguienteIntancia(this.fechaInicio, fechaMinima);
 		}
 		
-		return this.instancias.get(this.instancias.size() - 1).getFecha();
+		return this.instancias.get(this.instancias.size() - 1).getProximaFecha(fechaMinima);
 	}
 	
 	private void cargarSiguienteInstancia(Calendar fechaMinima) {
@@ -80,4 +86,13 @@ public class EventoRepetitivo implements Evento {
 		return this.usuario == usuario;
 	}
 	
+	@Override
+	public List<Sugerencia> getSugerencias() {
+		return this.instancias.stream().flatMap(evento -> evento.getSugerencias().stream()).collect(Collectors.toList());
+	}
+	
+	@Override
+	public Calendar getProximaFecha(Calendar fechaMinima) {
+		return this.fechaSiguienteInstancia(fechaMinima);
+	}
 }

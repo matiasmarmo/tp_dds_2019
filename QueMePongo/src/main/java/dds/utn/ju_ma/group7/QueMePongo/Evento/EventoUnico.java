@@ -23,6 +23,7 @@ public class EventoUnico implements Evento {
 		this.descripcion = descripcion;
 	}
 
+	@Override
 	public boolean esProximo(Calendar unaFecha) {
 
 		if (unaFecha.after(fecha)) {
@@ -36,7 +37,8 @@ public class EventoUnico implements Evento {
 		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) > 0;
 	}
 
-	public Calendar getFecha() {
+	@Override
+	public Calendar getProximaFecha(Calendar fechaMinima) {
 		return fecha;
 	}
 
@@ -44,6 +46,7 @@ public class EventoUnico implements Evento {
 		return descripcion;
 	}
 
+	@Override
 	public List<Sugerencia> getSugerencias() {
 		return sugerencias;
 	}
@@ -52,14 +55,17 @@ public class EventoUnico implements Evento {
 		return usuario;
 	}
 
+	@Override
 	public Guardarropa getGuardarropa() {
 		return guardarropa;
 	}
 
+	@Override
 	public boolean fueSugerido(Calendar fechaReferencia) {
 		return !this.sugerencias.isEmpty();
 	}
 
+	@Override
 	public void serSugerido(List<Sugerencia> sugerencias) {
 		if (sugerencias.isEmpty()) {
 			throw new EventoInvalidoException("No hay sugerencias");
