@@ -9,23 +9,23 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class RepositorioEventos {
 
-	private static List<Evento> eventos = new ArrayList<>();
+	private static List<EventoUnico> eventos = new ArrayList<>();
 
 	public RepositorioEventos() {
 	}
 
-	public Evento instanciarEvento(Usuario usuario, Guardarropa guardarropas, Calendar fecha, String descripcion) {
-		Evento evento = new Evento(usuario, guardarropas, fecha, descripcion);
+	public EventoUnico instanciarEvento(Usuario usuario, Guardarropa guardarropas, Calendar fecha, String descripcion) {
+		EventoUnico evento = new EventoUnico(usuario, guardarropas, fecha, descripcion);
 		RepositorioEventos.eventos.add(evento);
 		return evento;
 	}
 
-	public List<Evento> eventosProximos(Calendar fecha) {
-		return RepositorioEventos.eventos.stream().filter(evento -> evento.esProximo(fecha) && !evento.fueSugerido())
+	public List<EventoUnico> eventosProximos(Calendar fecha) {
+		return RepositorioEventos.eventos.stream().filter(evento -> evento.esProximo(fecha) && !evento.fueSugerido(fecha))
 				.collect(Collectors.toList());
 	}
 
-	public List<Evento> eventosDelUsuario(Usuario usuario) {
+	public List<EventoUnico> eventosDelUsuario(Usuario usuario) {
 		return eventos.stream().filter(evento -> evento.esDeUsuario(usuario)).collect(Collectors.toList());
 	}
 
