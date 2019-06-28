@@ -12,6 +12,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
@@ -19,6 +20,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 public class Fixture {
@@ -50,17 +52,18 @@ public class Fixture {
 	protected Color negro = new Color(0, 0, 0);
 	protected Color blanco = new Color(255, 255, 255);
 	
-	protected Guardarropa guardarropaCompleto = new Guardarropa();
-	protected Guardarropa guardarropaIncompleto = new Guardarropa();
+	protected Usuario usuario = new UsuarioPremium();
+	protected Usuario otroUsuario = new UsuarioGratis();
+	
+	protected Guardarropa guardarropaCompleto = new Guardarropa(usuario);
+	protected Guardarropa guardarropaIncompleto = new Guardarropa(usuario);
+	protected GuardarropaLimitado guardarropaCompartido;
 	
 	protected Atuendo atuendo;
 	protected Sugerencia sugerencia;
 	protected Sugerencia sugerencia2;
 	protected Sugerencia sugerencia3;
 	protected List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
-	
-	protected Usuario usuario;
-	protected Usuario otroUsuario;
 	
 	protected List<Prenda> prendasSupPobre = new ArrayList<Prenda>();
 	protected List<Atuendo> atuendosSoloVerano = new ArrayList<Atuendo>();
@@ -157,16 +160,16 @@ public class Fixture {
 		atuendosVeranoEinvierno.add(atuendoNegro);
 		atuendosVeranoEinvierno.add(atuendoNegroConBuzo);
 		
-		usuario = new UsuarioPremium();
-		otroUsuario = new UsuarioPremium();
+		guardarropaCompartido = new GuardarropaLimitado(usuario);
+		guardarropaCompartido.agregarUsuario(otroUsuario);
 		
-		guardarropasVerano = new Guardarropa();
+		guardarropasVerano = new Guardarropa(usuario);
 		guardarropasVerano.agregarPrenda(remeraNegra);
 		guardarropasVerano.agregarPrenda(pantalonNegro);
 		guardarropasVerano.agregarPrenda(zapatosNegros);
 		guardarropasVerano.agregarPrenda(collar);
 		
-		guardarropasVeranoEInvierno = new Guardarropa();
+		guardarropasVeranoEInvierno = new Guardarropa(usuario);
 		guardarropasVeranoEInvierno.agregarPrenda(remeraNegra);
 		guardarropasVeranoEInvierno.agregarPrenda(buzo);
 		guardarropasVeranoEInvierno.agregarPrenda(pantalonNegro);

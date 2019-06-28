@@ -3,7 +3,9 @@ package dds.utn.ju_ma.group7.QueMePongo;
 import org.junit.Assert;
 import org.junit.Test;
 
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.GuardarropaInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.GuardarropaLlenoException;
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 
 public class GuardarropaTest extends Fixture {
@@ -20,8 +22,22 @@ public class GuardarropaTest extends Fixture {
 	
 	@Test(expected = GuardarropaLlenoException.class)
 	public void unGuardarropaLimitadoNoPuedeAlmacenarMasPrendasQueElLimite() {
-		GuardarropaLimitado guardarropaLimitado = new GuardarropaLimitado();
+		GuardarropaLimitado guardarropaLimitado = new GuardarropaLimitado(otroUsuario);
 		guardarropaLimitado.agregarPrenda(remeraNegra);
 		guardarropaLimitado.agregarPrenda(remeraBlanca);
 	}
+	
+	@Test(expected = GuardarropaInvalidoException.class)
+	public void noSePuedeDarAUnUsuarioGratuitoUnGuardarropasNoLimitado() {
+		new Guardarropa(otroUsuario);
+	}
+	
+	@Test
+	public void losUsuariosPuedenCompartirGuardarropas() {
+		Assert.assertTrue(usuario.tieneAccesoAGuardarropas(guardarropaCompartido));
+		Assert.assertTrue(otroUsuario.tieneAccesoAGuardarropas(guardarropaCompartido));
+		Assert.assertTrue(guardarropaCompartido.usuarioTieneAcceso(usuario));
+		Assert.assertTrue(guardarropaCompartido.usuarioTieneAcceso(otroUsuario));
+	}
+	
 }
