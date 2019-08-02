@@ -17,7 +17,7 @@ public class RepositorioEventosTest extends Fixture {
 
 	@Test
 	public void elRepositorioEventosTiene1EventoDeUnUsuario() {
-		Assert.assertEquals(1, repositorioEventos.eventosDelUsuario(usuario).size());
+		Assert.assertEquals(6, repositorioEventos.eventosDelUsuario(usuario).size());
 	}
 
 	@Test

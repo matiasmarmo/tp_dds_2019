@@ -49,4 +49,10 @@ public class EventoTest extends Fixture {
 		eventoInvierno.serSugerido(sugerencias);
 		Assert.assertFalse(eventoMensualProximo.fueSugerido(Calendar.getInstance()));
 	}
+	
+	@Test
+	public void eventoDiarioSeProduce5VecesPorSemana() {
+		List<EventoUnico> instancias = irATrabajar.instanciasEntreFechas(hace3DiasCalendar, manianaCalendar);
+		Assert.assertEquals(5, instancias.size());
+	}
 }
