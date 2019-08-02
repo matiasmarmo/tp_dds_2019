@@ -1,5 +1,8 @@
 package dds.utn.ju_ma.group7.QueMePongo.Usuario;
 
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -40,7 +43,7 @@ public class MailSender implements InteresEnNotificaciones {
         
         try{
             mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
-            mensaje.setSubject("Segunda prueba TP");
+            mensaje.setSubject("Nuevas sugerencias han llegado!");
             mensaje.setText(notificacion);
             Transport transport = session.getTransport("smtp");
             transport.connect("smtp.gmail.com", remitente, clave);
@@ -52,8 +55,19 @@ public class MailSender implements InteresEnNotificaciones {
 	}
 	
 	private String generarTextoDeLaNotificacion(Evento evento) {
-		String notificacion = "hola que tal usuarie";
-		//evento.getUsuario();
+		String notificacion = "";
+		notificacion = "Buenos dias! \n\n"
+				+ "Tenes un evento agendado para el " 
+				+ this.fechaEvento(evento)
+				+ "\n¿Que estas esperando para ver estas sugerencias?"
+				// + aca hay que poner las sugerencias ....
+				;
 		return notificacion;
+	}
+	
+	private String fechaEvento(Evento evento) {
+		Calendar cal = evento.getProximaFecha(Calendar.getInstance());
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		return format1.format(cal.getTime()); 
 	}
 }
