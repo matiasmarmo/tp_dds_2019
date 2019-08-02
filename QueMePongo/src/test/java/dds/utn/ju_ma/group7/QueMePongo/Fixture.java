@@ -1,6 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -20,12 +21,14 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.NotificadorMock;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 public class Fixture {
-	
+
 	protected Calendar hace3DiasCalendar;
 	protected Calendar manianaCalendar;
 
@@ -52,53 +55,56 @@ public class Fixture {
 	protected Prenda zapatosNegros;
 	protected PrendaBuilder collarBuilder = new PrendaBuilder();
 	protected Prenda collar;
-	
+
 	protected Color negro = new Color(0, 0, 0);
 	protected Color blanco = new Color(255, 255, 255);
-	
-	protected Usuario usuario = new UsuarioPremium();
-	protected Usuario otroUsuario = new UsuarioGratis();
-	
+
+	protected InteresEnNotificaciones notificadorUsuario = new NotificadorMock();
+	protected InteresEnNotificaciones notificadorOtroUsuario = new NotificadorMock();
+
+	protected Usuario usuario = new UsuarioPremium(Arrays.asList(notificadorUsuario));
+	protected Usuario otroUsuario = new UsuarioGratis(Arrays.asList(notificadorOtroUsuario));
+
 	protected Guardarropa guardarropaCompleto = new Guardarropa(usuario);
 	protected Guardarropa guardarropaIncompleto = new Guardarropa(usuario);
 	protected GuardarropaLimitado guardarropaCompartido;
-	
+
 	protected Atuendo atuendo;
 	protected Sugerencia sugerencia;
 	protected Sugerencia sugerencia2;
 	protected Sugerencia sugerencia3;
 	protected List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
-	
+
 	protected List<Prenda> prendasSupPobre = new ArrayList<Prenda>();
 	protected List<Atuendo> atuendosSoloVerano = new ArrayList<Atuendo>();
 	protected Guardarropa guardarropasVerano;
-	
+
 	protected List<Prenda> prendasSupFuerte = new ArrayList<Prenda>();
 	protected List<Atuendo> atuendosVeranoEinvierno = new ArrayList<Atuendo>();
 	protected Guardarropa guardarropasVeranoEInvierno;
-	
+
 	protected Atuendo atuendoNegro;
 	protected Atuendo atuendoNegroConBuzo;
-	
+
 	protected Calendar fechaProxima = Calendar.getInstance();
 	protected Calendar fechaLejana = Calendar.getInstance();
 	protected Calendar fechaActual = Calendar.getInstance();
-	
+
 	protected EventoUnico eventoVerano;
 	protected EventoUnico eventoInvierno;
 	protected EventoUnico quince;
-	
+
 	protected EventoRepetitivo irATrabajar;
 	protected EventoRepetitivo eventoRepetitivoNoProximo;
 	protected EventoRepetitivo eventoMensualProximo;
-	
+
 	protected RepositorioEventos repositorioEventos = new RepositorioEventos();
 
 	@Before
 	public void initFixture() {
-		
+
 		QueMePongoConfiguration.inicializar(1);
-		
+
 		hace3DiasCalendar = Calendar.getInstance();
 		hace3DiasCalendar.add(Calendar.DATE, -3);
 		manianaCalendar = Calendar.getInstance();
@@ -106,7 +112,7 @@ public class Fixture {
 
 		remeraNegraBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(negro);
 		remeraNegra = remeraNegraBuilder.crearPrenda();
-		
+
 		remeraBlancaBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(blanco);
 		remeraBlanca = remeraBlancaBuilder.crearPrenda();
 
@@ -118,15 +124,16 @@ public class Fixture {
 
 		collarDivinoBuilder.setTipoPrenda(TipoPrenda.COLLAR).setTipoTela(TipoTela.SEDA).setColorPrimario(blanco);
 		collarDivino = collarDivinoBuilder.crearPrenda();
-		
-		remeraNegraYBlancaBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(negro);
+
+		remeraNegraYBlancaBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON)
+				.setColorPrimario(negro);
 		remeraNegraYBlancaBuilder.setColorSecundario(blanco);
 
 		remeraDeCueroBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.CUERO).setColorPrimario(negro);
 
 		remeraColoresInvalidosBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON)
-			.setColorPrimario(negro).setColorSecundario(negro);
-		
+				.setColorPrimario(negro).setColorSecundario(negro);
+
 		buzoBuilder.setTipoPrenda(TipoPrenda.BUZO).setTipoTela(TipoTela.ALGODON).setColorPrimario(negro);
 		buzo = buzoBuilder.crearPrenda();
 
@@ -148,12 +155,12 @@ public class Fixture {
 		guardarropaIncompleto.agregarPrenda(remeraNegra);
 		guardarropaIncompleto.agregarPrenda(jeanNegro);
 		guardarropaIncompleto.agregarPrenda(collarDivino);
-		
-		atuendo = guardarropaCompleto.generarAtuendos().get(0);
+
+		atuendo = guardarropaCompleto.generarAtuendos(Calendar.getInstance()).get(0);
 		sugerencia = new Sugerencia(atuendo);
 		sugerencia2 = new Sugerencia(atuendoNegro);
 		sugerencia3 = new Sugerencia(atuendoNegroConBuzo);
-		
+
 		sugerencia.aceptar();
 		sugerencia2.aceptar();
 		sugerencia3.rechazar();
@@ -161,47 +168,50 @@ public class Fixture {
 		sugerencias.add(sugerencia);
 		sugerencias.add(sugerencia2);
 		sugerencias.add(sugerencia3);
-		
+
 		prendasSupPobre.add(remeraNegra);
 		prendasSupFuerte.add(remeraNegra);
 		prendasSupFuerte.add(buzo);
-		
-		atuendoNegro = new Atuendo(prendasSupPobre,pantalonNegro,zapatosNegros,collar);
-		atuendoNegroConBuzo = new Atuendo(prendasSupFuerte,pantalonNegro,zapatosNegros,collar);
-		
+
+		atuendoNegro = new Atuendo(prendasSupPobre, pantalonNegro, zapatosNegros, collar);
+		atuendoNegroConBuzo = new Atuendo(prendasSupFuerte, pantalonNegro, zapatosNegros, collar);
+
 		atuendosSoloVerano.add(atuendoNegro);
 		atuendosVeranoEinvierno.add(atuendoNegro);
 		atuendosVeranoEinvierno.add(atuendoNegroConBuzo);
-		
+
 		guardarropaCompartido = new GuardarropaLimitado(usuario);
 		guardarropaCompartido.agregarUsuario(otroUsuario);
-		
+
 		guardarropasVerano = new Guardarropa(usuario);
 		guardarropasVerano.agregarPrenda(remeraNegra);
 		guardarropasVerano.agregarPrenda(pantalonNegro);
 		guardarropasVerano.agregarPrenda(zapatosNegros);
 		guardarropasVerano.agregarPrenda(collar);
-		
+
 		guardarropasVeranoEInvierno = new Guardarropa(usuario);
 		guardarropasVeranoEInvierno.agregarPrenda(remeraNegra);
 		guardarropasVeranoEInvierno.agregarPrenda(buzo);
 		guardarropasVeranoEInvierno.agregarPrenda(pantalonNegro);
 		guardarropasVeranoEInvierno.agregarPrenda(zapatosNegros);
 		guardarropasVeranoEInvierno.agregarPrenda(collar);
-		
+
 		fechaActual.setTime(new Date());
-		
+
 		fechaProxima.setTime(new Date());
 		fechaProxima.add(Calendar.DATE, 2);
-		
+
 		fechaLejana.setTime(new Date());
 		fechaLejana.add(Calendar.DATE, 100);
-		
-		eventoInvierno = new EventoUnico(usuario, guardarropasVeranoEInvierno, fechaProxima, "Un evento de invierno");
-		eventoVerano = new EventoUnico(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
-		irATrabajar = new EventoRepetitivo(usuario, guardarropasVeranoEInvierno, "Hay que laburar", hace3DiasCalendar, TipoRecurrencia.DIARIA);
-		eventoRepetitivoNoProximo = new EventoRepetitivo(usuario, guardarropaCompleto, "Falta para este", hace3DiasCalendar, TipoRecurrencia.ANUAL);
-		eventoMensualProximo = new EventoRepetitivo(usuario, guardarropaCompleto, "Hay que sugerirlo", manianaCalendar, TipoRecurrencia.MENSUAL);
+
+		eventoInvierno = RepositorioEventos.instanciarEventoUnico(usuario, guardarropasVeranoEInvierno, fechaProxima, "Un evento de invierno");
+		eventoVerano = RepositorioEventos.instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
+		irATrabajar = RepositorioEventos.instanciarEventoRepetitivo(usuario, guardarropasVeranoEInvierno, hace3DiasCalendar, "Hay que laburar",
+				TipoRecurrencia.DIARIA);
+		eventoRepetitivoNoProximo = RepositorioEventos.instanciarEventoRepetitivo(usuario, guardarropaCompleto, hace3DiasCalendar,
+				"Falta para este", TipoRecurrencia.ANUAL);
+		eventoMensualProximo = RepositorioEventos.instanciarEventoRepetitivo(usuario, guardarropaCompleto, manianaCalendar, "Hay que sugerirlo",
+				TipoRecurrencia.MENSUAL);
 	}
-	
+
 }
