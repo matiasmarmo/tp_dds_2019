@@ -33,6 +33,11 @@ public class EventoRepetitivo implements Evento {
 		return this.guardarropa;
 	}
 	
+	@Override
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
 	private EventoUnico obtenerProximaInstancia(Calendar fechaMinima) {
 		EventoUnico ultimaInstanciaRegistrada = this.instancias.get(this.instancias.size() - 1);
 		if(ultimaInstanciaRegistrada.esPosteriorA(fechaMinima)) {

@@ -51,6 +51,7 @@ public class EventoUnico implements Evento {
 		return sugerencias;
 	}
 
+	@Override
 	public Usuario getUsuario() {
 		return usuario;
 	}

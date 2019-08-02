@@ -21,5 +21,7 @@ public interface Evento {
 	public Calendar getProximaFecha(Calendar fechaMinima);
 	
 	public Guardarropa getGuardarropa();
+	
+	public Usuario getUsuario();
 
 }
