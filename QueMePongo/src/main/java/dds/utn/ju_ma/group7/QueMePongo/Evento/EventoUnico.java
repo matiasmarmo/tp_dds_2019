@@ -36,6 +36,10 @@ public class EventoUnico implements Evento {
 	public boolean esPosteriorA(Calendar unaFecha) {
 		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) > 0;
 	}
+	
+	public boolean esAnteriorA(Calendar unaFecha) {
+		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) <= 0;
+	}
 
 	@Override
 	public Calendar getProximaFecha(Calendar fechaMinima) {
@@ -73,6 +77,16 @@ public class EventoUnico implements Evento {
 		} else {
 			this.sugerencias = sugerencias;
 		}
+		this.usuario.notificar(this, "Tenés nuevas sugerencias!");
+	}
+	
+	@Override
+	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
+		List <EventoUnico> resultado = new ArrayList<EventoUnico>();
+		if(this.esPosteriorA(fechaInicio) && this.esAnteriorA(fechaFin)) {
+			resultado.add(this);
+		}
+		return resultado;
 	}
 
 	public boolean esDeUsuario(Usuario usuario) {

@@ -22,6 +22,10 @@ public interface Evento {
 	
 	public Guardarropa getGuardarropa();
 	
+	public String getDescripcion();
+	
 	public Usuario getUsuario();
+	
+	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin);
 
 }

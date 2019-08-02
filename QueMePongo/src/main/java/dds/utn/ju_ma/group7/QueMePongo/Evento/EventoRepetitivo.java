@@ -38,26 +38,25 @@ public class EventoRepetitivo implements Evento {
 		return usuario;
 	}
 	
+	@Override
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+	
+	private EventoUnico getUltimaInstanciaRegistrada() {
+		return this.instancias.get(this.instancias.size() - 1);
+	}
+	
 	private EventoUnico obtenerProximaInstancia(Calendar fechaMinima) {
-		EventoUnico ultimaInstanciaRegistrada = this.instancias.get(this.instancias.size() - 1);
-		if(ultimaInstanciaRegistrada.esPosteriorA(fechaMinima)) {
-			return ultimaInstanciaRegistrada;
+		if(this.instancias.isEmpty() || this.getUltimaInstanciaRegistrada().esPosteriorA(fechaMinima)) {
+			this.cargarSiguienteInstancia(fechaMinima);
 		}
-		this.cargarSiguienteInstancia(fechaMinima);
+	
 		return this.instancias.get(this.instancias.size() - 1);
 	}
 	
 	private Calendar fechaSiguienteInstancia(Calendar fechaMinima) {
-		if(this.instancias.isEmpty()) {
-			return this.tipoRecurrencia.obtenerFechaSiguienteIntancia(this.fechaInicio, fechaMinima);
-		}
-		
-		EventoUnico ultimaInstanciaRegistrada = this.instancias.get(this.instancias.size() - 1);
-		if(ultimaInstanciaRegistrada.fueSugerido(fechaMinima) || ultimaInstanciaRegistrada.esPosteriorA(fechaMinima)) {
-			return this.tipoRecurrencia.obtenerFechaSiguienteIntancia(this.fechaInicio, fechaMinima);
-		}
-		
-		return this.instancias.get(this.instancias.size() - 1).getProximaFecha(fechaMinima);
+		return this.tipoRecurrencia.obtenerFechaSiguienteIntancia(this.fechaInicio, fechaMinima);
 	}
 	
 	private void cargarSiguienteInstancia(Calendar fechaMinima) {
@@ -99,5 +98,20 @@ public class EventoRepetitivo implements Evento {
 	@Override
 	public Calendar getProximaFecha(Calendar fechaMinima) {
 		return this.fechaSiguienteInstancia(fechaMinima);
+	}
+	
+	private List<EventoUnico> instanciasNoConocidasEnIntervalo(Calendar fechaInicio, Calendar fechaFin) {
+		List <Calendar> fechas = this.tipoRecurrencia.todasLasFechasEnIntervalo(this.fechaInicio, fechaInicio, fechaFin);
+		return fechas.stream()
+				.map(fecha -> new EventoUnico(this.usuario, this.guardarropa, fecha, this.descripcion))
+				.collect(Collectors.toList());
+	}
+	
+	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
+		List<EventoUnico> resultado = this.instancias.stream()
+				.flatMap(eventoUnico -> eventoUnico.instanciasEntreFechas(fechaInicio, fechaFin).stream())
+				.collect(Collectors.toList());
+		resultado.addAll(this.instanciasNoConocidasEnIntervalo(fechaInicio, fechaFin));
+		return resultado;
 	}
 }
