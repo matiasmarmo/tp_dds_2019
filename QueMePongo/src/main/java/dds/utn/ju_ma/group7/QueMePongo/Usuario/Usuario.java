@@ -6,16 +6,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 
 public abstract class Usuario {
 	
 	private Set<Guardarropa> guardarropas;
 	private Sensibilidad sensibilidad;
+	private List<InteresEnNotificaciones> notificadores;
 	
-	public Usuario() {
+	public Usuario(List<InteresEnNotificaciones> notificadores) {
 		this.guardarropas = new HashSet<Guardarropa>();
 		this.sensibilidad = new Sensibilidad();
+		this.notificadores = notificadores;
 	}	
 
 	public void agregarGuardarropa(Guardarropa guardarropa) {
@@ -49,6 +52,10 @@ public abstract class Usuario {
 	
 	public void tuvoCalor(TipoSensibilidad tipo) {
 		this.sensibilidad.tuvoCalor(tipo);
+	}
+	
+	public void notificar(EventoUnico evento, String notificacion) {
+		this.notificadores.forEach(notificador -> notificador.notificar(evento, notificacion));
 	}
 
 }

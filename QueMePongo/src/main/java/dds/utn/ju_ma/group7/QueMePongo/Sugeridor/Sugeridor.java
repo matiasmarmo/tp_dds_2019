@@ -26,7 +26,7 @@ public class Sugeridor {
 	public void sugerir(Evento evento) {
 		List<Sugerencia> sugerencias = new ArrayList<>();
 		List<Atuendo> atuendosAdecuados = this.filtrarAtuendosPorTemperatura(
-				evento.getGuardarropa().generarAtuendos(),
+				evento.getGuardarropa().generarAtuendos(Calendar.getInstance()),
 				evento.getProximaFecha(Calendar.getInstance()),
 				evento.getUsuario());
 		atuendosAdecuados.forEach(unAtuendo -> sugerencias.add(new Sugerencia(unAtuendo)));

@@ -19,6 +19,10 @@ public class Sugerencia {
 		return estado;
 	}
 	
+	public boolean fueAceptada() {
+		return this.esDeEstado(EstadoSugerencia.ACEPTADA);
+	}
+	
 	private void setEstado(EstadoSugerencia estado) {
 		this.estado = estado;
 	}

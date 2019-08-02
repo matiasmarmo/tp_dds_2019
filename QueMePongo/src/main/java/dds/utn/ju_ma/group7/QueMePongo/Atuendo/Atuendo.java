@@ -36,7 +36,7 @@ public class Atuendo {
 		return accesorio;
 	}
 
-	private List<Prenda> todasLasPrendas() {
+	public List<Prenda> todasLasPrendas() {
 		List<Prenda> todas = new ArrayList<Prenda>();
 		todas.addAll(this.prendasSuperiores);
 		todas.add(this.prendaInferior);

@@ -1,7 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Usuario;
 
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Properties;
 
@@ -11,19 +10,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;;
 
 public class MailSender implements InteresEnNotificaciones {
 	private String destinatario;
 	
 	public MailSender(String mail) {
-		destinatario = mail;
+		this.destinatario = mail;
 	}
 	
-	public void notificar(Evento evento) {
-		String notificacion = generarTextoDeLaNotificacion(evento);
-		enviarMail(notificacion);
+	public void notificar(EventoUnico evento, String notificacion) {
+		String cuerpoMail = this.generarTextoDeLaNotificacion(evento, notificacion);
+		this.enviarMail(cuerpoMail);
 	}
 	
 	private void enviarMail(String notificacion) {
@@ -50,22 +49,18 @@ public class MailSender implements InteresEnNotificaciones {
             transport.sendMessage(mensaje, mensaje.getAllRecipients());
             transport.close();
         }catch (Exception e){
-            e.printStackTrace(); //Esto no se si esta bueno
+        	// TODO: excepcion propia
+            e.printStackTrace();
         }
 	}
 	
-	private String generarTextoDeLaNotificacion(Evento evento) {
-		String notificacion = "";
-		notificacion = "Buenos dias! \n\n"
-				+ "Tenes un evento agendado para el " 
-				+ this.fechaEvento(evento)
-				+ "\n¿Que estas esperando para ver estas sugerencias?"
-				// + aca hay que poner las sugerencias ....
-				;
-		return notificacion;
+	private String generarTextoDeLaNotificacion(EventoUnico evento, String notificacion) {
+		return "Evento: " + evento.getDescripcion() + "\n" +
+				"Fecha: " + this.fechaEvento(evento) + "\n" +
+				notificacion + "\n";
 	}
 	
-	private String fechaEvento(Evento evento) {
+	private String fechaEvento(EventoUnico evento) {
 		Calendar cal = evento.getProximaFecha(Calendar.getInstance());
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		return format1.format(cal.getTime()); 

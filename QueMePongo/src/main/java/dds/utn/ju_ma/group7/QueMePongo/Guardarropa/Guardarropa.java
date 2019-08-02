@@ -1,12 +1,15 @@
 package dds.utn.ju_ma.group7.QueMePongo.Guardarropa;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
@@ -19,6 +22,11 @@ public class Guardarropa {
 		this.prendas = new ArrayList<Prenda>();
 		this.usuarios = new HashSet<Usuario>();
 		this.agregarUsuario(usuarioCreador);
+	}
+	
+	private List<Prenda> getPrendasDisponibles(Calendar fechaReferencia) {
+		List<Prenda> prendasOcupadas = RepositorioEventos.obtenerPrendasEnUso(this, fechaReferencia);
+		return this.prendas.stream().filter(prenda -> !prendasOcupadas.contains(prenda)).collect(Collectors.toList());
 	}
 
 	public void agregarPrendas(List<Prenda> prendas) {
@@ -49,7 +57,7 @@ public class Guardarropa {
 		return GeneradorCombinaciones.generarStreamDeAtuendos(this.prendas);
 	}
 
-	public List<Atuendo> generarAtuendos() {
-		return GeneradorCombinaciones.generarAtuendos(this.prendas);
+	public List<Atuendo> generarAtuendos(Calendar fechaReferencia) {
+		return GeneradorCombinaciones.generarAtuendos(this.getPrendasDisponibles(fechaReferencia));
 	}
 }
