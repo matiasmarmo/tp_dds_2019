@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Sensibilidad;
 
 public class Atuendo {
 
@@ -55,7 +56,8 @@ public class Atuendo {
 		 return -temperatura+50;
 	}
 	
-	public boolean esAdecuadoATemperatura(double temperatura) {
-		return this.getNivelAbrigo() > this.linealidadAbrigo(temperatura) && this.getNivelAbrigo() < (this.linealidadAbrigo(temperatura) * 2 );
+	public boolean esAdecuadoATemperatura(double temperatura, Sensibilidad sensibilidad) {
+		return this.getNivelAbrigo() > this.linealidadAbrigo(temperatura + sensibilidad.sensibilidadGlobal()) 
+				&& this.getNivelAbrigo() < (this.linealidadAbrigo(temperatura) * 2  + sensibilidad.sensibilidadGlobal());
 	}
 }

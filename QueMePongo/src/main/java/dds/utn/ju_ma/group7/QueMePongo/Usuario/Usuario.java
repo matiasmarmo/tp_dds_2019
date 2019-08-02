@@ -11,9 +11,11 @@ import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 public abstract class Usuario {
 	
 	private Set<Guardarropa> guardarropas;
+	private Sensibilidad sensibilidad;
 	
 	public Usuario() {
 		this.guardarropas = new HashSet<Guardarropa>();
+		this.sensibilidad = new Sensibilidad();
 	}	
 
 	public void agregarGuardarropa(Guardarropa guardarropa) {
@@ -22,6 +24,10 @@ public abstract class Usuario {
 		if(!guardarropa.usuarioTieneAcceso(this)) {
 			guardarropa.agregarUsuario(this);
 		}
+	}
+	
+	public Sensibilidad getSensibilidad() {
+		return this.sensibilidad;
 	}
 	
 	public boolean tieneAccesoAGuardarropas(Guardarropa guardarropasBuscado) {
@@ -35,6 +41,14 @@ public abstract class Usuario {
 				.stream()
 				.flatMap( unGuardarropa -> unGuardarropa.generarStreamDeAtuendos() )
 				.collect(Collectors.toList());
+	}
+	
+	public void tuvoFrio(TipoSensibilidad tipo) {
+		this.sensibilidad.tuvoFrio(tipo);
+	}
+	
+	public void tuvoCalor(TipoSensibilidad tipo) {
+		this.sensibilidad.tuvoCalor(tipo);
 	}
 
 }
