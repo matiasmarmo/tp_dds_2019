@@ -7,32 +7,33 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 
 public class RepositorioEventosTest extends Fixture {
 	@Before
 	public void init() {
-		repositorioEventos.instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima, "Cumple de 15");
-		repositorioEventos.instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno, fechaProxima, "Bar Mitzva");
+		RepositorioEventos.instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima, "Cumple de 15");
+		RepositorioEventos.instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno, fechaProxima, "Bar Mitzva");
 	}
 
 	@Test
 	public void elRepositorioEventosTiene1EventoDeUnUsuario() {
-		Assert.assertEquals(6, repositorioEventos.eventosDelUsuario(usuario).size());
+		Assert.assertEquals(6, RepositorioEventos.eventosDelUsuario(usuario).size());
 	}
 
 	@Test
 	public void elBarMitzvaTiene2SugerenciasAceptadas() {
 		List<Evento> eventos = new ArrayList<Evento>();
-		eventos.addAll(repositorioEventos.eventosDelUsuario(otroUsuario));
+		eventos.addAll(RepositorioEventos.eventosDelUsuario(otroUsuario));
 		eventos.get(0).serSugerido(sugerencias);
-		Assert.assertEquals(2, repositorioEventos.sugerenciasAceptadasDelUsuario(otroUsuario).size());
+		Assert.assertEquals(2, RepositorioEventos.sugerenciasAceptadasDelUsuario(otroUsuario).size());
 	}
 
 	@Test
 	public void elBarMitzvaTiene1SugerenciaRechazada() {
 		List<Evento> eventos = new ArrayList<Evento>();
-		eventos.addAll(repositorioEventos.eventosDelUsuario(otroUsuario));
+		eventos.addAll(RepositorioEventos.eventosDelUsuario(otroUsuario));
 		eventos.get(0).serSugerido(sugerencias);
-		Assert.assertEquals(1, repositorioEventos.sugerenciasRechazadasDelUsuario(otroUsuario).size());
+		Assert.assertEquals(1, RepositorioEventos.sugerenciasRechazadasDelUsuario(otroUsuario).size());
 	}
 }
