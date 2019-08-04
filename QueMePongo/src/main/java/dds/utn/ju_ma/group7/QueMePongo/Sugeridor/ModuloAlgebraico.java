@@ -11,6 +11,10 @@ public abstract class ModuloAlgebraico {
 	public static double fahrenheitToCelsius(double gradosFahrenheit) {
 		return (gradosFahrenheit - 32)* 5/9;
 	}
+
+	public static double kelvinToCelsius(double gradosKelvin) {
+		return gradosKelvin - 273.15;
+	}
 	
 	public static Calendar redondearFecha(Calendar fecha) {
 		int hour = fecha.get(Calendar.HOUR_OF_DAY);
@@ -20,6 +24,5 @@ public abstract class ModuloAlgebraico {
 			fecha.add(Calendar.HOUR_OF_DAY, 1);
 		}
 		return fecha;
-	}
-	
+	}	
 }

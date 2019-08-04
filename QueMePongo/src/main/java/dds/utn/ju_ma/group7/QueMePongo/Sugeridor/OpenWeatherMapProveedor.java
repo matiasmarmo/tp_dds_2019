@@ -51,7 +51,7 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 		fecha = ModuloAlgebraico.redondearFecha(fecha);
 		JsonObject pronostico = pronosticoEspecifico(fecha);
 		double temperaturaK = pronostico.getJsonObject("main").getJsonNumber("temp").doubleValue();
-		double temperaturaC = kelvinToCelsius(temperaturaK);
+		double temperaturaC = ModuloAlgebraico.kelvinToCelsius(temperaturaK);
 		return ModuloAlgebraico.truncarADosDecimales(temperaturaC);
 	}
 
@@ -59,9 +59,5 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 		Calendar fechaCalendar = strignJsonToCalendar(fechaString);
 		return super.fechaCoincide(fechaString, fechaBuscada)
 				&& fechaCalendar.get(Calendar.HOUR_OF_DAY) == fechaBuscada.get(Calendar.HOUR_OF_DAY);
-	}
-
-	private double kelvinToCelsius(double gradosKelvin) {
-		return gradosKelvin - 273.15;
 	}
 }
