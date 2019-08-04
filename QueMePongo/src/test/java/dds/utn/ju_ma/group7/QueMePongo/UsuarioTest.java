@@ -12,7 +12,7 @@ public class UsuarioTest extends Fixture {
 
 	@Test
 	public void seNotificaCuadnoSeSugiere() {
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(15));
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(15, true));
 		sugeridor.sugerir(eventoVerano);
 		Assert.assertTrue(((NotificadorMock)notificadorUsuario).getFueNotificado());
 	}

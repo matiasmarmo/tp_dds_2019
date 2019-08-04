@@ -6,4 +6,6 @@ public interface ProveedorClima {
 
 	public double getTemperatura(Calendar fecha);
 	
+	public boolean hayTormentas(Calendar fecha);
+	
 }

@@ -14,14 +14,14 @@ public class SugeridorTest extends Fixture {
 
 	@Test
 	public void elEventoDeVeranoSoloTieneUnaSugerencia() {
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(15));
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(15, true));
 		sugeridor.sugerir(eventoVerano);
 		Assert.assertEquals(1, eventoVerano.getSugerencias().size());
 	}
 	
 	@Test
 	public void elEventoDeInviernoTieneDosSugerencias() {
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(10));
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(10, true));
 		sugeridor.sugerir(eventoInvierno);
 		Assert.assertEquals(2, eventoInvierno.getSugerencias().size());
 	}

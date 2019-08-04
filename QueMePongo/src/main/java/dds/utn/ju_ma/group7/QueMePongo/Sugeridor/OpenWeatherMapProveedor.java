@@ -8,20 +8,17 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 
 	private String lon_CABA = "-58.450001";
 	private String lat_CABA = "-34.599998";
-	
+
 	protected String api() {
 		return "http://api.openweathermap.org/data/2.5/forecast/";
 	}
-	
+
 	protected String key_id() {
 		return "a40660bcb12fb0790f9455769b86f8ed";
 	}
-	
+
 	protected WebResource parametrosRequest(WebResource resource) {
-		return resource
-				.queryParam("lon", lon_CABA)
-				.queryParam("lat", lat_CABA)
-				.queryParam("appid", key_id());
+		return resource.queryParam("lon", lon_CABA).queryParam("lat", lat_CABA).queryParam("appid", key_id());
 	}
 
 	protected Calendar strignJsonToCalendar(String fecha) {
@@ -38,26 +35,35 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 				Integer.parseInt(campoHora), 00);
 		return fechaCalendar;
 	}
-	
+
 	protected String campoFecha() {
 		return "dt_txt";
 	}
-	
+
 	protected String campoListaPronosticos() {
 		return "list";
-	}
-	
-	public double getTemperatura(Calendar fecha) {
-		fecha = ModuloAlgebraico.redondearFecha(fecha);
-		JsonObject pronostico = pronosticoEspecifico(fecha);
-		double temperaturaK = pronostico.getJsonObject("main").getJsonNumber("temp").doubleValue();
-		double temperaturaC = ModuloAlgebraico.kelvinToCelsius(temperaturaK);
-		return ModuloAlgebraico.truncarADosDecimales(temperaturaC);
 	}
 
 	protected boolean fechaCoincide(String fechaString, Calendar fechaBuscada) {
 		Calendar fechaCalendar = strignJsonToCalendar(fechaString);
 		return super.fechaCoincide(fechaString, fechaBuscada)
 				&& fechaCalendar.get(Calendar.HOUR_OF_DAY) == fechaBuscada.get(Calendar.HOUR_OF_DAY);
+	}
+
+	private JsonObject getPronosticoEspecifico(Calendar fecha) {
+		Calendar fechaRedondeada = ModuloAlgebraico.redondearFecha(fecha);
+		return pronosticoEspecifico(fechaRedondeada);
+	}
+
+	public double getTemperatura(Calendar fecha) {
+		JsonObject pronostico = this.getPronosticoEspecifico(fecha);
+		double temperaturaK = pronostico.getJsonObject("main").getJsonNumber("temp").doubleValue();
+		double temperaturaC = ModuloAlgebraico.kelvinToCelsius(temperaturaK);
+		return ModuloAlgebraico.truncarADosDecimales(temperaturaC);
+	}
+
+	public boolean hayTormentas(Calendar fecha) {
+		JsonObject pronostico = getPronosticoEspecifico(fecha);
+		return pronostico.getJsonArray("weather").getJsonObject(0).getJsonString("main").toString() == "Thunderstorm";
 	}
 }

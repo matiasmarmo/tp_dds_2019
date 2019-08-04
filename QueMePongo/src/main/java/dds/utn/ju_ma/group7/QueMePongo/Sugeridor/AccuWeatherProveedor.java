@@ -9,19 +9,16 @@ public class AccuWeatherProveedor extends HttpProveedor {
 	protected String api() {
 		return "http://dataservice.accuweather.com/forecasts/v1/daily/5day/7894";
 	}
-	
+
 	protected String key_id() {
 		return "0yMLbaqAcUXajQDilhGxZNGZnhWDl1SP";
 	}
-	
+
 	protected WebResource parametrosRequest(WebResource resource) {
-		return resource
-				.queryParam("apikey", key_id())
-				.queryParam("language", "es-ar")
-				.queryParam("details", "true")
+		return resource.queryParam("apikey", key_id()).queryParam("language", "es-ar").queryParam("details", "true")
 				.queryParam("metrics", "true");
 	}
-	
+
 	protected Calendar strignJsonToCalendar(String fecha) {
 //		formato de fecha en json: "2019-05-27T07:00:00+07:00"
 // 		No nos interesan las horas ya que AccuWeather no tiene precision con respecto a las horas
@@ -34,15 +31,15 @@ public class AccuWeatherProveedor extends HttpProveedor {
 		fechaCalendar.set(Integer.parseInt(campoAnio), Integer.parseInt(campoMes), Integer.parseInt(campoDia));
 		return fechaCalendar;
 	}
-	
+
 	protected String campoFecha() {
 		return "Date";
 	}
-	
+
 	protected String campoListaPronosticos() {
 		return "DailyForecasts";
 	}
-	
+
 	public double getTemperatura(Calendar fecha) {
 		JsonObject pronostico = pronosticoEspecifico(fecha);
 		JsonObject temperaturaJsonObject = pronostico.getJsonObject("Temperature");
@@ -52,5 +49,11 @@ public class AccuWeatherProveedor extends HttpProveedor {
 		double maximaC = ModuloAlgebraico.fahrenheitToCelsius(maximaF);
 		double resC = (minimaC + maximaC) / 2;
 		return ModuloAlgebraico.truncarADosDecimales(resC);
+	}
+
+	public boolean hayTormentas(Calendar fecha) {
+		JsonObject pronostico = pronosticoEspecifico(fecha);
+		String periodo = fecha.get(Calendar.AM_PM) == Calendar.AM ? "Day" : "Night";
+		return pronostico.getJsonObject(periodo).getJsonNumber("ThunderstormProbability").intValue() >= 75;
 	}
 }
