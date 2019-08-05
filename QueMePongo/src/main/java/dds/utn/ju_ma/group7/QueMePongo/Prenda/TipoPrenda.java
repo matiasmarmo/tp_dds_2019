@@ -12,46 +12,56 @@ public enum TipoPrenda {
 	
 	private List<TipoTela> telasPosibles;
 	private CategoriaPrenda categoria;
+	private ParteCuerpo parteCuerpo;
 	private int nivelAbrigo;
 	private int jerarquia;
 	
 	static {
 		REMERA.telasPosibles = Arrays.asList(TipoTela.ALGODON, TipoTela.NYLON);
 		REMERA.categoria = CategoriaPrenda.SUPERIOR;
+		REMERA.parteCuerpo = ParteCuerpo.TORSO;
 		REMERA.nivelAbrigo = 10;
 		REMERA.jerarquia = 0;
 		
 		BUZO.telasPosibles = Arrays.asList(TipoTela.ALGODON, TipoTela.NYLON);
 		BUZO.categoria = CategoriaPrenda.SUPERIOR;
+		BUZO.parteCuerpo = ParteCuerpo.TORSO;
 		BUZO.nivelAbrigo = 30;
 		BUZO.jerarquia = 2;
 		
 		JEAN.telasPosibles = Arrays.asList(TipoTela.CUERO);
 		JEAN.categoria = CategoriaPrenda.INFERIOR;
+		JEAN.parteCuerpo = ParteCuerpo.PIERNAS;
 		JEAN.nivelAbrigo = 10;
 		
 		JOGGIN.telasPosibles = Arrays.asList(TipoTela.NYLON);
 		JOGGIN.categoria = CategoriaPrenda.INFERIOR;
+		JOGGIN.parteCuerpo = ParteCuerpo.PIERNAS;
 		JOGGIN.nivelAbrigo = 10;
 		
 		SHORT.telasPosibles = Arrays.asList(TipoTela.DRY_FIT);
 		SHORT.categoria = CategoriaPrenda.INFERIOR;
+		SHORT.parteCuerpo = ParteCuerpo.PIERNAS;
 		SHORT.nivelAbrigo = 3;
 		
 		ZAPATILLAS.telasPosibles = Arrays.asList(TipoTela.NYLON, TipoTela.CUERO);
 		ZAPATILLAS.categoria = CategoriaPrenda.CALZADO;
+		ZAPATILLAS.parteCuerpo = ParteCuerpo.PIES;
 		ZAPATILLAS.nivelAbrigo = 20;
 		
 		OJOTAS.telasPosibles = Arrays.asList(TipoTela.GOMA);
 		OJOTAS.categoria = CategoriaPrenda.CALZADO;
+		OJOTAS.parteCuerpo = ParteCuerpo.PIES;
 		OJOTAS.nivelAbrigo = 5;
 		
 		COLLAR.telasPosibles = Arrays.asList(TipoTela.SEDA, TipoTela.PLASTICO);
 		COLLAR.categoria = CategoriaPrenda.ACCESORIO;
+		COLLAR.parteCuerpo = ParteCuerpo.CUELLO;
 		COLLAR.nivelAbrigo = 0;
 		
 		VINCHA.telasPosibles = Arrays.asList(TipoTela.PLASTICO);
 		VINCHA.categoria = CategoriaPrenda.ACCESORIO;
+		VINCHA.parteCuerpo = ParteCuerpo.CABEZA;
 		VINCHA.nivelAbrigo = 0;
 	}
 	

@@ -10,6 +10,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
+import dds.utn.ju_ma.group7.QueMePongo.Prenda.ParteCuerpo;
 
 public abstract class Usuario {
 	
@@ -48,11 +49,11 @@ public abstract class Usuario {
 				.collect(Collectors.toList());
 	}
 	
-	public void tuvoFrio(TipoSensibilidad tipo) {
+	public void tuvoFrio(ParteCuerpo tipo) {
 		this.sensibilidad.tuvoFrio(tipo);
 	}
 	
-	public void tuvoCalor(TipoSensibilidad tipo) {
+	public void tuvoCalor(ParteCuerpo tipo) {
 		this.sensibilidad.tuvoCalor(tipo);
 	}
 	

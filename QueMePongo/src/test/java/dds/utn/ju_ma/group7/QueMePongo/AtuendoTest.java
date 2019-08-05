@@ -2,8 +2,8 @@ package dds.utn.ju_ma.group7.QueMePongo;
 
 import org.junit.Test;
 
+import dds.utn.ju_ma.group7.QueMePongo.Prenda.ParteCuerpo;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Sensibilidad;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.TipoSensibilidad;
 
 import org.junit.Assert;
 
@@ -42,7 +42,7 @@ public class AtuendoTest extends Fixture {
 	@Test
 	public void usuarioSensibleUsaBuzoCuandoHaceCalor() {
 		Sensibilidad sensibilidad = new Sensibilidad();
-		sensibilidad.setNivelSensibilidad(TipoSensibilidad.CABEZA, 50);
+		sensibilidad.setNivelSensibilidad(ParteCuerpo.CABEZA, 50);
 		Assert.assertTrue(atuendoNegroConBuzo.esAdecuadoATemperatura(25, sensibilidad));
 	}
 }
