@@ -70,7 +70,6 @@ public class ViewModel {
 			this.setFechaFin("Fecha invalida");
 			return;
 		}
-		System.out.println("Los eventos se buscaron con exito");
 		
 		eventos = RepositorioEventos.obtenerEventosEntreFechas(c1, c2);
 		observables = 
