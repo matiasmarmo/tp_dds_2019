@@ -103,7 +103,7 @@ public class Fixture {
 	@Before
 	public void initFixture() {
 
-		QueMePongoConfiguration.inicializar(1);
+		QueMePongoConfiguration.inicializar(1, "", "");
 
 		hace3DiasCalendar = Calendar.getInstance();
 		hace3DiasCalendar.add(Calendar.DATE, -3);
