@@ -33,7 +33,7 @@ public abstract class HttpProveedor implements ProveedorClima {
 
 	protected abstract String campoListaPronosticos();
 
-	public abstract double getTemperatura(Calendar fecha);
+	public abstract double getTemperatura(JsonObject clima);
 
 	public HttpProveedor() {
 		this.client = Client.create();

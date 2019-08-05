@@ -19,7 +19,8 @@ public class Sugeridor {
 	}
 	
 	private List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos, Calendar fecha, Usuario usuario){
-		double temperatura = this.proveedorClima.getTemperatura(fecha);
+		EstadoDelClima estadoDelClima = new EstadoDelClima(proveedorClima, fecha);
+		double temperatura = estadoDelClima.getTemperatura();
 		return atuendos.stream().filter(unAtuendo -> unAtuendo.esAdecuadoATemperatura(temperatura, usuario.getSensibilidad())).collect(Collectors.toList());
 	}
 

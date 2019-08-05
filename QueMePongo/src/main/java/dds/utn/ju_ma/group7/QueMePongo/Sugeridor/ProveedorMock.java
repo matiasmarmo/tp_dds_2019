@@ -2,6 +2,8 @@ package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
 import java.util.Calendar;
 
+import javax.json.JsonObject;
+
 public class ProveedorMock implements ProveedorClima {
 
 	private double temperatura;
@@ -20,28 +22,32 @@ public class ProveedorMock implements ProveedorClima {
 		this.hayClimaSoleado = hayClimaSoleado;
 		this.hayClimaVentoso = hayClimaVentoso;
 	}
+	
+	public JsonObject getClima(Calendar fecha) {
+		return null;
+	}
 
-	public double getTemperatura(Calendar fecha) {
+	public double getTemperatura(JsonObject clima) {
 		return temperatura;
 	}
 
-	public boolean hayTormentas(Calendar fecha) {
+	public boolean hayTormentas(JsonObject clima, Calendar fecha) {
 		return hayTormentas;
 	}
 
-	public boolean hayNieve(Calendar fecha) {
+	public boolean hayNieve(JsonObject clima, Calendar fecha) {
 		return hayNieve;
 	}
 
-	public boolean hayLluvia(Calendar fecha) {
+	public boolean hayLluvia(JsonObject clima, Calendar fecha) {
 		return hayLluvia;
 	}
 
-	public boolean hayClimaSoleado(Calendar fecha) {
+	public boolean hayClimaSoleado(JsonObject clima, Calendar fecha) {
 		return hayClimaSoleado;
 	}
 
-	public boolean hayClimaVentoso(Calendar fecha) {
+	public boolean hayClimaVentoso(JsonObject clima, Calendar fecha) {
 		return hayClimaVentoso;
 	}
 }

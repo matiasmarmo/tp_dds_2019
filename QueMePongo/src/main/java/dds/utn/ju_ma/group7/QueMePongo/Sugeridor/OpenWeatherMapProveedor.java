@@ -55,36 +55,41 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 		return pronosticoEspecifico(fechaRedondeada);
 	}
 
-	public double getTemperatura(Calendar fecha) {
-		JsonObject pronostico = getPronosticoEspecifico(fecha);
-		double temperaturaK = pronostico.getJsonObject("main").getJsonNumber("temp").doubleValue();
+	public double getTemperatura(JsonObject clima) {
+		double temperaturaK = clima.getJsonObject("main").getJsonNumber("temp").doubleValue();
 		double temperaturaC = ModuloAlgebraico.kelvinToCelsius(temperaturaK);
 		return ModuloAlgebraico.truncarADosDecimales(temperaturaC);
 	}
 	
-	private String clima(Calendar fecha) {
-		JsonObject pronostico = getPronosticoEspecifico(fecha);
-		return pronostico.getJsonArray("weather").getJsonObject(0).getJsonString("main").getString();
+	public JsonObject getClima(Calendar fecha) {
+		return getPronosticoEspecifico(fecha);
+	}
+	
+	private String categoriaClima(JsonObject clima) {
+		return clima.getJsonArray("weather").getJsonObject(0).getJsonString("main").getString();
+	}
+	
+	private boolean categoriaClimaCoincide(JsonObject clima, String categoriaClima) {
+		return categoriaClima(clima).contentEquals(categoriaClima);
 	}
 
-	public boolean hayTormentas(Calendar fecha) {
-		return clima(fecha).contentEquals("Thunderstorm");
+	public boolean hayTormentas(JsonObject clima, Calendar fecha) {
+		return categoriaClimaCoincide(clima, "Thunderstorm");
 	}
 
-	public boolean hayNieve(Calendar fecha) {
-		return clima(fecha).contentEquals("Snow");
+	public boolean hayNieve(JsonObject clima, Calendar fecha) {
+		return categoriaClimaCoincide(clima, "Snow");
 	}
 
-	public boolean hayLluvia(Calendar fecha) {
-		return clima(fecha).contentEquals("Rain");
+	public boolean hayLluvia(JsonObject clima, Calendar fecha) {
+		return categoriaClimaCoincide(clima, "Rain");
 	}
 
-	public boolean hayClimaSoleado(Calendar fecha) {
-		return clima(fecha).contentEquals("Clear");
+	public boolean hayClimaSoleado(JsonObject clima, Calendar fecha) {
+		return categoriaClimaCoincide(clima, "Clear");
 	}
 
-	public boolean hayClimaVentoso(Calendar fecha) {
-		JsonObject pronostico = getPronosticoEspecifico(fecha);
-		return pronostico.getJsonObject("wind").getJsonNumber("speed").doubleValue() > 30;
+	public boolean hayClimaVentoso(JsonObject clima, Calendar fecha) {
+		return clima.getJsonObject("wind").getJsonNumber("speed").doubleValue() > 30;
 	}
 }

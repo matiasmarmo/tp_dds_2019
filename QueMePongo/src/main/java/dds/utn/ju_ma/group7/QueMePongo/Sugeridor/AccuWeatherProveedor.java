@@ -39,10 +39,18 @@ public class AccuWeatherProveedor extends HttpProveedor {
 	protected String campoListaPronosticos() {
 		return "DailyForecasts";
 	}
-
-	public double getTemperatura(Calendar fecha) {
-		JsonObject pronostico = pronosticoEspecifico(fecha);
-		JsonObject temperaturaJsonObject = pronostico.getJsonObject("Temperature");
+	
+	private JsonObject getClimaPeriodo(JsonObject clima, Calendar fecha) {
+		String periodo = fecha.get(Calendar.AM_PM) == Calendar.AM ? "Day" : "Night";
+		return clima.getJsonObject(periodo);
+	}
+	
+	public JsonObject getClima(Calendar fecha) {
+		return pronosticoEspecifico(fecha);
+	}
+	
+	public double getTemperatura(JsonObject clima) {
+		JsonObject temperaturaJsonObject = clima.getJsonObject("Temperature");
 		double minimaF = temperaturaJsonObject.getJsonObject("Minimum").getJsonNumber("Value").doubleValue();
 		double maximaF = temperaturaJsonObject.getJsonObject("Maximum").getJsonNumber("Value").doubleValue();
 		double minimaC = ModuloAlgebraico.fahrenheitToCelsius(minimaF);
@@ -50,30 +58,24 @@ public class AccuWeatherProveedor extends HttpProveedor {
 		double resC = (minimaC + maximaC) / 2;
 		return ModuloAlgebraico.truncarADosDecimales(resC);
 	}
-	
-	private JsonObject clima(Calendar fecha) {
-		JsonObject pronostico = pronosticoEspecifico(fecha);
-		String periodo = fecha.get(Calendar.AM_PM) == Calendar.AM ? "Day" : "Night";
-		return pronostico.getJsonObject(periodo);
+
+	public boolean hayTormentas(JsonObject clima, Calendar fecha) {
+		return clima.getJsonNumber("ThunderstormProbability").intValue() >= 75;
 	}
 
-	public boolean hayTormentas(Calendar fecha) {
-		return clima(fecha).getJsonNumber("ThunderstormProbability").intValue() >= 75;
+	public boolean hayNieve(JsonObject clima, Calendar fecha) {
+		return getClimaPeriodo(clima, fecha).getJsonObject("Snow").getJsonNumber("Value").doubleValue() > 0;
 	}
 
-	public boolean hayNieve(Calendar fecha) {
-		return clima(fecha).getJsonObject("Snow").getJsonNumber("Value").doubleValue() > 0;
+	public boolean hayLluvia(JsonObject clima, Calendar fecha) {
+		return getClimaPeriodo(clima, fecha).getJsonObject("Rain").getJsonNumber("Value").doubleValue() > 0;
 	}
 
-	public boolean hayLluvia(Calendar fecha) {
-		return clima(fecha).getJsonObject("Rain").getJsonNumber("Value").doubleValue() > 0;
+	public boolean hayClimaSoleado(JsonObject clima, Calendar fecha) {
+		return getClimaPeriodo(clima, fecha).getJsonNumber("CloudCover").intValue() < 20;
 	}
 
-	public boolean hayClimaSoleado(Calendar fecha) {
-		return clima(fecha).getJsonNumber("CloudCover").intValue() < 20;
-	}
-
-	public boolean hayClimaVentoso(Calendar fecha) {
-		return clima(fecha).getJsonObject("Wind").getJsonObject("Speed").getJsonNumber("Value").doubleValue() > 30;
+	public boolean hayClimaVentoso(JsonObject clima, Calendar fecha) {
+		return getClimaPeriodo(clima, fecha).getJsonObject("Wind").getJsonObject("Speed").getJsonNumber("Value").doubleValue() > 30;
 	}
 }
