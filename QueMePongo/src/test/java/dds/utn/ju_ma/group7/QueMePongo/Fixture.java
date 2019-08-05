@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
+
+import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuarios;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoRepetitivo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
@@ -24,8 +26,6 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.NotificadorMock;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 public class Fixture {
 
@@ -62,8 +62,8 @@ public class Fixture {
 	protected InteresEnNotificaciones notificadorUsuario = new NotificadorMock();
 	protected InteresEnNotificaciones notificadorOtroUsuario = new NotificadorMock();
 
-	protected Usuario usuario = new UsuarioPremium(Arrays.asList(notificadorUsuario));
-	protected Usuario otroUsuario = new UsuarioGratis(Arrays.asList(notificadorOtroUsuario));
+	protected Usuario usuario = RepositorioUsuarios.instanciarUsuarioPremium(Arrays.asList(notificadorUsuario));
+	protected Usuario otroUsuario = RepositorioUsuarios.instanciarUsuarioGratis(Arrays.asList(notificadorOtroUsuario));
 
 	protected Guardarropa guardarropaCompleto = new Guardarropa(usuario);
 	protected Guardarropa guardarropaIncompleto = new Guardarropa(usuario);
