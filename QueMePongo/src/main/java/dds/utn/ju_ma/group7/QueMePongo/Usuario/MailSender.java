@@ -11,6 +11,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.NotificationError;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;;
 
 public class MailSender implements InteresEnNotificaciones {
@@ -49,8 +50,7 @@ public class MailSender implements InteresEnNotificaciones {
             transport.sendMessage(mensaje, mensaje.getAllRecipients());
             transport.close();
         }catch (Exception e){
-        	// TODO: excepcion propia
-            e.printStackTrace();
+        	throw new NotificationError("No se pudo notificar al usuario " + destinatario);
         }
 	}
 	
