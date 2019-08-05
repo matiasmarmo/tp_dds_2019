@@ -16,6 +16,10 @@ public abstract class ModuloAlgebraico {
 		return gradosKelvin - 273.15;
 	}
 	
+	public static double millasPorHoraAKilometrosPorHora(double millasPorHora) {
+		return millasPorHora * 1.60934;
+	}
+	
 	public static Calendar redondearFecha(Calendar fecha) {
 		int hour = fecha.get(Calendar.HOUR_OF_DAY);
 		if (hour % 3 == 1) {

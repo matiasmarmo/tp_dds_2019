@@ -10,4 +10,10 @@ public interface ProveedorClima {
 	
 	public boolean hayNieve(Calendar fecha);
 	
+	public boolean hayLluvia(Calendar fecha);
+	
+	public boolean hayClimaSoleado(Calendar fecha);
+	
+	public boolean hayClimaVentoso(Calendar fecha);
+	
 }

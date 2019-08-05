@@ -64,14 +64,27 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 	
 	private String clima(Calendar fecha) {
 		JsonObject pronostico = getPronosticoEspecifico(fecha);
-		return pronostico.getJsonArray("weather").getJsonObject(0).getJsonString("main").toString();
+		return pronostico.getJsonArray("weather").getJsonObject(0).getJsonString("main").getString();
 	}
 
 	public boolean hayTormentas(Calendar fecha) {
-		return clima(fecha) == "Thunderstorm";
+		return clima(fecha).contentEquals("Thunderstorm");
 	}
 
 	public boolean hayNieve(Calendar fecha) {
-		return clima(fecha) == "Snow";
+		return clima(fecha).contentEquals("Snow");
+	}
+
+	public boolean hayLluvia(Calendar fecha) {
+		return clima(fecha).contentEquals("Rain");
+	}
+
+	public boolean hayClimaSoleado(Calendar fecha) {
+		return clima(fecha).contentEquals("Clear");
+	}
+
+	public boolean hayClimaVentoso(Calendar fecha) {
+		JsonObject pronostico = getPronosticoEspecifico(fecha);
+		return pronostico.getJsonObject("wind").getJsonNumber("speed").doubleValue() > 30;
 	}
 }

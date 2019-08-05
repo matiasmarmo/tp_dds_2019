@@ -62,6 +62,18 @@ public class AccuWeatherProveedor extends HttpProveedor {
 	}
 
 	public boolean hayNieve(Calendar fecha) {
-		return clima(fecha).getJsonObject("Snow").getJsonNumber("Value").intValue() > 0;
+		return clima(fecha).getJsonObject("Snow").getJsonNumber("Value").doubleValue() > 0;
+	}
+
+	public boolean hayLluvia(Calendar fecha) {
+		return clima(fecha).getJsonObject("Rain").getJsonNumber("Value").doubleValue() > 0;
+	}
+
+	public boolean hayClimaSoleado(Calendar fecha) {
+		return clima(fecha).getJsonNumber("CloudCover").intValue() < 20;
+	}
+
+	public boolean hayClimaVentoso(Calendar fecha) {
+		return clima(fecha).getJsonObject("Wind").getJsonObject("Speed").getJsonNumber("Value").doubleValue() > 30;
 	}
 }
