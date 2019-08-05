@@ -1,6 +1,5 @@
 package dds.utn.ju_ma.group7.QueMePongo.Usuario;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
 
@@ -10,11 +9,11 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
-import dds.utn.ju_ma.group7.QueMePongo.Excepciones.NotificationError;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;;
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.NotificationError;;
 
-public class MailSender implements InteresEnNotificaciones {
+public class MailSender extends InteresEnNotificaciones {
 	private String destinatario;
 	
 	public MailSender(String mail) {
@@ -22,7 +21,7 @@ public class MailSender implements InteresEnNotificaciones {
 	}
 	
 	public void notificar(EventoUnico evento, String notificacion) {
-		String cuerpoMail = this.generarTextoDeLaNotificacion(evento, notificacion);
+		String cuerpoMail = this.generarTextoNotificacionSugerencia(evento, notificacion);
 		this.enviarMail(cuerpoMail);
 	}
 	
@@ -54,15 +53,7 @@ public class MailSender implements InteresEnNotificaciones {
         }
 	}
 	
-	private String generarTextoDeLaNotificacion(EventoUnico evento, String notificacion) {
-		return "Evento: " + evento.getDescripcion() + "\n" +
-				"Fecha: " + this.fechaEvento(evento) + "\n" +
-				notificacion + "\n";
-	}
-	
-	private String fechaEvento(EventoUnico evento) {
-		Calendar cal = evento.getProximaFecha(Calendar.getInstance());
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		return format1.format(cal.getTime()); 
+	public void notificarAlerta(Calendar fecha, TipoAlerta alerta) {
+		this.enviarMail(alerta.getDescripcion());
 	}
 }

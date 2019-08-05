@@ -1,10 +1,12 @@
 package dds.utn.ju_ma.group7.QueMePongo.Usuario;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
@@ -56,6 +58,10 @@ public abstract class Usuario {
 	
 	public void notificar(EventoUnico evento, String notificacion) {
 		this.notificadores.forEach(notificador -> notificador.notificar(evento, notificacion));
+	}
+	
+	public void notificarAlerta(Calendar fecha, TipoAlerta alerta) {
+		this.notificadores.forEach(notificador -> notificador.notificarAlerta(fecha, alerta));
 	}
 
 }

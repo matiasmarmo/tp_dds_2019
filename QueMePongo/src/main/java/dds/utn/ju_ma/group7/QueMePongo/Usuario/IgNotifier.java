@@ -1,7 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Usuario;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -9,16 +8,17 @@ import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.InstagramDirectShareRequest;
+import org.brunocvcunha.instagram4j.requests.InstagramDirectShareRequest.ShareType;
 import org.brunocvcunha.instagram4j.requests.InstagramRequest;
 import org.brunocvcunha.instagram4j.requests.InstagramSearchUsernameRequest;
-import org.brunocvcunha.instagram4j.requests.InstagramDirectShareRequest.ShareType;
 import org.brunocvcunha.instagram4j.requests.payload.InstagramSearchUsernameResult;
 
+import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.NotificationError;
 import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;
 
-public class IgNotifier implements InteresEnNotificaciones {
+public class IgNotifier extends InteresEnNotificaciones {
 	private static Instagram4j instagram = null;
 	private String nombreUsuario = null;
 	private String idUsuario = null;
@@ -42,18 +42,6 @@ public class IgNotifier implements InteresEnNotificaciones {
 		return IgNotifier.instagram.sendRequest(request);
 	}
 	
-	private String fechaEvento(EventoUnico evento) {
-		Calendar cal = evento.getProximaFecha(Calendar.getInstance());
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		return format1.format(cal.getTime()); 
-	}
-	
-	private String generarTextoDeLaNotificacion(EventoUnico evento, String notificacion) {
-		return "Evento: " + evento.getDescripcion() + "\n" +
-				"Fecha: " + this.fechaEvento(evento) + "\n" +
-				notificacion + "\n";
-	}
-	
 	private void cargarIdUsuario() {
 		try {
 			InstagramSearchUsernameResult response = 
@@ -63,13 +51,11 @@ public class IgNotifier implements InteresEnNotificaciones {
 			throw new NotificationError("No se pudo obtener el id del usuario " + this.nombreUsuario);
 		}
 	}
-
-	@Override
-	public void notificar(EventoUnico evento, String notificacion) {
+	
+	private void enviarNotificacion(String mensaje) {
 		if(this.idUsuario == null) {
 			this.cargarIdUsuario();
 		}
-		String mensaje = this.generarTextoDeLaNotificacion(evento, notificacion);
 		List<String> recipients = Arrays.asList(this.idUsuario);
 		try {
 			this.sendRequest(
@@ -80,7 +66,15 @@ public class IgNotifier implements InteresEnNotificaciones {
 			throw new NotificationError("No se pudo notificar por instagram al usuario " + this.nombreUsuario);
 		}
 	}
+
+	@Override
+	public void notificar(EventoUnico evento, String notificacion) {
+		this.enviarNotificacion(this.generarTextoNotificacionSugerencia(evento, notificacion));	
+	}
 	
-	
+	@Override
+	public void notificarAlerta(Calendar fecha, TipoAlerta alerta) {
+		this.enviarNotificacion(this.generarTextoNotificacionAlerta(fecha, alerta));		
+	}
 
 }

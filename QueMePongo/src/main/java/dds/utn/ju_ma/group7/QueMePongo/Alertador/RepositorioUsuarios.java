@@ -1,6 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo.Alertador;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;
@@ -21,6 +22,10 @@ public class RepositorioUsuarios {
 		UsuarioPremium usuarioPremium = new UsuarioPremium(notificadores);
 		RepositorioUsuarios.usuarios.add(usuarioPremium);
 		return usuarioPremium;
+	}
+	
+	public static void informarUsuariosDe(Calendar fecha, TipoAlerta alerta) {
+		RepositorioUsuarios.usuarios.forEach(usuario -> usuario.notificarAlerta(fecha, alerta));
 	}
 
 }
