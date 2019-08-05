@@ -1,10 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Ui;
 
 import java.awt.Color;
-import java.awt.TextField;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
 
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Button;
@@ -14,10 +10,6 @@ import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.MainWindow;
-
-import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
-import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 public class EventoWindow extends MainWindow<ViewModel>{
 
@@ -69,18 +61,6 @@ public class EventoWindow extends MainWindow<ViewModel>{
 	}
 	
 	public static void main(String[] args) {
-		Calendar plusCincoDias = Calendar.getInstance();
-		plusCincoDias.add(Calendar.DATE, 5);
-		Calendar plusDiezDias = Calendar.getInstance();
-		plusDiezDias.add(Calendar.DATE, 10);
-		List<Sugerencia> sugerencias = Arrays.asList(new Sugerencia(null));
-		RepositorioEventos.instanciarEventoUnico(
-				new UsuarioPremium(Arrays.asList()), null, Calendar.getInstance(), "Evento 1")
-				.serSugerido(sugerencias);
-		RepositorioEventos.instanciarEventoUnico(null, null, Calendar.getInstance(), "Evento 2");
-		RepositorioEventos.instanciarEventoUnico(null, null, plusCincoDias, "Evento 3");
-		RepositorioEventos.instanciarEventoUnico(null, null, plusDiezDias, "Evento 4");	
-		
 		new EventoWindow().startApplication();
 	}
 
