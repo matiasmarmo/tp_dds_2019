@@ -50,4 +50,5 @@ public class ProveedorMock implements ProveedorClima {
 	public boolean hayClimaVentoso(JsonObject clima, Calendar fecha) {
 		return hayClimaVentoso;
 	}
+	
 }
