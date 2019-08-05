@@ -50,10 +50,18 @@ public class AccuWeatherProveedor extends HttpProveedor {
 		double resC = (minimaC + maximaC) / 2;
 		return ModuloAlgebraico.truncarADosDecimales(resC);
 	}
-
-	public boolean hayTormentas(Calendar fecha) {
+	
+	private JsonObject clima(Calendar fecha) {
 		JsonObject pronostico = pronosticoEspecifico(fecha);
 		String periodo = fecha.get(Calendar.AM_PM) == Calendar.AM ? "Day" : "Night";
-		return pronostico.getJsonObject(periodo).getJsonNumber("ThunderstormProbability").intValue() >= 75;
+		return pronostico.getJsonObject(periodo);
+	}
+
+	public boolean hayTormentas(Calendar fecha) {
+		return clima(fecha).getJsonNumber("ThunderstormProbability").intValue() >= 75;
+	}
+
+	public boolean hayNieve(Calendar fecha) {
+		return clima(fecha).getJsonObject("Snow").getJsonNumber("Value").intValue() > 0;
 	}
 }

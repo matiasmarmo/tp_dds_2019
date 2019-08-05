@@ -8,4 +8,6 @@ public interface ProveedorClima {
 	
 	public boolean hayTormentas(Calendar fecha);
 	
+	public boolean hayNieve(Calendar fecha);
+	
 }
