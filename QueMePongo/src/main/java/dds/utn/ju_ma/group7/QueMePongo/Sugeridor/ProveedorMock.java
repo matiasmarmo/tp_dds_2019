@@ -13,16 +13,36 @@ public class ProveedorMock implements ProveedorClima {
 	private boolean hayClimaSoleado;
 	private boolean hayClimaVentoso;
 	
-	public ProveedorMock(double temperatura, boolean hayTormentas, boolean hayNieve, boolean hayLluvia,
-			boolean hayClimaSoleado, boolean hayClimaVentoso) {
+	public ProveedorClima setTemperatura(double temperatura) {
 		this.temperatura = temperatura;
-		this.hayTormentas = hayTormentas;
-		this.hayNieve = hayNieve;
-		this.hayLluvia = hayLluvia;
-		this.hayClimaSoleado = hayClimaSoleado;
-		this.hayClimaVentoso = hayClimaVentoso;
+		return this;
 	}
-	
+
+	public ProveedorClima setHayTormentas(boolean hayTormentas) {
+		this.hayTormentas = hayTormentas;
+		return this;
+	}
+
+	public ProveedorClima setHayNieve(boolean hayNieve) {
+		this.hayNieve = hayNieve;
+		return this;
+	}
+
+	public ProveedorClima setHayLluvia(boolean hayLluvia) {
+		this.hayLluvia = hayLluvia;
+		return this;
+	}
+
+	public ProveedorClima setHayClimaSoleado(boolean hayClimaSoleado) {
+		this.hayClimaSoleado = hayClimaSoleado;
+		return this;
+	}
+
+	public ProveedorClima setHayClimaVentoso(boolean hayClimaVentoso) {
+		this.hayClimaVentoso = hayClimaVentoso;
+		return this;
+	}
+
 	public JsonObject getClima(Calendar fecha) {
 		return null;
 	}

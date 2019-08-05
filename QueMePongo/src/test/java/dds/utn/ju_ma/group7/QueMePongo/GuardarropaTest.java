@@ -47,7 +47,8 @@ public class GuardarropaTest extends Fixture {
 	@Test
 	public void lasPrendasEnUsoNoSonSugeridas() {
 		long cantidadAtuendos = eventoInvierno.getGuardarropa().generarAtuendos(manianaCalendar).size();
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(10, false, false, false, false, false));
+		//Sugeridor sugeridor = new Sugeridor(new ProveedorMock(10, false, false, false, false, false));
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock().setTemperatura(10));
 		sugeridor.sugerir(eventoInvierno);
 		eventoInvierno.getSugerencias().get(0).aceptar();
 		long nuevaCantidadAtuendos = eventoInvierno.getGuardarropa().generarAtuendos(manianaCalendar).size();

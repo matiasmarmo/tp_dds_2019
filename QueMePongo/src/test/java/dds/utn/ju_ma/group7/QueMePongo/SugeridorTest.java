@@ -19,14 +19,14 @@ public class SugeridorTest extends Fixture {
 
 	@Test
 	public void elEventoDeVeranoSoloTieneUnaSugerencia() {
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(15, false, false, false, false, false));
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock().setTemperatura(15));
 		sugeridor.sugerir(eventoVerano);
 		Assert.assertEquals(1, eventoVerano.getSugerencias().size());
 	}
 	
 	@Test
 	public void elEventoDeInviernoTieneDosSugerencias() {
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMock(10, false, false, false, false, false));
+		Sugeridor sugeridor = new Sugeridor(new ProveedorMock().setTemperatura(10));
 		sugeridor.sugerir(eventoInvierno);
 		Assert.assertEquals(2, eventoInvierno.getSugerencias().size());
 	}
@@ -47,7 +47,7 @@ public class SugeridorTest extends Fixture {
 	
 	@Test
 	public void sePuedenConocerLasAlertarMeteorologicas() {
-		ProveedorClima proveedorClima = new ProveedorMock(10, true, false, false, false, false);
+		ProveedorClima proveedorClima = new ProveedorMock().setHayTormentas(true);
 		List<TipoAlerta> alertas = new EstadoDelClima(proveedorClima, Calendar.getInstance()).getAlertas();
 		Assert.assertEquals(Arrays.asList(TipoAlerta.TORMENTA), alertas);
 	}
