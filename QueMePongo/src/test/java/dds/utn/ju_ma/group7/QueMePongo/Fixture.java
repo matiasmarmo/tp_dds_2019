@@ -98,12 +98,12 @@ public class Fixture {
 	protected EventoRepetitivo eventoRepetitivoNoProximo;
 	protected EventoRepetitivo eventoMensualProximo;
 
-	protected RepositorioEventos repositorioEventos = new RepositorioEventos();
-
+	
 	@Before
 	public void initFixture() {
 
 		QueMePongoConfiguration.inicializar(1, "", "");
+		RepositorioEventos.vaciar();
 
 		hace3DiasCalendar = Calendar.getInstance();
 		hace3DiasCalendar.add(Calendar.DATE, -3);
@@ -212,6 +212,8 @@ public class Fixture {
 				"Falta para este", TipoRecurrencia.ANUAL);
 		eventoMensualProximo = RepositorioEventos.instanciarEventoRepetitivo(usuario, guardarropaCompleto, manianaCalendar, "Hay que sugerirlo",
 				TipoRecurrencia.MENSUAL);
+		RepositorioEventos.instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima, "Cumple de 15");
+		RepositorioEventos.instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno, fechaProxima, "Bar Mitzva");
 	}
 
 }

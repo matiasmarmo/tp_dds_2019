@@ -12,7 +12,11 @@ public class RepositorioEventos {
 
 	private static List<Evento> eventos = new ArrayList<>();
 
-	public RepositorioEventos() {
+	private RepositorioEventos() {
+	}
+	
+	public static void vaciar() {
+		RepositorioEventos.eventos = new ArrayList<Evento>();
 	}
 
 	public static EventoUnico instanciarEventoUnico(Usuario usuario, Guardarropa guardarropas, Calendar fecha,
