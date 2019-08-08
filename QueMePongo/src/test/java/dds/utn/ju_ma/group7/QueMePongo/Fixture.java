@@ -6,7 +6,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.json.JsonObject;
+
 import org.junit.Before;
+import org.junit.Rule;
+import static org.mockito.Mockito.mock;
+
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuarios;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
@@ -23,6 +31,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
+import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.EstadoDelClima;
+import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.OpenWeatherMapProveedor;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.NotificadorMock;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
@@ -95,11 +105,16 @@ public class Fixture {
 	protected EventoUnico eventoVerano;
 	protected EventoUnico eventoInvierno;
 	protected EventoUnico quince;
-
+	
 	protected EventoRepetitivo irATrabajar;
 	protected EventoRepetitivo eventoRepetitivoNoProximo;
 	protected EventoRepetitivo eventoMensualProximo;
-
+	
+	protected OpenWeatherMapProveedor proveedorMock;
+	protected EstadoDelClima estadoDelClimaMock;
+	protected JsonObject clima;
+	
+	@Rule public MockitoRule Rule = MockitoJUnit.rule();
 	
 	@Before
 	public void initFixture() {
@@ -219,6 +234,10 @@ public class Fixture {
 				TipoRecurrencia.MENSUAL);
 		RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima, "Cumple de 15");
 		RepositorioEventos.getInstance().instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno, fechaProxima, "Bar Mitzva");
+
+		proveedorMock = mock(OpenWeatherMapProveedor.class);
+		estadoDelClimaMock = mock(EstadoDelClima.class);
+		clima = mock(JsonObject.class);
 	}
 
 }

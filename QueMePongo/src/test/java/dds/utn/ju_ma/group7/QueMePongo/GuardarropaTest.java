@@ -9,7 +9,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Excepciones.GuardarropaInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.GuardarropaLlenoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
-import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorMock;
+import static org.mockito.Mockito.when;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.Sugeridor;
 
 public class GuardarropaTest extends Fixture {
@@ -48,7 +48,8 @@ public class GuardarropaTest extends Fixture {
 	public void lasPrendasEnUsoNoSonSugeridas() {
 		long cantidadAtuendos = eventoInvierno.getGuardarropa().generarAtuendos(manianaCalendar).size();
 		//Sugeridor sugeridor = new Sugeridor(new ProveedorMock(10, false, false, false, false, false));
-		Sugeridor sugeridor = new Sugeridor(new ProveedorMock().setTemperatura(10));
+		when(proveedorMock.getTemperatura(clima)).thenReturn(10.0);
+		Sugeridor sugeridor = new Sugeridor(proveedorMock);
 		sugeridor.sugerir(eventoInvierno);
 		eventoInvierno.getSugerencias().get(0).aceptar();
 		long nuevaCantidadAtuendos = eventoInvierno.getGuardarropa().generarAtuendos(manianaCalendar).size();
