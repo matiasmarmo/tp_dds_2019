@@ -15,8 +15,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 
 @Observable
-public class ViewModel {
-	private List<EventoObservable> a;
+public class EventosViewModel {
+	private List<EventoObservable> eventos;
 	private String fechaInicio;
 	private String fechaFin;	
 	
@@ -36,26 +36,21 @@ public class ViewModel {
 		return fechaFin;
 	}
 
-	public ViewModel() {
-		this.a = new ArrayList<EventoObservable>();
+	public EventosViewModel() {
+		this.eventos = new ArrayList<EventoObservable>();
 	}
 
 	public List<EventoObservable> getA() {
-		return a;
+		return eventos;
 	}
 
-	public void setA(List<EventoObservable> a) {
-		this.a = a;
-	}
-	
-	public void metodo() {
-		System.out.println("Se llamo el método");
+	public void setA(List<EventoObservable> eventos) {
+		this.eventos = eventos;
 	}
 	
 	public void cargarEventos() {
 		List<EventoUnico> eventos = Arrays.asList();
 		List<EventoObservable> observables = Arrays.asList();
-		this.a = observables;
 		Calendar c1;
 		Calendar c2;
 		try {
@@ -75,7 +70,7 @@ public class ViewModel {
 		observables = 
 				eventos.stream().map(evento -> new EventoObservable(evento))
 				.collect(Collectors.toList());
-		this.a = observables;
+		this.eventos = observables;
 	}
 	
 	private Calendar transformarStringAFecha(String fecha) throws ParseException {

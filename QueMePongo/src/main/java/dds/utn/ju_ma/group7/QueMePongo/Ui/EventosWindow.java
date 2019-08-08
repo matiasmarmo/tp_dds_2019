@@ -11,10 +11,12 @@ import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.MainWindow;
 
-public class EventoWindow extends MainWindow<ViewModel>{
+public class EventosWindow extends MainWindow<EventosViewModel>{
 
-	public EventoWindow() {
-		super(new ViewModel());
+	private static final long serialVersionUID = 1L;
+
+	public EventosWindow() {
+		super(new EventosViewModel());
 	}
 	
 	@Override
@@ -61,7 +63,7 @@ public class EventoWindow extends MainWindow<ViewModel>{
 	}
 	
 	public static void main(String[] args) {
-		new EventoWindow().startApplication();
+		new EventosWindow().startApplication();
 	}
 
 }

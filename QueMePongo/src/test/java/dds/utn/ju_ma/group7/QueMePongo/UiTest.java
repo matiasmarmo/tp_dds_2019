@@ -20,7 +20,7 @@ public class UiTest extends Fixture {
 		SimpleDateFormat fecha2 = new SimpleDateFormat("yyyy-MM-dd");
 		String plus = fecha2.format(manianaCalendar.getTime()); 
 		
-		ViewModel viewModel = new ViewModel();
+		EventosViewModel viewModel = new EventosViewModel();
 		viewModel.setFechaInicio(minus);
 		viewModel.setFechaFin(plus);
 		viewModel.cargarEventos();
