@@ -64,8 +64,8 @@ public class Fixture {
 	protected InteresEnNotificaciones notificadorUsuario = new NotificadorMock();
 	protected InteresEnNotificaciones notificadorOtroUsuario = new NotificadorMock();
 
-	protected Usuario usuario = RepositorioUsuarios.instanciarUsuarioPremium(Arrays.asList(notificadorUsuario));
-	protected Usuario otroUsuario = RepositorioUsuarios.instanciarUsuarioGratis(Arrays.asList(notificadorOtroUsuario));
+	protected Usuario usuario = RepositorioUsuarios.getInstance().instanciarUsuarioPremium(Arrays.asList(notificadorUsuario));
+	protected Usuario otroUsuario = RepositorioUsuarios.getInstance().instanciarUsuarioGratis(Arrays.asList(notificadorOtroUsuario));
 
 	protected Guardarropa guardarropaCompleto = new Guardarropa(usuario);
 	protected Guardarropa guardarropaIncompleto = new Guardarropa(usuario);

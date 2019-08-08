@@ -10,22 +10,33 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 public class RepositorioUsuarios {
-	private static List<Usuario> usuarios = new ArrayList<>();
+	private List<Usuario> usuarios = new ArrayList<>();
 	
-	public static Usuario instanciarUsuarioGratis(List<InteresEnNotificaciones> notificadores) {
+	private static RepositorioUsuarios instance;
+	
+	private RepositorioUsuarios() {}
+	
+	public static RepositorioUsuarios getInstance() {
+		if(instance == null) {
+			instance = new RepositorioUsuarios();
+		}
+		return instance;
+	}
+	
+	public Usuario instanciarUsuarioGratis(List<InteresEnNotificaciones> notificadores) {
 		UsuarioGratis usuarioGratis = new UsuarioGratis(notificadores);
-		RepositorioUsuarios.usuarios.add(usuarioGratis);
+		this.usuarios.add(usuarioGratis);
 		return usuarioGratis;
 	}
 	
-	public static Usuario instanciarUsuarioPremium(List<InteresEnNotificaciones> notificadores) {
+	public Usuario instanciarUsuarioPremium(List<InteresEnNotificaciones> notificadores) {
 		UsuarioPremium usuarioPremium = new UsuarioPremium(notificadores);
-		RepositorioUsuarios.usuarios.add(usuarioPremium);
+		this.usuarios.add(usuarioPremium);
 		return usuarioPremium;
 	}
 	
-	public static void informarUsuariosDe(Calendar fecha, TipoAlerta alerta) {
-		RepositorioUsuarios.usuarios.forEach(usuario -> usuario.notificarAlerta(fecha, alerta));
+	public void informarUsuariosDe(Calendar fecha, TipoAlerta alerta) {
+		this.usuarios.forEach(usuario -> usuario.notificarAlerta(fecha, alerta));
 	}
 
 }

@@ -16,11 +16,11 @@ public class Alertador {
 	
 	public void informarAlertas(Calendar fecha) {
 		this.obtenerAlertasParaLaFecha(fecha)
-			.forEach(alerta -> RepositorioUsuarios.informarUsuariosDe(fecha, alerta));
+			.forEach(alerta -> RepositorioUsuarios.getInstance().informarUsuariosDe(fecha, alerta));
 	}
 	
 	public void informarDe(Calendar fecha, TipoAlerta alerta) {
-		RepositorioUsuarios.informarUsuariosDe(fecha, alerta);
+		RepositorioUsuarios.getInstance().informarUsuariosDe(fecha, alerta);
 	}
 	
 	public List<TipoAlerta> obtenerAlertasParaLaFecha(Calendar fecha) {
