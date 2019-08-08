@@ -20,7 +20,7 @@ public enum TipoPrenda {
 		REMERA.telasPosibles = Arrays.asList(TipoTela.ALGODON, TipoTela.NYLON);
 		REMERA.categoria = CategoriaPrenda.SUPERIOR;
 		REMERA.parteCuerpo = ParteCuerpo.TORSO;
-		REMERA.nivelAbrigo = 10;
+		REMERA.nivelAbrigo = 15;
 		REMERA.jerarquia = 0;
 		
 		BUZO.telasPosibles = Arrays.asList(TipoTela.ALGODON, TipoTela.NYLON);
@@ -37,17 +37,17 @@ public enum TipoPrenda {
 		JOGGIN.telasPosibles = Arrays.asList(TipoTela.NYLON);
 		JOGGIN.categoria = CategoriaPrenda.INFERIOR;
 		JOGGIN.parteCuerpo = ParteCuerpo.PIERNAS;
-		JOGGIN.nivelAbrigo = 10;
+		JOGGIN.nivelAbrigo = 12;
 		
 		SHORT.telasPosibles = Arrays.asList(TipoTela.DRY_FIT);
 		SHORT.categoria = CategoriaPrenda.INFERIOR;
 		SHORT.parteCuerpo = ParteCuerpo.PIERNAS;
-		SHORT.nivelAbrigo = 3;
+		SHORT.nivelAbrigo = 7;
 		
 		ZAPATILLAS.telasPosibles = Arrays.asList(TipoTela.NYLON, TipoTela.CUERO);
 		ZAPATILLAS.categoria = CategoriaPrenda.CALZADO;
 		ZAPATILLAS.parteCuerpo = ParteCuerpo.PIES;
-		ZAPATILLAS.nivelAbrigo = 20;
+		ZAPATILLAS.nivelAbrigo = 15;
 		
 		OJOTAS.telasPosibles = Arrays.asList(TipoTela.GOMA);
 		OJOTAS.categoria = CategoriaPrenda.CALZADO;
@@ -79,6 +79,10 @@ public enum TipoPrenda {
 	
 	public int getJerarquia() {
 		return this.jerarquia;
+	}
+	
+	public ParteCuerpo getParteCuerpo() {
+		return this.parteCuerpo;
 	}
 	
 }

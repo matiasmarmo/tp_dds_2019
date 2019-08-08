@@ -45,6 +45,10 @@ public class Prenda implements InterfazPrenda {
 	public CategoriaPrenda getCategoria() {
 		return this.tipoPrenda.getCategoria();
 	}
+	
+	public ParteCuerpo getParteCuerpo() {
+		return this.tipoPrenda.getParteCuerpo();
+	}
 
 	public int getNivelAbrigo() {
 		return this.tipoPrenda.getNivelAbrigo();
