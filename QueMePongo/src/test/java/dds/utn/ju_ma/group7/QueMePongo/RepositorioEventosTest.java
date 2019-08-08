@@ -13,22 +13,22 @@ public class RepositorioEventosTest extends Fixture {
 
 	@Test
 	public void elRepositorioEventosTiene1EventoDeUnUsuario() {
-		Assert.assertEquals(6, RepositorioEventos.eventosDelUsuario(usuario).size());
+		Assert.assertEquals(6, RepositorioEventos.getInstance().eventosDelUsuario(usuario).size());
 	}
 
 	@Test
 	public void elBarMitzvaTiene2SugerenciasAceptadas() {
 		List<Evento> eventos = new ArrayList<Evento>();
-		eventos.addAll(RepositorioEventos.eventosDelUsuario(otroUsuario));
+		eventos.addAll(RepositorioEventos.getInstance().eventosDelUsuario(otroUsuario));
 		eventos.get(0).serSugerido(sugerencias);
-		Assert.assertEquals(2, RepositorioEventos.sugerenciasAceptadasDelUsuario(otroUsuario).size());
+		Assert.assertEquals(2, RepositorioEventos.getInstance().sugerenciasAceptadasDelUsuario(otroUsuario).size());
 	}
 
 	@Test
 	public void elBarMitzvaTiene1SugerenciaRechazada() {
 		List<Evento> eventos = new ArrayList<Evento>();
-		eventos.addAll(RepositorioEventos.eventosDelUsuario(otroUsuario));
+		eventos.addAll(RepositorioEventos.getInstance().eventosDelUsuario(otroUsuario));
 		eventos.get(0).serSugerido(sugerencias);
-		Assert.assertEquals(1, RepositorioEventos.sugerenciasRechazadasDelUsuario(otroUsuario).size());
+		Assert.assertEquals(1, RepositorioEventos.getInstance().sugerenciasRechazadasDelUsuario(otroUsuario).size());
 	}
 }

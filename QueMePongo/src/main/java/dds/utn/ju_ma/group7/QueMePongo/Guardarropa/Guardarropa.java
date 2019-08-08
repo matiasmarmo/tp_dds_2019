@@ -25,7 +25,7 @@ public class Guardarropa {
 	}
 	
 	private List<Prenda> getPrendasDisponibles(Calendar fechaReferencia) {
-		List<Prenda> prendasOcupadas = RepositorioEventos.obtenerPrendasEnUso(this, fechaReferencia);
+		List<Prenda> prendasOcupadas = RepositorioEventos.getInstance().obtenerPrendasEnUso(this, fechaReferencia);
 		return this.prendas.stream().filter(prenda -> !prendasOcupadas.contains(prenda)).collect(Collectors.toList());
 	}
 

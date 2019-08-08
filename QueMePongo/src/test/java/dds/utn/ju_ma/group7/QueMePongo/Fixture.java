@@ -105,7 +105,7 @@ public class Fixture {
 	public void initFixture() {
 
 		QueMePongoConfiguration.inicializar(1, "", "");
-		RepositorioEventos.vaciar();
+		RepositorioEventos.getInstance().vaciar();
 
 		hace3DiasCalendar = Calendar.getInstance();
 		hace3DiasCalendar.add(Calendar.DATE, -3);
@@ -209,16 +209,16 @@ public class Fixture {
 		fechaLejana.setTime(new Date());
 		fechaLejana.add(Calendar.DATE, 100);
 
-		eventoInvierno = RepositorioEventos.instanciarEventoUnico(usuario, guardarropasVeranoEInvierno, fechaProxima, "Un evento de invierno");
-		eventoVerano = RepositorioEventos.instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
-		irATrabajar = RepositorioEventos.instanciarEventoRepetitivo(usuario, guardarropasVeranoEInvierno, hace3DiasCalendar, "Hay que laburar",
+		eventoInvierno = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVeranoEInvierno, fechaProxima, "Un evento de invierno");
+		eventoVerano = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
+		irATrabajar = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropasVeranoEInvierno, hace3DiasCalendar, "Hay que laburar",
 				TipoRecurrencia.DIARIA);
-		eventoRepetitivoNoProximo = RepositorioEventos.instanciarEventoRepetitivo(usuario, guardarropaCompleto, hace3DiasCalendar,
+		eventoRepetitivoNoProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto, hace3DiasCalendar,
 				"Falta para este", TipoRecurrencia.ANUAL);
-		eventoMensualProximo = RepositorioEventos.instanciarEventoRepetitivo(usuario, guardarropaCompleto, manianaCalendar, "Hay que sugerirlo",
+		eventoMensualProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto, manianaCalendar, "Hay que sugerirlo",
 				TipoRecurrencia.MENSUAL);
-		RepositorioEventos.instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima, "Cumple de 15");
-		RepositorioEventos.instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno, fechaProxima, "Bar Mitzva");
+		RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima, "Cumple de 15");
+		RepositorioEventos.getInstance().instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno, fechaProxima, "Bar Mitzva");
 	}
 
 }

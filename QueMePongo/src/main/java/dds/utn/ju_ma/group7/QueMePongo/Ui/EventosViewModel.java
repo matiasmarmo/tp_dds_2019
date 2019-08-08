@@ -66,7 +66,7 @@ public class EventosViewModel {
 			return;
 		}
 		
-		eventos = RepositorioEventos.obtenerEventosEntreFechas(c1, c2);
+		eventos = RepositorioEventos.getInstance().obtenerEventosEntreFechas(c1, c2);
 		observables = 
 				eventos.stream().map(evento -> new EventoObservable(evento))
 				.collect(Collectors.toList());
