@@ -34,7 +34,4 @@ public class Sensibilidad {
 		this.valores.put(tipo, valor);
 	}
 	
-	public Integer sensibilidadGlobal() {
-		return this.valores.values().stream().mapToInt(valor -> valor).sum();
-	}
 }
