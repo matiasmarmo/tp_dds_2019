@@ -67,7 +67,8 @@ public class RepositorioEventos {
 	public List<Prenda> obtenerPrendasEnUso(Guardarropa guardarropa, Calendar fechaReferencia) {
 		return this.eventos.stream()
 				.filter(evento -> evento.esProximo(fechaReferencia) && evento.fueSugerido(fechaReferencia)
-						&& evento.getGuardarropa() == guardarropa)
+						&& evento.getGuardarropa().esElGuardarropa(guardarropa))
+				
 				.flatMap(evento -> evento.getSugerencias().stream()).filter(sugerencia -> sugerencia.fueAceptada())
 				.flatMap(sugerencia -> sugerencia.getAtuendo().todasLasPrendas().stream()).collect(Collectors.toList());
 	}

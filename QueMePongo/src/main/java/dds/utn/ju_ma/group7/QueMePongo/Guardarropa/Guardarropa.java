@@ -60,4 +60,8 @@ public class Guardarropa {
 	public List<Atuendo> generarAtuendos(Calendar fechaReferencia) {
 		return GeneradorCombinaciones.generarAtuendos(this.getPrendasDisponibles(fechaReferencia));
 	}
+	
+	public boolean esElGuardarropa(Guardarropa guardarropa) {
+		return this == guardarropa;
+	}
 }
