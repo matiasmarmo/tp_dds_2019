@@ -53,6 +53,8 @@ public class Fixture {
 	protected Prenda pantalonNegro;
 	protected PrendaBuilder zapatosNegrosBuilder = new PrendaBuilder();
 	protected Prenda zapatosNegros;
+	protected PrendaBuilder shortBuilder = new PrendaBuilder();
+	protected Prenda unShort;
 	protected PrendaBuilder collarBuilder = new PrendaBuilder();
 	protected Prenda collar;
 
@@ -139,6 +141,9 @@ public class Fixture {
 
 		pantalonNegroBuilder.setTipoPrenda(TipoPrenda.JOGGIN).setTipoTela(TipoTela.NYLON).setColorPrimario(negro);
 		pantalonNegro = pantalonNegroBuilder.crearPrenda();
+		
+		shortBuilder.setTipoPrenda(TipoPrenda.SHORT).setTipoTela(TipoTela.DRY_FIT).setColorPrimario(negro);
+		unShort = shortBuilder.crearPrenda();
 
 		zapatosNegrosBuilder.setTipoPrenda(TipoPrenda.ZAPATILLAS).setTipoTela(TipoTela.NYLON).setColorPrimario(negro);
 		zapatosNegros = zapatosNegrosBuilder.crearPrenda();
@@ -173,7 +178,7 @@ public class Fixture {
 		prendasSupFuerte.add(remeraNegra);
 		prendasSupFuerte.add(buzo);
 
-		atuendoNegro = new Atuendo(prendasSupPobre, pantalonNegro, zapatosNegros, collar);
+		atuendoNegro = new Atuendo(prendasSupPobre, unShort, zapatosNegros, collar);
 		atuendoNegroConBuzo = new Atuendo(prendasSupFuerte, pantalonNegro, zapatosNegros, collar);
 
 		atuendosSoloVerano.add(atuendoNegro);

@@ -10,13 +10,13 @@ import org.junit.Assert;
 public class AtuendoTest extends Fixture {
 	
 	@Test
-	public void elAtuendoSinBuzoTieneNivelDeAbrigo40() { 
-		Assert.assertEquals(40, atuendoNegro.getNivelAbrigo());
+	public void elAtuendoSinBuzoTieneNivelDeAbrigo37() { 
+		Assert.assertEquals(37, atuendoNegro.getNivelAbrigo());
 	}
 
 	@Test
-	public void elAtuendoConBuzoTieneNivelDeAbrigo70() {
-		Assert.assertEquals(70, atuendoNegroConBuzo.getNivelAbrigo());
+	public void elAtuendoConBuzoTieneNivelDeAbrigo72() {
+		Assert.assertEquals(72, atuendoNegroConBuzo.getNivelAbrigo());
 	}
 	
 	@Test
@@ -42,7 +42,14 @@ public class AtuendoTest extends Fixture {
 	@Test
 	public void usuarioSensibleUsaBuzoCuandoHaceCalor() {
 		Sensibilidad sensibilidad = new Sensibilidad();
-		sensibilidad.setNivelSensibilidad(ParteCuerpo.CABEZA, 50);
+		sensibilidad.setNivelSensibilidad(ParteCuerpo.TORSO, 50);
 		Assert.assertTrue(atuendoNegroConBuzo.esAdecuadoATemperatura(25, sensibilidad));
+	}
+	
+	@Test
+	public void usuarioCalurosoNoSeAbrigaCuandoHaceFrio() {
+		Sensibilidad sensibilidad = new Sensibilidad();
+		sensibilidad.setNivelSensibilidad(ParteCuerpo.TORSO, 50);
+		Assert.assertFalse(atuendoNegroConBuzo.esAdecuadoATemperatura(10, sensibilidad));
 	}
 }

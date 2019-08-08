@@ -92,7 +92,6 @@ public class Atuendo {
 	public boolean esAdecuadoATemperatura(double temperatura, Sensibilidad sensibilidad) {
 		Map<ParteCuerpo, List<Prenda>> prendasPorParteCuerpo = this.obtenerPrendasPorParteCuerpo();
 		this.todasLasPrendas().forEach(prenda -> prendasPorParteCuerpo.get(prenda.getParteCuerpo()).add(prenda));
-		prendasPorParteCuerpo.entrySet().forEach(entry -> entry.getValue().forEach(prendas -> System.out.println(prendas.getTipoPrenda().toString())));
 		double temperaturaInterpolada = this.interpolacionTemperatura(temperatura);
 		boolean resultado = prendasPorParteCuerpo.entrySet().stream()
 				.allMatch(entry -> this.prendasParaParteCuerpoAdecuadas(entry.getKey(), entry.getValue(), temperaturaInterpolada, sensibilidad));
