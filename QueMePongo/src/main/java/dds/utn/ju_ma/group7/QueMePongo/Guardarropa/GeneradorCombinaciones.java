@@ -51,6 +51,14 @@ public class GeneradorCombinaciones {
 	}
 
 	public static Stream<Atuendo> generarStreamDeAtuendos(List<Prenda> prendas) {
+		Set<List<InterfazPrenda>> productoCartesiano = generarSubconjuntoDePrendas(prendas);
+		return productoCartesiano.stream()
+				.map(combinacion -> GeneradorCombinaciones.sacarPrendaNulaDeCombinacion(combinacion))
+				.filter(combinacion -> combinacion.size() >= 4)
+				.map(combinacion -> GeneradorCombinaciones.contruirAtuendoDesdeCombinacion(combinacion));
+	}
+
+	private static Set<List<InterfazPrenda>> generarSubconjuntoDePrendas(List<Prenda> prendas) {
 		List<Set<InterfazPrenda>> subconjuntosDePrendas = new ArrayList<>();
 		List<Set<InterfazPrenda>> combinacionesPrendasSuperiores = GeneradorCombinaciones
 				.generarCombinacionesDePrendasSuperiores(prendas);
@@ -65,10 +73,7 @@ public class GeneradorCombinaciones {
 		subconjuntosDePrendas.add(0, prendasInferiores);
 		subconjuntosDePrendas.addAll(combinacionesPrendasSuperiores);
 		Set<List<InterfazPrenda>> productoCartesiano = Sets.cartesianProduct(subconjuntosDePrendas);
-		return productoCartesiano.stream()
-				.map(combinacion -> GeneradorCombinaciones.sacarPrendaNulaDeCombinacion(combinacion))
-				.filter(combinacion -> combinacion.size() >= 4)
-				.map(combinacion -> GeneradorCombinaciones.contruirAtuendoDesdeCombinacion(combinacion));
+		return productoCartesiano;
 	}
 
 	public static List<Atuendo> generarAtuendos(List<Prenda> prendas) {
