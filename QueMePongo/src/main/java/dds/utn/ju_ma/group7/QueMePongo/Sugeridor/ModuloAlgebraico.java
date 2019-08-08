@@ -2,7 +2,9 @@ package dds.utn.ju_ma.group7.QueMePongo.Sugeridor;
 
 import java.util.Calendar;
 
-public abstract class ModuloAlgebraico {
+public class ModuloAlgebraico {
+	
+	private ModuloAlgebraico() {};
 
 	public static double truncarADosDecimales(double numero) {
 		return Math.floor(numero * 100) / 100;
