@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.json.JsonObject;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.mockito.junit.MockitoJUnit;
@@ -115,11 +116,15 @@ public class Fixture {
 	
 	@Rule public MockitoRule Rule = MockitoJUnit.rule();
 	
+	@After
+	public void after() {
+		RepositorioEventos.getInstance().vaciar();
+	}
+	
 	@Before
 	public void initFixture() {
 
 		QueMePongoConfiguration.inicializar(1, "", "");
-		RepositorioEventos.getInstance().vaciar();
 
 		hace3DiasCalendar = Calendar.getInstance();
 		hace3DiasCalendar.add(Calendar.DATE, -3);
