@@ -118,4 +118,14 @@ public class EventoRepetitivo implements Evento {
 		resultado.addAll(this.instanciasNoConocidasEnIntervalo(fechaInicio, fechaFin));
 		return resultado;
 	}
+	
+	@Override
+	public boolean suGuardarropasEs(Guardarropa guardarropa) {
+		return this.guardarropa == guardarropa;
+	}
+
+	@Override
+	public boolean esEnFecha(Calendar fecha) {
+		return this.fechaSiguienteInstancia(fecha).compareTo(fecha) == 0;
+	}
 }

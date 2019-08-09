@@ -54,7 +54,4 @@ public class Guardarropa {
 		return GeneradorCombinaciones.generarAtuendos(this.getPrendasDisponibles(fechaReferencia));
 	}
 
-	public boolean esElGuardarropa(Guardarropa guardarropa) {
-		return this == guardarropa;
-	}
 }

@@ -99,4 +99,14 @@ public class EventoUnico implements Evento {
 		return this.usuario == usuario;
 	}
 
+	@Override
+	public boolean suGuardarropasEs(Guardarropa guardarropa) {
+		return this.guardarropa == guardarropa;
+	}
+
+	@Override
+	public boolean esEnFecha(Calendar fecha) {
+		return this.fecha.compareTo(fecha) == 0;
+	}
+
 }

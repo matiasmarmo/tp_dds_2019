@@ -29,5 +29,9 @@ public interface Evento {
 	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin);
 	
 	public List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia);
+	
+	public boolean suGuardarropasEs(Guardarropa guardarropa);
+	
+	public boolean esEnFecha(Calendar fecha);
 
 }
