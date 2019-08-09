@@ -68,9 +68,9 @@ public class GeneradorCombinaciones {
 				CategoriaPrenda.CALZADO);
 		Set<InterfazPrenda> accesorios = GeneradorCombinaciones.filtrarPrendasPorCategoria(prendas,
 				CategoriaPrenda.ACCESORIO);
-		subconjuntosDePrendas.add(0, accesorios);
-		subconjuntosDePrendas.add(0, calzados);
-		subconjuntosDePrendas.add(0, prendasInferiores);
+		subconjuntosDePrendas.add(accesorios);
+		subconjuntosDePrendas.add(calzados);
+		subconjuntosDePrendas.add(prendasInferiores);
 		subconjuntosDePrendas.addAll(combinacionesPrendasSuperiores);
 		Set<List<InterfazPrenda>> productoCartesiano = Sets.cartesianProduct(subconjuntosDePrendas);
 		return productoCartesiano;
