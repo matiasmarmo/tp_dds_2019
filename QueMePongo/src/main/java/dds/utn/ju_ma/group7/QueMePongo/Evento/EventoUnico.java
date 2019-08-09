@@ -10,12 +10,10 @@ import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
-public class EventoUnico implements Evento {
+public class EventoUnico extends Evento {
+	
 	private Calendar fecha;
-	private String descripcion;
 	private List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
-	private Usuario usuario;
-	private Guardarropa guardarropa;
 
 	public EventoUnico(Usuario usuario, Guardarropa guardarropa, Calendar fecha, String descripcion) {
 		this.usuario = usuario;
@@ -35,11 +33,11 @@ public class EventoUnico implements Evento {
 	}
 	
 	public boolean esPosteriorA(Calendar unaFecha) {
-		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) > 0;
+		return this.diasEntreFechas(unaFecha, this.fecha) > 0;
 	}
 	
 	public boolean esAnteriorA(Calendar unaFecha) {
-		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) <= 0;
+		return this.diasEntreFechas(unaFecha, this.fecha) <= 0;
 	}
 
 	@Override
@@ -47,23 +45,8 @@ public class EventoUnico implements Evento {
 		return fecha;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	@Override
 	public List<Sugerencia> getSugerencias() {
 		return sugerencias;
-	}
-
-	@Override
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	@Override
-	public Guardarropa getGuardarropa() {
-		return guardarropa;
 	}
 
 	@Override
@@ -93,15 +76,6 @@ public class EventoUnico implements Evento {
 			resultado.add(this);
 		}
 		return resultado;
-	}
-
-	public boolean esDeUsuario(Usuario usuario) {
-		return this.usuario == usuario;
-	}
-
-	@Override
-	public boolean suGuardarropasEs(Guardarropa guardarropa) {
-		return this.guardarropa == guardarropa;
 	}
 
 	@Override

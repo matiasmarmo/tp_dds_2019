@@ -1,37 +1,56 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
-public interface Evento {
+public abstract class Evento {
 	
-	public boolean esProximo(Calendar unaFecha);
+	protected String descripcion;
+	protected Usuario usuario;
+	protected Guardarropa guardarropa; 
 	
-	public boolean fueSugerido(Calendar fechaReferencia);
+	public boolean esDeUsuario(Usuario usuario) {
+		return this.usuario == usuario;
+	}
 	
-	public void serSugerido(List<Sugerencia> sugerencias);
+	public String getDescripcion() {
+		return this.descripcion;
+	}
 	
-	public boolean esDeUsuario(Usuario usuario);
+	public abstract Calendar getProximaFecha();
 	
-	public List<Sugerencia> getSugerencias();
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public Guardarropa getGuardarropa() {
+		return guardarropa;
+	}
 	
-	public Calendar getProximaFecha();
+	public boolean suGuardarropasEs(Guardarropa guardarropa) {
+		return this.guardarropa == guardarropa;
+	}
 	
-	public Guardarropa getGuardarropa();
+	protected long diasEntreFechas(Calendar unaFecha, Calendar otraFecha) {
+		return ChronoUnit.DAYS.between(unaFecha.toInstant(), otraFecha.toInstant());
+	}
 	
-	public String getDescripcion();
+	public abstract boolean esProximo(Calendar unaFecha);
 	
-	public Usuario getUsuario();
+	public abstract boolean fueSugerido(Calendar fechaReferencia);
 	
-	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin);
+	public abstract void serSugerido(List<Sugerencia> sugerencias);
+
+	public abstract List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin);
 	
-	public List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia);
+	public abstract List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia);
 	
-	public boolean suGuardarropasEs(Guardarropa guardarropa);
+	public abstract List<Sugerencia> getSugerencias();
 	
-	public boolean esEnFecha(Calendar fecha);
+	public abstract boolean esEnFecha(Calendar fecha);
 
 }
