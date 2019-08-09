@@ -18,7 +18,7 @@ public interface Evento {
 	
 	public List<Sugerencia> getSugerencias();
 	
-	public Calendar getProximaFecha(Calendar fechaMinima);
+	public Calendar getProximaFecha();
 	
 	public Guardarropa getGuardarropa();
 	

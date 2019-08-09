@@ -10,115 +10,87 @@ import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class EventoRepetitivo implements Evento {
-	
+
 	private Usuario usuario;
 	private Guardarropa guardarropa;
 	private String descripcion;
-	private Calendar fechaInicio;
+	private Calendar fechaUltimaInstancia;
 	private TipoRecurrencia tipoRecurrencia;
-	private List<EventoUnico> instancias;
-	
-	public EventoRepetitivo(Usuario usuario, Guardarropa guardarropa, String descripcion, Calendar fechaInicio, TipoRecurrencia tipoRecurrencia) {
+
+	public EventoRepetitivo(Usuario usuario, Guardarropa guardarropa, String descripcion, Calendar fechaInicio,
+			TipoRecurrencia tipoRecurrencia) {
 		this.usuario = usuario;
 		this.guardarropa = guardarropa;
 		this.descripcion = descripcion;
-		this.fechaInicio = fechaInicio;
+		this.fechaUltimaInstancia = fechaInicio;
 		this.tipoRecurrencia = tipoRecurrencia;
-		this.instancias = new ArrayList<EventoUnico>();
-		this.cargarSiguienteInstancia(this.fechaInicio);
 	}
-	
+
 	@Override
 	public Guardarropa getGuardarropa() {
 		return this.guardarropa;
 	}
-	
+
 	@Override
 	public Usuario getUsuario() {
 		return usuario;
 	}
-	
+
 	@Override
 	public String getDescripcion() {
 		return this.descripcion;
 	}
-	
-	private EventoUnico getUltimaInstanciaRegistrada() {
-		return this.instancias.get(this.instancias.size() - 1);
-	}
-	
-	private EventoUnico obtenerProximaInstancia(Calendar fechaMinima) {
-		if(this.instancias.isEmpty() || this.getUltimaInstanciaRegistrada().esPosteriorA(fechaMinima)) {
-			this.cargarSiguienteInstancia(fechaMinima);
-		}
-	
-		return this.instancias.get(this.instancias.size() - 1);
-	}
-	
-	private Calendar fechaSiguienteInstancia(Calendar fechaMinima) {
-		return this.tipoRecurrencia.obtenerFechaSiguienteIntancia(this.fechaInicio, fechaMinima);
-	}
-	
-	private void cargarSiguienteInstancia(Calendar fechaMinima) {
-		Calendar fechaSiguienteInstancia = this.fechaSiguienteInstancia(fechaMinima);
-		EventoUnico siguienteInstancia = new EventoUnico(this.usuario, this.guardarropa, fechaSiguienteInstancia, this.descripcion);
-		this.instancias.add(siguienteInstancia);
-	}
-	
-	@Override
-	public boolean esProximo(Calendar unaFecha) {
-		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fechaSiguienteInstancia(unaFecha).toInstant()) < 5;
-	}
-	
-	@Override
-	public boolean fueSugerido(Calendar fechaActual) {
-		EventoUnico proximaInstancia = this.obtenerProximaInstancia(fechaActual);
-		return proximaInstancia.fueSugerido(fechaActual);
+
+	private Calendar fechaSiguienteInstancia() {
+		return this.tipoRecurrencia.obtenerFechaSiguienteIntancia(this.fechaUltimaInstancia);
 	}
 
-	public void serSugerido(List<Sugerencia> sugerencias, Calendar fechaReferencia) {
-		this.obtenerProximaInstancia(fechaReferencia).serSugerido(sugerencias);
+	@Override
+	public boolean esProximo(Calendar unaFecha) {
+		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fechaSiguienteInstancia().toInstant()) < 5;
 	}
-	
+
+	@Override
+	public boolean fueSugerido(Calendar fechaActual) {
+		return false;
+	}
+
 	@Override
 	public void serSugerido(List<Sugerencia> sugerencias) {
-		this.serSugerido(sugerencias, Calendar.getInstance());
+		Calendar fechaSiguiente = this.fechaSiguienteInstancia();
+		EventoUnico instancia = RepositorioEventos.getInstance().instanciarEventoUnico(this.usuario, this.guardarropa,
+				fechaSiguiente, this.descripcion);
+		instancia.serSugerido(sugerencias);
+		this.fechaUltimaInstancia = fechaSiguiente;
 	}
 
 	@Override
 	public boolean esDeUsuario(Usuario usuario) {
 		return this.usuario == usuario;
 	}
-	
+
 	@Override
 	public List<Sugerencia> getSugerencias() {
-		return this.instancias.stream().flatMap(evento -> evento.getSugerencias().stream()).collect(Collectors.toList());
+		return new ArrayList<Sugerencia>();
 	}
-	
+
 	@Override
-	public Calendar getProximaFecha(Calendar fechaMinima) {
-		return this.fechaSiguienteInstancia(fechaMinima);
+	public Calendar getProximaFecha() {
+		return this.fechaSiguienteInstancia();
 	}
-	
-	private List<EventoUnico> instanciasNoConocidasEnIntervalo(Calendar fechaInicio, Calendar fechaFin) {
-		List <Calendar> fechas = this.tipoRecurrencia.todasLasFechasEnIntervalo(this.fechaInicio, fechaInicio, fechaFin);
-		return fechas.stream()
+
+	public List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia) {
+		return new ArrayList<Sugerencia>();
+	}
+
+	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
+		List<Calendar> fechas = this.tipoRecurrencia.todasLasFechasEnIntervalo(this.fechaUltimaInstancia, fechaFin);
+		List<EventoUnico> resultado = fechas.stream()
 				.map(fecha -> new EventoUnico(this.usuario, this.guardarropa, fecha, this.descripcion))
 				.collect(Collectors.toList());
-	}
-	
-	public List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia) {
-		return this.obtenerProximaInstancia(fechaReferencia).getSugerenciasAceptadas(fechaReferencia);
-	}
-	
-	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
-		List<EventoUnico> resultado = this.instancias.stream()
-				.flatMap(eventoUnico -> eventoUnico.instanciasEntreFechas(fechaInicio, fechaFin).stream())
-				.collect(Collectors.toList());
-		resultado.addAll(this.instanciasNoConocidasEnIntervalo(fechaInicio, fechaFin));
 		return resultado;
 	}
-	
+
 	@Override
 	public boolean suGuardarropasEs(Guardarropa guardarropa) {
 		return this.guardarropa == guardarropa;
@@ -126,6 +98,6 @@ public class EventoRepetitivo implements Evento {
 
 	@Override
 	public boolean esEnFecha(Calendar fecha) {
-		return this.fechaSiguienteInstancia(fecha).compareTo(fecha) == 0;
+		return this.fechaSiguienteInstancia().compareTo(fecha) == 0;
 	}
 }

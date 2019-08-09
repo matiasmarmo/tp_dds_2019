@@ -18,20 +18,18 @@ public enum TipoRecurrencia {
 		ANUAL.campoSumaCalendar = Calendar.YEAR;
 	}
 	
-	public Calendar obtenerFechaSiguienteIntancia(Calendar fechaInicioEventoRecurrente, Calendar fechaMinimaInstancia) {
-		Calendar nuevaInstancia = (Calendar) fechaInicioEventoRecurrente.clone();
-		while(nuevaInstancia.before(fechaMinimaInstancia) || nuevaInstancia.equals(fechaMinimaInstancia)) {
-			nuevaInstancia.add(this.campoSumaCalendar, 1);
-		}
+	public Calendar obtenerFechaSiguienteIntancia(Calendar fechaUltimaInstancia) {
+		Calendar nuevaInstancia = (Calendar) fechaUltimaInstancia.clone();
+		nuevaInstancia.add(this.campoSumaCalendar, 1);
 		return nuevaInstancia;
 	}
 	
-	public List<Calendar> todasLasFechasEnIntervalo(Calendar fechaInicioEventoRecurrente, Calendar fechaInicio, Calendar fechaFin) {
+	public List<Calendar> todasLasFechasEnIntervalo(Calendar fechaUltimaInstancia, Calendar fechaFin) {
 		List<Calendar> resultado = new ArrayList<Calendar>();
-		Calendar temporal = (Calendar) fechaInicio.clone();
-		while(ChronoUnit.DAYS.between(fechaFin.toInstant(), temporal.toInstant()) < 0) {
-			temporal = this.obtenerFechaSiguienteIntancia(fechaInicioEventoRecurrente, temporal);
+		Calendar temporal = fechaUltimaInstancia;
+		while(ChronoUnit.DAYS.between(fechaFin.toInstant(), temporal.toInstant()) <= 0) {
 			resultado.add(temporal);
+			temporal = this.obtenerFechaSiguienteIntancia(temporal);
 		}
 		return resultado;
 	}

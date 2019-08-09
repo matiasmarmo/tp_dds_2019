@@ -43,7 +43,7 @@ public class EventoUnico implements Evento {
 	}
 
 	@Override
-	public Calendar getProximaFecha(Calendar fechaMinima) {
+	public Calendar getProximaFecha() {
 		return fecha;
 	}
 
