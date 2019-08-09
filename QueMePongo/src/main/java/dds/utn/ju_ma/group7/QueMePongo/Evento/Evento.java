@@ -27,5 +27,7 @@ public interface Evento {
 	public Usuario getUsuario();
 	
 	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin);
+	
+	public List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia);
 
 }

@@ -1,6 +1,9 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
+import java.util.List;
+
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
+import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 
 public class Sugerencia {
 	private final Atuendo atuendo;
@@ -9,6 +12,10 @@ public class Sugerencia {
 	public Sugerencia(Atuendo atuendo) {
 		this.atuendo = atuendo;
 		this.estado = EstadoSugerencia.PENDIENTE;
+	}
+	
+	public List<Prenda> todasLasPrendas() {
+		return this.atuendo.todasLasPrendas();
 	}
 	
 	public Atuendo getAtuendo() {

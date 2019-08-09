@@ -64,13 +64,13 @@ public class RepositorioEventos {
 				.filter(sugerencia -> sugerencia.esDeEstado(EstadoSugerencia.RECHAZADA)).collect(Collectors.toList());
 	}
 
-	public List<Prenda> obtenerPrendasEnUso(Guardarropa guardarropa, Calendar fechaReferencia) {
+	public List<Evento> obtenerEventosSugeridosDeUnGuardarropasParaFecha(Guardarropa guardarropa, Calendar fechaReferencia) {
 		return this.eventos.stream()
-				.filter(evento -> evento.esProximo(fechaReferencia) && evento.fueSugerido(fechaReferencia)
-						&& evento.getGuardarropa().esElGuardarropa(guardarropa))
+				.filter(evento -> evento.getProximaFecha(fechaReferencia).compareTo(fechaReferencia) == 0 && evento.fueSugerido(fechaReferencia)
+						&& evento.getGuardarropa().esElGuardarropa(guardarropa)).collect(Collectors.toList());
 				
-				.flatMap(evento -> evento.getSugerencias().stream()).filter(sugerencia -> sugerencia.fueAceptada())
-				.flatMap(sugerencia -> sugerencia.getAtuendo().todasLasPrendas().stream()).collect(Collectors.toList());
+//				.flatMap(evento -> evento.getSugerencias().stream()).filter(sugerencia -> sugerencia.fueAceptada())
+//				.flatMap(sugerencia -> sugerencia.getAtuendo().todasLasPrendas().stream()).collect(Collectors.toList());
 	}
 
 	public List<EventoUnico> obtenerEventosEntreFechas(Calendar fechaInicio, Calendar fechaFin) {

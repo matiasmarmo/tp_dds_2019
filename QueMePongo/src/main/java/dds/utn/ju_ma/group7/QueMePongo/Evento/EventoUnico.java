@@ -4,6 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
@@ -78,6 +79,11 @@ public class EventoUnico implements Evento {
 			this.sugerencias = sugerencias;
 		}
 		this.usuario.notificar(this, "Tenés nuevas sugerencias!");
+	}
+	
+	@Override
+	public List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia) {
+		return this.sugerencias.stream().filter(sugerencia -> sugerencia.fueAceptada()).collect(Collectors.toList());
 	}
 	
 	@Override

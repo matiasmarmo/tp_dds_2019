@@ -19,9 +19,13 @@ public class Guardarropa {
 		this.prendas = new ArrayList<Prenda>();
 		usuarioCreador.agregarGuardarropa(this);
 	}
-	
+
 	private List<Prenda> getPrendasDisponibles(Calendar fechaReferencia) {
-		List<Prenda> prendasOcupadas = RepositorioEventos.getInstance().obtenerPrendasEnUso(this, fechaReferencia);
+		List<Prenda> prendasOcupadas = RepositorioEventos.getInstance()
+				.obtenerEventosSugeridosDeUnGuardarropasParaFecha(this, fechaReferencia)
+				.stream().flatMap(evento -> evento.getSugerenciasAceptadas(fechaReferencia).stream())
+				.flatMap(sugerencia -> sugerencia.todasLasPrendas().stream())
+				.collect(Collectors.toList());
 		return this.prendas.stream().filter(prenda -> !prendasOcupadas.contains(prenda)).collect(Collectors.toList());
 	}
 
@@ -37,7 +41,7 @@ public class Guardarropa {
 		prenda.setImagen(imagen);
 		this.agregarPrenda(prenda);
 	}
-	
+
 	public boolean usuarioTieneAcceso(Usuario usuarioBuscado) {
 		return usuarioBuscado.esDuenioDeGuardarropas(this);
 	}
@@ -49,7 +53,7 @@ public class Guardarropa {
 	public List<Atuendo> generarAtuendos(Calendar fechaReferencia) {
 		return GeneradorCombinaciones.generarAtuendos(this.getPrendasDisponibles(fechaReferencia));
 	}
-	
+
 	public boolean esElGuardarropa(Guardarropa guardarropa) {
 		return this == guardarropa;
 	}

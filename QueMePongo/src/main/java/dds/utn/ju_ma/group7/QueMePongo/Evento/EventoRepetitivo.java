@@ -107,6 +107,10 @@ public class EventoRepetitivo implements Evento {
 				.collect(Collectors.toList());
 	}
 	
+	public List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia) {
+		return this.obtenerProximaInstancia(fechaReferencia).getSugerenciasAceptadas(fechaReferencia);
+	}
+	
 	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
 		List<EventoUnico> resultado = this.instancias.stream()
 				.flatMap(eventoUnico -> eventoUnico.instanciasEntreFechas(fechaInicio, fechaFin).stream())

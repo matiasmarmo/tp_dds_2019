@@ -1,5 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
+import static org.mockito.Mockito.mock;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -10,9 +12,6 @@ import javax.json.JsonObject;
 
 import org.junit.Before;
 import org.junit.Rule;
-import static org.mockito.Mockito.mock;
-
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
