@@ -14,7 +14,7 @@ public class UiTest extends Fixture {
 	}
 
 	@Test
-	public void entreHaceTresDiasYManianaHayOchoEventos() {
+	public void entreHaceTresDiasYManianaHaySeisEventos() {
 		SimpleDateFormat fecha1 = new SimpleDateFormat("yyyy-MM-dd");
 		String minus = fecha1.format(hace3DiasCalendar.getTime()); 
 		SimpleDateFormat fecha2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -25,6 +25,6 @@ public class UiTest extends Fixture {
 		viewModel.setFechaFin(plus);
 		viewModel.cargarEventos();
 		
-		Assert.assertEquals(8, viewModel.getA().size());
+		Assert.assertEquals(6, viewModel.getA().size());
 	}
 }

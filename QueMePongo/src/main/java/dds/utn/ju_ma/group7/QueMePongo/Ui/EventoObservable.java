@@ -15,7 +15,7 @@ public class EventoObservable {
 	private String fueSugerido;
 	
 	public EventoObservable(EventoUnico evento) {
-		this.fecha = evento.getProximaFecha(Calendar.getInstance());
+		this.fecha = evento.getProximaFecha();
 		this.descripcion = evento.getDescripcion();
 		this.fueSugerido = 
 				evento.fueSugerido(Calendar.getInstance()) ? "Si" : "No";

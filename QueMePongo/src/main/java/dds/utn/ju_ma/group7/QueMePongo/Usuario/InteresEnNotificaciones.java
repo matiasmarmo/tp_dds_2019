@@ -19,7 +19,7 @@ public abstract class InteresEnNotificaciones {
 	
 	protected String generarTextoNotificacionSugerencia(EventoUnico evento, String notificacion) {
 		return "Evento: " + evento.getDescripcion() + "\n" +
-				"Fecha: " + this.fechaString(evento.getProximaFecha(Calendar.getInstance())) + "\n" +
+				"Fecha: " + this.fechaString(evento.getProximaFecha()) + "\n" +
 				notificacion + "\n";
 	}
 	

@@ -227,13 +227,12 @@ public class Fixture {
 		eventoVerano = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
 		irATrabajar = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropasVeranoEInvierno, hace3DiasCalendar, "Hay que laburar",
 				TipoRecurrencia.DIARIA);
-		eventoRepetitivoNoProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto, hace3DiasCalendar,
+		eventoRepetitivoNoProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto, fechaLejana,
 				"Falta para este", TipoRecurrencia.ANUAL);
 		eventoMensualProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto, manianaCalendar, "Hay que sugerirlo",
 				TipoRecurrencia.MENSUAL);
 		RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima, "Cumple de 15");
 		RepositorioEventos.getInstance().instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno, fechaProxima, "Bar Mitzva");
-
 		proveedorMock = mock(OpenWeatherMapProveedor.class);
 		estadoDelClimaMock = mock(EstadoDelClima.class);
 		clima = mock(JsonObject.class);
