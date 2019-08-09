@@ -2,9 +2,7 @@ package dds.utn.ju_ma.group7.QueMePongo.Guardarropa;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,12 +14,10 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 public class Guardarropa {
 
 	protected List<Prenda> prendas;
-	private Set<Usuario> usuarios;
 
 	public Guardarropa(Usuario usuarioCreador) {
 		this.prendas = new ArrayList<Prenda>();
-		this.usuarios = new HashSet<Usuario>();
-		this.agregarUsuario(usuarioCreador);
+		usuarioCreador.agregarGuardarropa(this);
 	}
 	
 	private List<Prenda> getPrendasDisponibles(Calendar fechaReferencia) {
@@ -43,14 +39,7 @@ public class Guardarropa {
 	}
 	
 	public boolean usuarioTieneAcceso(Usuario usuarioBuscado) {
-		return this.usuarios.stream().anyMatch(unUsuario -> unUsuario == usuarioBuscado);
-	}
-	
-	public void agregarUsuario(Usuario nuevoUsuario) {
-		this.usuarios.add(nuevoUsuario);
-		if(!nuevoUsuario.tieneAccesoAGuardarropas(this)) {
-			nuevoUsuario.agregarGuardarropa(this);
-		}
+		return usuarioBuscado.esDuenioDeGuardarropas(this);
 	}
 
 	public Stream<Atuendo> generarStreamDeAtuendos() {

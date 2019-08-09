@@ -201,7 +201,7 @@ public class Fixture {
 		atuendosVeranoEinvierno.add(atuendoNegroConBuzo);
 
 		guardarropaCompartido = new GuardarropaLimitado(usuario);
-		guardarropaCompartido.agregarUsuario(otroUsuario);
+		otroUsuario.agregarGuardarropa(guardarropaCompartido);
 
 		guardarropasVerano = new Guardarropa(usuario);
 		guardarropasVerano.agregarPrenda(remeraNegra);

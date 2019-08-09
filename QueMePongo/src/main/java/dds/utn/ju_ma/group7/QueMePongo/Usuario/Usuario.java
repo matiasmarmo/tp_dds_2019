@@ -27,9 +27,6 @@ public abstract class Usuario {
 	public void agregarGuardarropa(Guardarropa guardarropa) {
 		this.verificarGuardarropas(guardarropa);
 		this.guardarropas.add(guardarropa);
-		if(!guardarropa.usuarioTieneAcceso(this)) {
-			guardarropa.agregarUsuario(this);
-		}
 	}
 	
 	public Sensibilidad getSensibilidad() {
@@ -63,6 +60,10 @@ public abstract class Usuario {
 	
 	public void notificarAlerta(Calendar fecha, TipoAlerta alerta) {
 		this.notificadores.forEach(notificador -> notificador.notificarAlerta(fecha, alerta));
+	}
+	
+	public boolean esDuenioDeGuardarropas(Guardarropa guardarropa) {
+		return this.guardarropas.contains(guardarropa);
 	}
 
 }
