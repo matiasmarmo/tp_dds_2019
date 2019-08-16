@@ -16,9 +16,13 @@ import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;;
 
 public class MailSender extends InteresEnNotificaciones {
 	private String destinatario;
+	private String username;
+	private String password;
 	
 	public MailSender(String mail) {
 		this.destinatario = mail;
+		this.username = QueMePongoConfiguration.instance().getMailAccount();
+		this.password = QueMePongoConfiguration.instance().getMailPassword();
 	}
 	
 	public void notificar(EventoUnico evento, String notificacion) {
@@ -26,10 +30,16 @@ public class MailSender extends InteresEnNotificaciones {
 		this.enviarMail(cuerpoMail);
 	}
 	
-	private void enviarMail(String notificacion) {   
-		String username = QueMePongoConfiguration.instance().getMailAccount();
-		String password = QueMePongoConfiguration.instance().getMailPassword();
-		
+	private void enviarMail(String notificacion) {           
+		Session session = crearSession();
+       
+        MimeMessage mensaje = new MimeMessage(session);
+        
+        armarMensaje(mensaje, notificacion);
+        enviarMensaje(session, mensaje);
+	}
+	
+	private Session crearSession() {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
@@ -38,13 +48,22 @@ public class MailSender extends InteresEnNotificaciones {
         props.put("mail.smtp.user", username);
         props.put("mail.smtp.clave", password);
         
-        Session session = Session.getDefaultInstance(props);
-        MimeMessage mensaje = new MimeMessage(session);
-        try{
-            mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
-            mensaje.setSubject("Nuevas sugerencias han llegado!");
-            mensaje.setText(notificacion);
-            Transport transport = session.getTransport("smtp");
+        return Session.getDefaultInstance(props);
+	}
+	
+	private void armarMensaje(MimeMessage mensaje, String notificacion) {
+		try {
+			mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
+	        mensaje.setSubject("Nuevas sugerencias han llegado!");
+	        mensaje.setText(notificacion);
+		}catch (Exception e){
+        	throw new NotificationError("No se pudo armar el mensaje");
+        } 
+	}
+	
+	private void enviarMensaje(Session session, MimeMessage mensaje) {
+		try {
+			Transport transport = session.getTransport("smtp");
             transport.connect("smtp.gmail.com", username, password);
             transport.sendMessage(mensaje, mensaje.getAllRecipients());
             transport.close();
