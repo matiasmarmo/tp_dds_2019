@@ -11,7 +11,8 @@ import javax.mail.internet.MimeMessage;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
-import dds.utn.ju_ma.group7.QueMePongo.Excepciones.NotificationError;;
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.NotificationError;
+import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;;
 
 public class MailSender extends InteresEnNotificaciones {
 	private String destinatario;
@@ -25,27 +26,26 @@ public class MailSender extends InteresEnNotificaciones {
 		this.enviarMail(cuerpoMail);
 	}
 	
-	private void enviarMail(String notificacion) {
-		String remitente = "losmallocos@gmail.com";
-        String clave = "los5mallocos.";
-        
+	private void enviarMail(String notificacion) {   
+		String username = QueMePongoConfiguration.instance().getMailAccount();
+		String password = QueMePongoConfiguration.instance().getMailPassword();
+		
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.user", remitente);
-        props.put("mail.smtp.clave", clave);
+        props.put("mail.smtp.user", username);
+        props.put("mail.smtp.clave", password);
         
         Session session = Session.getDefaultInstance(props);
         MimeMessage mensaje = new MimeMessage(session);
-        
         try{
             mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
             mensaje.setSubject("Nuevas sugerencias han llegado!");
             mensaje.setText(notificacion);
             Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", remitente, clave);
+            transport.connect("smtp.gmail.com", username, password);
             transport.sendMessage(mensaje, mensaje.getAllRecipients());
             transport.close();
         }catch (Exception e){

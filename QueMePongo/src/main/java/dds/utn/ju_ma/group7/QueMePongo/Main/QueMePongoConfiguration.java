@@ -22,6 +22,8 @@ public class QueMePongoConfiguration {
 	private int limiteGuardarropasLimitado;
 	private String igUsername;
 	private String igPassword;
+	private String mailAccount = "losmallocos@gmail.com";
+	private String mailPassword = "los5mallocos.";
 	
 	private QueMePongoConfiguration(int limiteGuardarropasLimitado, String igUsername, String igPassword) {
 		this.limiteGuardarropasLimitado = limiteGuardarropasLimitado;
@@ -36,11 +38,18 @@ public class QueMePongoConfiguration {
 	public String getIgUsername() {
 		return igUsername;
 	}
-
+	
 	public String getIgPassword() {
 		return igPassword;
 	}
+
+	public String getMailAccount() {
+		return mailAccount;
+	}
 	
+	public String getMailPassword() {
+		return mailPassword;
+	}
 	
 
 }
