@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -29,11 +30,11 @@ public abstract class Usuario {
 	@GeneratedValue
 	private Long id;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private Set<Guardarropa> guardarropas;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Sensibilidad sensibilidad;
-	@OneToMany
+	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id")
 	private List<InteresEnNotificaciones> notificadores;
 	
