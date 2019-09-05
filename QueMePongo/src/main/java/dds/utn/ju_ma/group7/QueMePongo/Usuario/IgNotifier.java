@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 import org.apache.http.client.ClientProtocolException;
 import org.brunocvcunha.instagram4j.Instagram4j;
 import org.brunocvcunha.instagram4j.requests.InstagramDirectShareRequest;
@@ -18,7 +21,9 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.NotificationError;
 import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;
 
+@Entity
 public class IgNotifier extends InteresEnNotificaciones {
+	@Transient
 	private static Instagram4j instagram = null;
 	private String nombreUsuario = null;
 	private String idUsuario = null;

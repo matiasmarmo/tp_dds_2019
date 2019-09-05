@@ -11,9 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
@@ -32,7 +33,8 @@ public abstract class Usuario {
 	private Set<Guardarropa> guardarropas;
 	@OneToOne
 	private Sensibilidad sensibilidad;
-	@Transient //persistirlo
+	@OneToMany
+	@JoinColumn(name = "id")
 	private List<InteresEnNotificaciones> notificadores;
 	
 	public Usuario(List<InteresEnNotificaciones> notificadores) {

@@ -3,10 +3,21 @@ package dds.utn.ju_ma.group7.QueMePongo.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class InteresEnNotificaciones {
+	@Id
+	@GeneratedValue
+	private Long id;
 
 	public abstract void notificar(EventoUnico evento, String notificacion);
 	

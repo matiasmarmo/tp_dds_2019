@@ -8,15 +8,20 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.NotificationError;
 import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;;
 
+@Entity
 public class MailSender extends InteresEnNotificaciones {
 	private String destinatario;
+	@Transient
 	private String username;
+	@Transient
 	private String password;
 	
 	public MailSender(String mail) {
