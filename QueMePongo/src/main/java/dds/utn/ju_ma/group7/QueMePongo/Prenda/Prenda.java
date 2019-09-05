@@ -26,9 +26,9 @@ public class Prenda implements InterfazPrenda {
 	private TipoPrenda tipoPrenda;
 	@Enumerated(EnumType.STRING)
 	private TipoTela tipoTela;
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	private Color colorPrimario;
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	private Color colorSecundario;
 	@Transient
 	private BufferedImage imagen;

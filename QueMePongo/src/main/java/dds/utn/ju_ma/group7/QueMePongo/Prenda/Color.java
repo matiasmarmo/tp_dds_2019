@@ -13,9 +13,9 @@ public class Color {
 	@GeneratedValue
 	private Long id;
 
-	private int rojo;
-	private int verde;
-	private int azul;
+	private Integer rojo;
+	private Integer verde;
+	private Integer azul;
 
 	public Color() {
 	}

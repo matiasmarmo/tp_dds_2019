@@ -27,11 +27,15 @@ public class IgNotifier extends InteresEnNotificaciones {
 	private static Instagram4j instagram = null;
 	private String nombreUsuario = null;
 	private String idUsuario = null;
-	
+
+	public IgNotifier() {
+
+	}
+
 	public IgNotifier(String nombreUsuario) throws ClientProtocolException, IOException {
 		this.nombreUsuario = nombreUsuario;
 	}
-	
+
 	private static void buildInstance() throws ClientProtocolException, IOException {
 		String username = QueMePongoConfiguration.instance().getIgUsername();
 		String password = QueMePongoConfiguration.instance().getIgPassword();
@@ -39,34 +43,32 @@ public class IgNotifier extends InteresEnNotificaciones {
 		instagram.setup();
 		instagram.login();
 	}
-	
+
 	private synchronized <T> T sendRequest(InstagramRequest<T> request) throws IOException {
-		if(IgNotifier.instagram == null) {
+		if (IgNotifier.instagram == null) {
 			IgNotifier.buildInstance();
 		}
 		return IgNotifier.instagram.sendRequest(request);
 	}
-	
+
 	private void cargarIdUsuario() {
 		try {
-			InstagramSearchUsernameResult response = 
-					this.sendRequest(new InstagramSearchUsernameRequest(this.nombreUsuario));
+			InstagramSearchUsernameResult response = this
+					.sendRequest(new InstagramSearchUsernameRequest(this.nombreUsuario));
 			this.idUsuario = Long.toString(response.getUser().getPk());
 		} catch (IOException e) {
 			throw new NotificationError("No se pudo obtener el id del usuario " + this.nombreUsuario);
 		}
 	}
-	
+
 	private void enviarNotificacion(String mensaje) {
-		if(this.idUsuario == null) {
+		if (this.idUsuario == null) {
 			this.cargarIdUsuario();
 		}
 		List<String> recipients = Arrays.asList(this.idUsuario);
 		try {
-			this.sendRequest(
-					InstagramDirectShareRequest.builder().shareType(ShareType.MESSAGE)
-						.recipients(recipients).message(mensaje).build()
-			);
+			this.sendRequest(InstagramDirectShareRequest.builder().shareType(ShareType.MESSAGE).recipients(recipients)
+					.message(mensaje).build());
 		} catch (IOException e) {
 			throw new NotificationError("No se pudo notificar por instagram al usuario " + this.nombreUsuario);
 		}
@@ -74,12 +76,12 @@ public class IgNotifier extends InteresEnNotificaciones {
 
 	@Override
 	public void notificar(EventoUnico evento, String notificacion) {
-		this.enviarNotificacion(this.generarTextoNotificacionSugerencia(evento, notificacion));	
+		this.enviarNotificacion(this.generarTextoNotificacionSugerencia(evento, notificacion));
 	}
-	
+
 	@Override
 	public void notificarAlerta(Calendar fecha, TipoAlerta alerta) {
-		this.enviarNotificacion(this.generarTextoNotificacionAlerta(fecha, alerta));		
+		this.enviarNotificacion(this.generarTextoNotificacionAlerta(fecha, alerta));
 	}
 
 }

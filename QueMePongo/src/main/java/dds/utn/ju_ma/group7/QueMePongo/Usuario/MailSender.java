@@ -23,60 +23,64 @@ public class MailSender extends InteresEnNotificaciones {
 	private String username;
 	@Transient
 	private String password;
-	
+
+	public MailSender() {
+
+	}
+
 	public MailSender(String mail) {
 		this.destinatario = mail;
 		this.username = QueMePongoConfiguration.instance().getMailAccount();
 		this.password = QueMePongoConfiguration.instance().getMailPassword();
 	}
-	
+
 	public void notificar(EventoUnico evento, String notificacion) {
 		String cuerpoMail = this.generarTextoNotificacionSugerencia(evento, notificacion);
 		this.enviarMail(cuerpoMail);
 	}
-	
-	private void enviarMail(String notificacion) {           
+
+	private void enviarMail(String notificacion) {
 		Session session = crearSession();
-       
-        MimeMessage mensaje = new MimeMessage(session);
-        
-        armarMensaje(mensaje, notificacion);
-        enviarMensaje(session, mensaje);
+
+		MimeMessage mensaje = new MimeMessage(session);
+
+		armarMensaje(mensaje, notificacion);
+		enviarMensaje(session, mensaje);
 	}
-	
+
 	private Session crearSession() {
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.user", username);
-        props.put("mail.smtp.clave", password);
-        
-        return Session.getDefaultInstance(props);
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.user", username);
+		props.put("mail.smtp.clave", password);
+
+		return Session.getDefaultInstance(props);
 	}
-	
+
 	private void armarMensaje(MimeMessage mensaje, String notificacion) {
 		try {
 			mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(destinatario));
-	        mensaje.setSubject("Nuevas sugerencias han llegado!");
-	        mensaje.setText(notificacion);
-		}catch (Exception e){
-        	throw new NotificationError("No se pudo armar el mensaje");
-        } 
+			mensaje.setSubject("Nuevas sugerencias han llegado!");
+			mensaje.setText(notificacion);
+		} catch (Exception e) {
+			throw new NotificationError("No se pudo armar el mensaje");
+		}
 	}
-	
+
 	private void enviarMensaje(Session session, MimeMessage mensaje) {
 		try {
 			Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", username, password);
-            transport.sendMessage(mensaje, mensaje.getAllRecipients());
-            transport.close();
-        }catch (Exception e){
-        	throw new NotificationError("No se pudo notificar al usuario " + destinatario);
-        }
+			transport.connect("smtp.gmail.com", username, password);
+			transport.sendMessage(mensaje, mensaje.getAllRecipients());
+			transport.close();
+		} catch (Exception e) {
+			throw new NotificationError("No se pudo notificar al usuario " + destinatario);
+		}
 	}
-	
+
 	public void notificarAlerta(Calendar fecha, TipoAlerta alerta) {
 		this.enviarMail(alerta.getDescripcion());
 	}
