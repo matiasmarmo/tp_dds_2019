@@ -5,13 +5,27 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
+@Entity
 public class EventoRepetitivo extends Evento {
 
+	@Basic
+	@Temporal(TemporalType.DATE)
 	private Calendar fechaUltimaInstancia;
+	@Enumerated(EnumType.STRING)
 	private TipoRecurrencia tipoRecurrencia;
+
+	public EventoRepetitivo() {
+	}
 
 	public EventoRepetitivo(Usuario usuario, Guardarropa guardarropa, String descripcion, Calendar fechaInicio,
 			TipoRecurrencia tipoRecurrencia) {
@@ -65,7 +79,7 @@ public class EventoRepetitivo extends Evento {
 				.collect(Collectors.toList());
 		return resultado;
 	}
-	
+
 	@Override
 	public boolean esEnFecha(Calendar fecha) {
 		return this.fechaSiguienteInstancia().compareTo(fecha) == 0;

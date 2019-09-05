@@ -6,14 +6,28 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
+@Entity
 public class EventoUnico extends Evento {
-	
+	@Basic
+	@Temporal(TemporalType.DATE)
 	private Calendar fecha;
+	@OneToMany
+	@JoinColumn(name = "id")
 	private List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
+
+	public EventoUnico() {
+	}
 
 	public EventoUnico(Usuario usuario, Guardarropa guardarropa, Calendar fecha, String descripcion) {
 		this.usuario = usuario;
@@ -31,11 +45,11 @@ public class EventoUnico extends Evento {
 
 		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) < 5;
 	}
-	
+
 	public boolean esPosteriorA(Calendar unaFecha) {
 		return this.diasEntreFechas(unaFecha, this.fecha) > 0;
 	}
-	
+
 	public boolean esAnteriorA(Calendar unaFecha) {
 		return this.diasEntreFechas(unaFecha, this.fecha) <= 0;
 	}
@@ -63,16 +77,16 @@ public class EventoUnico extends Evento {
 		}
 		this.usuario.notificar(this, "Tenés nuevas sugerencias!");
 	}
-	
+
 	@Override
 	public List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia) {
 		return this.sugerencias.stream().filter(sugerencia -> sugerencia.fueAceptada()).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
-		List <EventoUnico> resultado = new ArrayList<EventoUnico>();
-		if(this.esPosteriorA(fechaInicio) && this.esAnteriorA(fechaFin)) {
+		List<EventoUnico> resultado = new ArrayList<EventoUnico>();
+		if (this.esPosteriorA(fechaInicio) && this.esAnteriorA(fechaFin)) {
 			resultado.add(this);
 		}
 		return resultado;

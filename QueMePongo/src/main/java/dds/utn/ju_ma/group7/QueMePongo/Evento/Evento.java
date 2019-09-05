@@ -4,13 +4,27 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Evento {
+	@Id
+	@GeneratedValue
+	private Long id;
 	
 	protected String descripcion;
+	@ManyToOne
 	protected Usuario usuario;
+	@ManyToOne
 	protected Guardarropa guardarropa; 
 	
 	public boolean esDeUsuario(Usuario usuario) {

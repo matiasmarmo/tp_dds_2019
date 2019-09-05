@@ -6,16 +6,33 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.TipoAlerta;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.ParteCuerpo;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Usuario {
+	@Id
+	@GeneratedValue
+	private Long id;
 	
+	@ManyToMany
 	private Set<Guardarropa> guardarropas;
+	@OneToOne
 	private Sensibilidad sensibilidad;
+	@Transient //persistirlo
 	private List<InteresEnNotificaciones> notificadores;
 	
 	public Usuario(List<InteresEnNotificaciones> notificadores) {
