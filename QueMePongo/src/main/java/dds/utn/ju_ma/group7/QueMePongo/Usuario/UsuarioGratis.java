@@ -10,6 +10,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 
 @Entity
 public class UsuarioGratis extends Usuario {
+	
+	public UsuarioGratis() {}
 
 	public UsuarioGratis(List<InteresEnNotificaciones> notificadores) {
 		super(notificadores);

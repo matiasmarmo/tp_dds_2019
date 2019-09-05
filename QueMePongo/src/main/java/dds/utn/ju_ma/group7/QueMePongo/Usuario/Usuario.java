@@ -37,6 +37,8 @@ public abstract class Usuario {
 	@JoinColumn(name = "id")
 	private List<InteresEnNotificaciones> notificadores;
 	
+	public Usuario(){}
+	
 	public Usuario(List<InteresEnNotificaciones> notificadores) {
 		this.guardarropas = new HashSet<Guardarropa>();
 		this.sensibilidad = new Sensibilidad();

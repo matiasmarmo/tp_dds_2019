@@ -8,6 +8,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 
 @Entity
 public class UsuarioPremium extends Usuario {
+	
+	public UsuarioPremium() {}
 
 	public UsuarioPremium(List<InteresEnNotificaciones> notificadores) {
 		super(notificadores);

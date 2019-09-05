@@ -9,6 +9,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 @Entity
 public class GuardarropaLimitado extends Guardarropa {
+	
+	public GuardarropaLimitado() {}
 
 	public GuardarropaLimitado(Usuario usuarioCreador) {
 		super(usuarioCreador);
