@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,8 +22,8 @@ public class EventoUnico extends Evento {
 	@Basic
 	@Temporal(TemporalType.DATE)
 	private Calendar fecha;
-	@OneToMany
-	@JoinColumn(name = "id")
+	
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
 
 	public EventoUnico() {

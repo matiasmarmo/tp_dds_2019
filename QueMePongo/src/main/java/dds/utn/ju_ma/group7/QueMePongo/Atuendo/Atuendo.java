@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,13 +23,13 @@ public class Atuendo {
 	@GeneratedValue
 	private Long id;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	private List<Prenda> prendasSuperiores;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Prenda prendaInferior;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Prenda calzado;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Prenda accesorio;
 
 	public Atuendo() {

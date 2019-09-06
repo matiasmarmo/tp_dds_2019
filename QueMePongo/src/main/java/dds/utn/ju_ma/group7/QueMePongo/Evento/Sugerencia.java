@@ -2,6 +2,7 @@ package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,7 +19,7 @@ public class Sugerencia {
 	@GeneratedValue
 	private Long id;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Atuendo atuendo;
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado;

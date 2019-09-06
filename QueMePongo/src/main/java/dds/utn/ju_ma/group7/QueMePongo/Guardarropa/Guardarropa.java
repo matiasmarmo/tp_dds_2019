@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
@@ -26,8 +26,7 @@ public class Guardarropa {
 	@GeneratedValue
 	private Long id;
 
-	@OneToMany
-	@JoinColumn(name = "id")
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "guardarropa")
 	protected List<Prenda> prendas;
 
 	public Guardarropa() {

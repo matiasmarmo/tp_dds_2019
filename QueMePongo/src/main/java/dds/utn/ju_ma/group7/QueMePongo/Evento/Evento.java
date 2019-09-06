@@ -4,6 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,10 +23,10 @@ public abstract class Evento {
 	private Long id;
 	
 	protected String descripcion;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	protected Usuario usuario;
-	@ManyToOne
-	protected Guardarropa guardarropa; 
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	protected Guardarropa guardarropa;
 	
 	public boolean esDeUsuario(Usuario usuario) {
 		return this.usuario == usuario;

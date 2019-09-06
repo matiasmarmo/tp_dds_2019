@@ -25,7 +25,6 @@ public class RepositorioEventos implements WithDbAccess {
 	public EventoUnico instanciarEventoUnico(Usuario usuario, Guardarropa guardarropas, Calendar fecha,
 			String descripcion) {
 		EventoUnico evento = new EventoUnico(usuario, guardarropas, fecha, descripcion);
-		this.persist(evento);
 		return evento;
 	}
 
@@ -33,7 +32,6 @@ public class RepositorioEventos implements WithDbAccess {
 			String descripcion, TipoRecurrencia recurrencia) {
 		EventoRepetitivo eventoRepetitivo = new EventoRepetitivo(usuario, guardarropa, descripcion, inicio,
 				recurrencia);
-		this.persist(eventoRepetitivo);
 		return eventoRepetitivo;
 	}
 	

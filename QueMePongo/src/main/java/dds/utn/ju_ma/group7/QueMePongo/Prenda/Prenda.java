@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.ImagenInvalidaException;
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 
 @Entity
 public class Prenda implements InterfazPrenda {
@@ -30,6 +31,8 @@ public class Prenda implements InterfazPrenda {
 	private Color colorPrimario;
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Color colorSecundario;
+	@ManyToOne
+	private Guardarropa guardarropa;
 	@Transient
 	private BufferedImage imagen;
 

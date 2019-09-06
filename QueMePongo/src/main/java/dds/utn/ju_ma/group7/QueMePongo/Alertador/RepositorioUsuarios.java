@@ -25,13 +25,11 @@ public class RepositorioUsuarios implements WithDbAccess {
 
 	public Usuario instanciarUsuarioGratis(List<InteresEnNotificaciones> notificadores) {
 		UsuarioGratis usuarioGratis = new UsuarioGratis(notificadores);
-		this.persist(usuarioGratis);
 		return usuarioGratis;
 	}
 
 	public Usuario instanciarUsuarioPremium(List<InteresEnNotificaciones> notificadores) {
 		UsuarioPremium usuarioPremium = new UsuarioPremium(notificadores);
-		this.persist(usuarioPremium);
 		return usuarioPremium;
 	}
 
