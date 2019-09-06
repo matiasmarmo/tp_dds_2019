@@ -1,16 +1,14 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.db.WithDbAccess;
 
-public class RepositorioEventos {
-
-	private List<Evento> eventos = new ArrayList<>();
+public class RepositorioEventos implements WithDbAccess {
 
 	private static RepositorioEventos instance;
 
@@ -24,14 +22,10 @@ public class RepositorioEventos {
 		return instance;
 	}
 
-	public void vaciar() {
-		this.eventos = new ArrayList<Evento>();
-	}
-
 	public EventoUnico instanciarEventoUnico(Usuario usuario, Guardarropa guardarropas, Calendar fecha,
 			String descripcion) {
 		EventoUnico evento = new EventoUnico(usuario, guardarropas, fecha, descripcion);
-		this.eventos.add(evento);
+		this.persist(evento);
 		return evento;
 	}
 
@@ -39,17 +33,21 @@ public class RepositorioEventos {
 			String descripcion, TipoRecurrencia recurrencia) {
 		EventoRepetitivo eventoRepetitivo = new EventoRepetitivo(usuario, guardarropa, descripcion, inicio,
 				recurrencia);
-		this.eventos.add(eventoRepetitivo);
+		this.persist(eventoRepetitivo);
 		return eventoRepetitivo;
+	}
+	
+	private List<Evento> todosLosEventos() {
+		return this.entityManager().createQuery("from Evento", Evento.class).getResultList();
 	}
 
 	public List<Evento> eventosProximos(Calendar fecha) {
-		return this.eventos.stream().filter(evento -> evento.esProximo(fecha) && !evento.fueSugerido(fecha))
+		return this.todosLosEventos().stream().filter(evento -> evento.esProximo(fecha) && !evento.fueSugerido(fecha))
 				.collect(Collectors.toList());
 	}
 
 	public List<Evento> eventosDelUsuario(Usuario usuario) {
-		return this.eventos.stream().filter(evento -> evento.esDeUsuario(usuario)).collect(Collectors.toList());
+		return this.todosLosEventos().stream().filter(evento -> evento.esDeUsuario(usuario)).collect(Collectors.toList());
 	}
 
 	public List<Sugerencia> sugerenciasAceptadasDelUsuario(Usuario usuario) {
@@ -66,13 +64,13 @@ public class RepositorioEventos {
 
 	public List<Evento> obtenerEventosSugeridosDeUnGuardarropasParaFecha(Guardarropa guardarropa,
 			Calendar fechaReferencia) {
-		return this.eventos.stream().filter(evento -> evento.esEnFecha(fechaReferencia)
+		return this.todosLosEventos().stream().filter(evento -> evento.esEnFecha(fechaReferencia)
 				&& evento.fueSugerido(fechaReferencia) && evento.suGuardarropasEs(guardarropa))
 				.collect(Collectors.toList());
 	}
 
 	public List<EventoUnico> obtenerEventosEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
-		return this.eventos.stream().flatMap(evento -> evento.instanciasEntreFechas(fechaInicio, fechaFin).stream())
+		return this.todosLosEventos().stream().flatMap(evento -> evento.instanciasEntreFechas(fechaInicio, fechaFin).stream())
 				.collect(Collectors.toList());
 	}
 }
