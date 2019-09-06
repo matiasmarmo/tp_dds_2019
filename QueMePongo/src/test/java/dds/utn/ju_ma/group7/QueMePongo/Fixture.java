@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuarios;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
@@ -33,11 +34,10 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.EstadoDelClima;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.OpenWeatherMapProveedor;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.NotificadorMock;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.db.WithDbAccess;
 
-public class Fixture {
+public class Fixture extends AbstractPersistenceTest implements WithDbAccess {
 
 	protected Calendar hace3DiasCalendar;
 	protected Calendar manianaCalendar;
@@ -71,11 +71,8 @@ public class Fixture {
 	protected Color negro = new Color(0, 0, 0);
 	protected Color blanco = new Color(255, 255, 255);
 
-	protected InteresEnNotificaciones notificadorUsuario = new NotificadorMock();
-	protected InteresEnNotificaciones notificadorOtroUsuario = new NotificadorMock();
-
-	protected Usuario usuario = RepositorioUsuarios.getInstance().instanciarUsuarioPremium(Arrays.asList(notificadorUsuario));
-	protected Usuario otroUsuario = RepositorioUsuarios.getInstance().instanciarUsuarioGratis(Arrays.asList(notificadorOtroUsuario));
+	protected Usuario usuario = RepositorioUsuarios.getInstance().instanciarUsuarioPremium(Arrays.asList());
+	protected Usuario otroUsuario = RepositorioUsuarios.getInstance().instanciarUsuarioGratis(Arrays.asList());
 
 	protected Guardarropa guardarropaCompleto = new Guardarropa(usuario);
 	protected Guardarropa guardarropaIncompleto = new Guardarropa(usuario);
@@ -105,25 +102,27 @@ public class Fixture {
 	protected EventoUnico eventoVerano;
 	protected EventoUnico eventoInvierno;
 	protected EventoUnico quince;
-	
+	protected EventoUnico barMitzva;
+
 	protected EventoRepetitivo irATrabajar;
 	protected EventoRepetitivo eventoRepetitivoNoProximo;
 	protected EventoRepetitivo eventoMensualProximo;
-	
+
 	protected OpenWeatherMapProveedor proveedorMock;
 	protected EstadoDelClima estadoDelClimaMock;
 	protected JsonObject clima;
-	
-	@Rule public MockitoRule Rule = MockitoJUnit.rule();
-	
-	@After
-	public void after() {
-		RepositorioEventos.getInstance().vaciar();
-	}
+
+	@Rule
+	public MockitoRule Rule = MockitoJUnit.rule();
 	
 	@Before
-	public void initFixture() {
+	public void setup() {
+		
+	}
 
+	@Before
+	public void initFixture() {
+		beginTransaction();
 		QueMePongoConfiguration.inicializar(1, "", "");
 
 		hace3DiasCalendar = Calendar.getInstance();
@@ -160,7 +159,7 @@ public class Fixture {
 
 		pantalonNegroBuilder.setTipoPrenda(TipoPrenda.JOGGIN).setTipoTela(TipoTela.NYLON).setColorPrimario(negro);
 		pantalonNegro = pantalonNegroBuilder.crearPrenda();
-		
+
 		shortBuilder.setTipoPrenda(TipoPrenda.SHORT).setTipoTela(TipoTela.DRY_FIT).setColorPrimario(negro);
 		unShort = shortBuilder.crearPrenda();
 
@@ -228,19 +227,32 @@ public class Fixture {
 		fechaLejana.setTime(new Date());
 		fechaLejana.add(Calendar.DATE, 100);
 
-		eventoInvierno = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVeranoEInvierno, fechaProxima, "Un evento de invierno");
-		eventoVerano = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana, "Un evento de verano");
-		irATrabajar = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropasVeranoEInvierno, hace3DiasCalendar, "Hay que laburar",
-				TipoRecurrencia.DIARIA);
-		eventoRepetitivoNoProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto, fechaLejana,
-				"Falta para este", TipoRecurrencia.ANUAL);
-		eventoMensualProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto, manianaCalendar, "Hay que sugerirlo",
-				TipoRecurrencia.MENSUAL);
-		RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima, "Cumple de 15");
-		RepositorioEventos.getInstance().instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno, fechaProxima, "Bar Mitzva");
+		eventoInvierno = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVeranoEInvierno,
+				fechaProxima, "Un evento de invierno");
+		eventoVerano = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana,
+				"Un evento de verano");
+		irATrabajar = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropasVeranoEInvierno,
+				hace3DiasCalendar, "Hay que laburar", TipoRecurrencia.DIARIA);
+		eventoRepetitivoNoProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario,
+				guardarropaCompleto, fechaLejana, "Falta para este", TipoRecurrencia.ANUAL);
+		eventoMensualProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto,
+				manianaCalendar, "Hay que sugerirlo", TipoRecurrencia.MENSUAL);
+		quince = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima,
+				"Cumple de 15");
+		barMitzva = RepositorioEventos.getInstance().instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno,
+				fechaProxima, "Bar Mitzva");
 		proveedorMock = mock(OpenWeatherMapProveedor.class);
 		estadoDelClimaMock = mock(EstadoDelClima.class);
 		clima = mock(JsonObject.class);
+
+		this.persist(Arrays.asList(eventoInvierno, eventoVerano, eventoRepetitivoNoProximo, eventoMensualProximo,
+				quince, barMitzva, irATrabajar));
+		this.persist(Arrays.asList(usuario, otroUsuario));
+	}
+
+	@After
+	public void tearDown() {
+		rollbackTransaction();
 	}
 
 }

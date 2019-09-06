@@ -3,15 +3,11 @@ package dds.utn.ju_ma.group7.QueMePongo;
 import java.text.SimpleDateFormat;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
-import dds.utn.ju_ma.group7.QueMePongo.Ui.*;
+import dds.utn.ju_ma.group7.QueMePongo.Ui.EventosViewModel;
 
 public class UiTest extends Fixture {
-	@Before
-	public void init() {
-	}
 
 	@Test
 	public void entreHaceTresDiasYManianaHaySeisEventos() {
