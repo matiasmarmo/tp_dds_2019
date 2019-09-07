@@ -9,18 +9,20 @@ import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorClima;
 public class Alertador {
 	
 	private ProveedorClima proveedorClima;
+	private RepositorioUsuarios repositorioUsuarios;
 	
-	public Alertador(ProveedorClima proveedorClima) {
+	public Alertador(ProveedorClima proveedorClima, RepositorioUsuarios repositorioUsuarios) {
 		this.proveedorClima = proveedorClima;
+		this.repositorioUsuarios = repositorioUsuarios;
 	}
 	
 	public void informarAlertas(Calendar fecha) {
 		this.obtenerAlertasParaLaFecha(fecha)
-			.forEach(alerta -> RepositorioUsuarios.getInstance().informarUsuariosDe(fecha, alerta));
+			.forEach(alerta -> this.repositorioUsuarios.informarUsuariosDe(fecha, alerta));
 	}
 	
 	public void informarDe(Calendar fecha, TipoAlerta alerta) {
-		RepositorioUsuarios.getInstance().informarUsuariosDe(fecha, alerta);
+		this.repositorioUsuarios.informarUsuariosDe(fecha, alerta);
 	}
 	
 	public List<TipoAlerta> obtenerAlertasParaLaFecha(Calendar fecha) {

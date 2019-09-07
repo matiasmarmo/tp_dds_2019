@@ -7,35 +7,27 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
-import dds.utn.ju_ma.group7.QueMePongo.db.WithDbAccess;
 
-public class RepositorioUsuarios implements WithDbAccess {
+public abstract class RepositorioUsuarios {
 
-	private static RepositorioUsuarios instance;
-
-	private RepositorioUsuarios() {
-	}
-
-	public static RepositorioUsuarios getInstance() {
-		if (instance == null) {
-			instance = new RepositorioUsuarios();
-		}
-		return instance;
-	}
+	protected abstract List<Usuario> todosLosUsuarios();
+	
+	protected abstract void almacenar(Usuario usuario);
 
 	public Usuario instanciarUsuarioGratis(List<InteresEnNotificaciones> notificadores) {
 		UsuarioGratis usuarioGratis = new UsuarioGratis(notificadores);
+		this.almacenar(usuarioGratis);
 		return usuarioGratis;
 	}
 
 	public Usuario instanciarUsuarioPremium(List<InteresEnNotificaciones> notificadores) {
 		UsuarioPremium usuarioPremium = new UsuarioPremium(notificadores);
+		this.almacenar(usuarioPremium);
 		return usuarioPremium;
 	}
 
 	public void informarUsuariosDe(Calendar fecha, TipoAlerta alerta) {
-		this.entityManager().createQuery("from Usuario", Usuario.class).getResultList()
-				.forEach(usuario -> usuario.notificarAlerta(fecha, alerta));
+		this.todosLosUsuarios().forEach(usuario -> usuario.notificarAlerta(fecha, alerta));
 	}
 
 }

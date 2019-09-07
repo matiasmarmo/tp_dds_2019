@@ -26,7 +26,7 @@ public class JobAlertas extends TimerTask {
 		for(int i = 0; i < 3; i++) {
 			Calendar fecha = Calendar.getInstance();
 			fecha.add(Calendar.DATE, i);
-			Alertador alertador = new Alertador(this.proveedorClima);
+			Alertador alertador = new Alertador(this.proveedorClima, new RepositorioUsuariosPersistente());
 			alertador.informarAlertas(fecha);
 		}
 	}
