@@ -15,13 +15,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
-import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuarios;
+import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoRepetitivo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
-import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.TipoRecurrencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
@@ -37,7 +36,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.OpenWeatherMapProveedor;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 import dds.utn.ju_ma.group7.QueMePongo.db.WithDbAccess;
 
-public class Fixture extends AbstractPersistenceTest implements WithDbAccess {
+public class Fixture implements WithDbAccess {
 
 	protected Calendar hace3DiasCalendar;
 	protected Calendar manianaCalendar;
@@ -70,12 +69,15 @@ public class Fixture extends AbstractPersistenceTest implements WithDbAccess {
 
 	protected Color negro = new Color(0, 0, 0);
 	protected Color blanco = new Color(255, 255, 255);
+	
+	protected RepositorioUsuariosPersistente repositorioUsuariosPersistente;
+	protected RepositorioEventosPersistente repositorioEventosPersistente = new RepositorioEventosPersistente();
 
-	protected Usuario usuario = RepositorioUsuarios.getInstance().instanciarUsuarioPremium(Arrays.asList());
-	protected Usuario otroUsuario = RepositorioUsuarios.getInstance().instanciarUsuarioGratis(Arrays.asList());
+	protected Usuario usuario;
+	protected Usuario otroUsuario;
 
-	protected Guardarropa guardarropaCompleto = new Guardarropa(usuario);
-	protected Guardarropa guardarropaIncompleto = new Guardarropa(usuario);
+	protected Guardarropa guardarropaCompleto;
+	protected Guardarropa guardarropaIncompleto;
 	protected GuardarropaLimitado guardarropaCompartido;
 
 	protected Atuendo atuendo;
@@ -114,16 +116,18 @@ public class Fixture extends AbstractPersistenceTest implements WithDbAccess {
 
 	@Rule
 	public MockitoRule Rule = MockitoJUnit.rule();
-	
-	@Before
-	public void setup() {
-		
-	}
 
 	@Before
 	public void initFixture() {
-		beginTransaction();
 		QueMePongoConfiguration.inicializar(1, "", "");
+		
+		repositorioUsuariosPersistente = new RepositorioUsuariosPersistente();
+		
+		usuario = repositorioUsuariosPersistente.instanciarUsuarioPremium(Arrays.asList());
+		otroUsuario = repositorioUsuariosPersistente.instanciarUsuarioGratis(Arrays.asList());
+		
+		guardarropaCompleto = new Guardarropa(usuario, repositorioEventosPersistente);
+		guardarropaIncompleto = new Guardarropa(usuario, repositorioEventosPersistente);
 
 		hace3DiasCalendar = Calendar.getInstance();
 		hace3DiasCalendar.add(Calendar.DATE, -3);
@@ -203,16 +207,16 @@ public class Fixture extends AbstractPersistenceTest implements WithDbAccess {
 		atuendosVeranoEinvierno.add(atuendoNegro);
 		atuendosVeranoEinvierno.add(atuendoNegroConBuzo);
 
-		guardarropaCompartido = new GuardarropaLimitado(usuario);
+		guardarropaCompartido = new GuardarropaLimitado(usuario, repositorioEventosPersistente);
 		otroUsuario.agregarGuardarropa(guardarropaCompartido);
 
-		guardarropasVerano = new Guardarropa(usuario);
+		guardarropasVerano = new Guardarropa(usuario, repositorioEventosPersistente);
 		guardarropasVerano.agregarPrenda(remeraNegra);
 		guardarropasVerano.agregarPrenda(pantalonNegro);
 		guardarropasVerano.agregarPrenda(zapatosNegros);
 		guardarropasVerano.agregarPrenda(collar);
 
-		guardarropasVeranoEInvierno = new Guardarropa(usuario);
+		guardarropasVeranoEInvierno = new Guardarropa(usuario, repositorioEventosPersistente);
 		guardarropasVeranoEInvierno.agregarPrenda(remeraNegra);
 		guardarropasVeranoEInvierno.agregarPrenda(buzo);
 		guardarropasVeranoEInvierno.agregarPrenda(pantalonNegro);
@@ -226,33 +230,33 @@ public class Fixture extends AbstractPersistenceTest implements WithDbAccess {
 
 		fechaLejana.setTime(new Date());
 		fechaLejana.add(Calendar.DATE, 100);
+		
+		this.beginTransaction();
 
-		eventoInvierno = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVeranoEInvierno,
+		eventoInvierno = repositorioEventosPersistente.instanciarEventoUnico(usuario, guardarropasVeranoEInvierno,
 				fechaProxima, "Un evento de invierno");
-		eventoVerano = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana,
+		eventoVerano = repositorioEventosPersistente.instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana,
 				"Un evento de verano");
-		irATrabajar = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropasVeranoEInvierno,
+		irATrabajar = repositorioEventosPersistente.instanciarEventoRepetitivo(usuario, guardarropasVeranoEInvierno,
 				hace3DiasCalendar, "Hay que laburar", TipoRecurrencia.DIARIA);
-		eventoRepetitivoNoProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario,
+		eventoRepetitivoNoProximo = repositorioEventosPersistente.instanciarEventoRepetitivo(usuario,
 				guardarropaCompleto, fechaLejana, "Falta para este", TipoRecurrencia.ANUAL);
-		eventoMensualProximo = RepositorioEventos.getInstance().instanciarEventoRepetitivo(usuario, guardarropaCompleto,
+		eventoMensualProximo = repositorioEventosPersistente.instanciarEventoRepetitivo(usuario, guardarropaCompleto,
 				manianaCalendar, "Hay que sugerirlo", TipoRecurrencia.MENSUAL);
-		quince = RepositorioEventos.getInstance().instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima,
+		quince = repositorioEventosPersistente.instanciarEventoUnico(usuario, guardarropasVerano, fechaProxima,
 				"Cumple de 15");
-		barMitzva = RepositorioEventos.getInstance().instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno,
+		barMitzva = repositorioEventosPersistente.instanciarEventoUnico(otroUsuario, guardarropasVeranoEInvierno,
 				fechaProxima, "Bar Mitzva");
 		proveedorMock = mock(OpenWeatherMapProveedor.class);
 		estadoDelClimaMock = mock(EstadoDelClima.class);
 		clima = mock(JsonObject.class);
 
-		this.persist(Arrays.asList(eventoInvierno, eventoVerano, eventoRepetitivoNoProximo, eventoMensualProximo,
-				quince, barMitzva, irATrabajar));
-		this.persist(Arrays.asList(usuario, otroUsuario));
+		this.entityManager().flush();
 	}
-
+	
 	@After
 	public void tearDown() {
-		rollbackTransaction();
+		this.rollbackTransaction();
 	}
 
 }

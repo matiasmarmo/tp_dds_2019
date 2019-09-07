@@ -26,14 +26,14 @@ public class GuardarropaTest extends Fixture {
 	
 	@Test(expected = GuardarropaLlenoException.class)
 	public void unGuardarropaLimitadoNoPuedeAlmacenarMasPrendasQueElLimite() {
-		GuardarropaLimitado guardarropaLimitado = new GuardarropaLimitado(otroUsuario);
+		GuardarropaLimitado guardarropaLimitado = new GuardarropaLimitado(otroUsuario, repositorioEventosPersistente);
 		guardarropaLimitado.agregarPrenda(remeraNegra);
 		guardarropaLimitado.agregarPrenda(remeraBlanca);
 	}
 	
 	@Test(expected = GuardarropaInvalidoException.class)
 	public void noSePuedeDarAUnUsuarioGratuitoUnGuardarropasNoLimitado() {
-		new Guardarropa(otroUsuario);
+		new Guardarropa(otroUsuario, repositorioEventosPersistente);
 	}
 	
 	@Test
