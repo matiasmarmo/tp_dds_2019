@@ -13,12 +13,14 @@ import org.uqbar.commons.model.annotations.Observable;
 
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 
 @Observable
 public class EventosViewModel {
 	private List<EventoObservable> eventos;
 	private String fechaInicio;
-	private String fechaFin;	
+	private String fechaFin;
+	private RepositorioEventos repositorioEventos;
 	
 	public String getFechaInicio() {
 		return fechaInicio;
@@ -38,6 +40,7 @@ public class EventosViewModel {
 
 	public EventosViewModel() {
 		this.eventos = new ArrayList<EventoObservable>();
+		this.repositorioEventos = new RepositorioEventosPersistente();
 	}
 
 	public List<EventoObservable> getA() {
@@ -66,7 +69,7 @@ public class EventosViewModel {
 			return;
 		}
 		
-		eventos = RepositorioEventos.getInstance().obtenerEventosEntreFechas(c1, c2);
+		eventos = this.repositorioEventos.obtenerEventosEntreFechas(c1, c2);
 		observables = 
 				eventos.stream().map(evento -> new EventoObservable(evento))
 				.collect(Collectors.toList());

@@ -2,6 +2,7 @@ package dds.utn.ju_ma.group7.QueMePongo.Guardarropa;
 
 import javax.persistence.Entity;
 
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.GuardarropaLlenoException;
 import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
@@ -12,8 +13,8 @@ public class GuardarropaLimitado extends Guardarropa {
 	
 	public GuardarropaLimitado() {}
 
-	public GuardarropaLimitado(Usuario usuarioCreador) {
-		super(usuarioCreador);
+	public GuardarropaLimitado(Usuario usuarioCreador, RepositorioEventos repositorioEventos) {
+		super(usuarioCreador, repositorioEventos);
 	}
 
 	@Override

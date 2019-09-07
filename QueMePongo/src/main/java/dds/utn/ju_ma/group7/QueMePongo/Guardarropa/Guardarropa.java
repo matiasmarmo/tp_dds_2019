@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
@@ -28,17 +29,21 @@ public class Guardarropa {
 
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "guardarropa")
 	protected List<Prenda> prendas;
+	
+	@Transient
+	private RepositorioEventos repositorioEventos;
 
 	public Guardarropa() {
 	}
 
-	public Guardarropa(Usuario usuarioCreador) {
+	public Guardarropa(Usuario usuarioCreador, RepositorioEventos repositorioEventos) {
 		this.prendas = new ArrayList<Prenda>();
+		this.repositorioEventos = repositorioEventos;
 		usuarioCreador.agregarGuardarropa(this);
 	}
 
 	private List<Prenda> getPrendasDisponibles(Calendar fechaReferencia) {
-		List<Prenda> prendasOcupadas = RepositorioEventos.getInstance()
+		List<Prenda> prendasOcupadas = this.repositorioEventos
 				.obtenerEventosSugeridosDeUnGuardarropasParaFecha(this, fechaReferencia).stream()
 				.flatMap(evento -> evento.getSugerenciasAceptadas(fechaReferencia).stream())
 				.flatMap(sugerencia -> sugerencia.todasLasPrendas().stream()).collect(Collectors.toList());
