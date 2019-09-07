@@ -18,14 +18,16 @@ public class JobEventos extends TimerTask {
 	}
 	
 	private Sugeridor sugeridor;
+	private RepositorioEventos repositorioEventos;
 	
 	private JobEventos(ProveedorClima proveedorClima) {
 		this.sugeridor = new Sugeridor(proveedorClima);
+		this.repositorioEventos = new RepositorioEventosPersistente();
 	}
 	
 	@Override
 	public void run() {
-		List<Evento> eventosProximos = RepositorioEventos.getInstance().eventosProximos(Calendar.getInstance());
+		List<Evento> eventosProximos = this.repositorioEventos.eventosProximos(Calendar.getInstance());
 		eventosProximos.forEach(unEvento -> this.sugeridor.sugerir(unEvento));
 	}
 

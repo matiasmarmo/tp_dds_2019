@@ -6,37 +6,26 @@ import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
-import dds.utn.ju_ma.group7.QueMePongo.db.WithDbAccess;
 
-public class RepositorioEventos implements WithDbAccess {
-
-	private static RepositorioEventos instance;
-
-	private RepositorioEventos() {
-	}
-
-	public static RepositorioEventos getInstance() {
-		if (instance == null) {
-			instance = new RepositorioEventos();
-		}
-		return instance;
-	}
+public abstract class RepositorioEventos {
+	
+	protected abstract List<Evento> todosLosEventos();
+	
+	protected abstract void almacenar(Evento evento);
 
 	public EventoUnico instanciarEventoUnico(Usuario usuario, Guardarropa guardarropas, Calendar fecha,
 			String descripcion) {
 		EventoUnico evento = new EventoUnico(usuario, guardarropas, fecha, descripcion);
+		this.almacenar(evento);
 		return evento;
 	}
 
 	public EventoRepetitivo instanciarEventoRepetitivo(Usuario usuario, Guardarropa guardarropa, Calendar inicio,
 			String descripcion, TipoRecurrencia recurrencia) {
 		EventoRepetitivo eventoRepetitivo = new EventoRepetitivo(usuario, guardarropa, descripcion, inicio,
-				recurrencia);
+				recurrencia, this);
+		this.almacenar(eventoRepetitivo);
 		return eventoRepetitivo;
-	}
-	
-	private List<Evento> todosLosEventos() {
-		return this.entityManager().createQuery("from Evento", Evento.class).getResultList();
 	}
 
 	public List<Evento> eventosProximos(Calendar fecha) {
