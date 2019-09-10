@@ -43,11 +43,11 @@ public class EventosViewModel {
 		this.repositorioEventos = new RepositorioEventosPersistente();
 	}
 
-	public List<EventoObservable> getA() {
+	public List<EventoObservable> getEventos() {
 		return eventos;
 	}
 
-	public void setA(List<EventoObservable> eventos) {
+	public void setEventos(List<EventoObservable> eventos) {
 		this.eventos = eventos;
 	}
 	

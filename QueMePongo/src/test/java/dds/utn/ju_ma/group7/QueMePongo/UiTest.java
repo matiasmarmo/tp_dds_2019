@@ -21,6 +21,6 @@ public class UiTest extends Fixture {
 		viewModel.setFechaFin(plus);
 		viewModel.cargarEventos();
 		
-		Assert.assertEquals(6, viewModel.getA().size());
+		Assert.assertEquals(6, viewModel.getEventos().size());
 	}
 }

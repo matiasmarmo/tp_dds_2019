@@ -46,7 +46,7 @@ public class EventosWindow extends MainWindow<EventosViewModel>{
 		
 		Table<EventoObservable> table = new Table<EventoObservable>(mainPanel, EventoObservable.class);
 		table.setNumberVisibleRows(10);
-		table.bindItemsToProperty("a");
+		table.bindItemsToProperty("eventos");
 		
 		new Column<EventoObservable>(table)
     	.setTitle("Fecha")
