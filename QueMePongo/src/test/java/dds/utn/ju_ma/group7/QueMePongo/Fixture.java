@@ -15,6 +15,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
@@ -34,9 +37,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.EstadoDelClima;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.OpenWeatherMapProveedor;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
-import dds.utn.ju_ma.group7.QueMePongo.db.WithDbAccess;
 
-public class Fixture implements WithDbAccess {
+public class Fixture implements WithGlobalEntityManager, TransactionalOps, EntityManagerOps {
 
 	protected Calendar hace3DiasCalendar;
 	protected Calendar manianaCalendar;
