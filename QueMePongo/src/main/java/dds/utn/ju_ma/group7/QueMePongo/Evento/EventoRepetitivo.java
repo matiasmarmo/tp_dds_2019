@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 @Entity
 public class EventoRepetitivo extends Evento {
@@ -30,7 +30,7 @@ public class EventoRepetitivo extends Evento {
 	public EventoRepetitivo() {
 	}
 
-	public EventoRepetitivo(Usuario usuario, Guardarropa guardarropa, String descripcion, Calendar fechaInicio,
+	public EventoRepetitivo(UsuarioPremium usuario, Guardarropa guardarropa, String descripcion, Calendar fechaInicio,
 			TipoRecurrencia tipoRecurrencia, RepositorioEventos repositorio) {
 		this.usuario = usuario;
 		this.guardarropa = guardarropa;

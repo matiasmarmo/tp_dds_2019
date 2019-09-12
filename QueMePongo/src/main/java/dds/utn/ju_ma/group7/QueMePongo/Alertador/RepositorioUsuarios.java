@@ -4,23 +4,22 @@ import java.util.Calendar;
 import java.util.List;
 
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 
 public abstract class RepositorioUsuarios {
 
-	protected abstract List<Usuario> todosLosUsuarios();
+	protected abstract List<UsuarioPremium> todosLosUsuarios();
 	
-	protected abstract void almacenar(Usuario usuario);
+	protected abstract void almacenar(UsuarioPremium usuario);
 
-	public Usuario instanciarUsuarioGratis(List<InteresEnNotificaciones> notificadores) {
+	public UsuarioPremium instanciarUsuarioGratis(List<InteresEnNotificaciones> notificadores) {
 		UsuarioGratis usuarioGratis = new UsuarioGratis(notificadores);
 		this.almacenar(usuarioGratis);
 		return usuarioGratis;
 	}
 
-	public Usuario instanciarUsuarioPremium(List<InteresEnNotificaciones> notificadores) {
+	public UsuarioPremium instanciarUsuarioPremium(List<InteresEnNotificaciones> notificadores) {
 		UsuarioPremium usuarioPremium = new UsuarioPremium(notificadores);
 		this.almacenar(usuarioPremium);
 		return usuarioPremium;

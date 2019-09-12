@@ -3,23 +3,23 @@ package dds.utn.ju_ma.group7.QueMePongo.Alertador;
 import java.util.ArrayList;
 import java.util.List;
 
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 
 public class RepositorioUsuariosMock extends RepositorioUsuarios {
 	
-	private List<Usuario> usuarios;
+	private List<UsuarioPremium> usuarios;
 	
 	public RepositorioUsuariosMock() {
-		this.usuarios = new ArrayList<Usuario>();
+		this.usuarios = new ArrayList<UsuarioPremium>();
 	}
 
 	@Override
-	protected List<Usuario> todosLosUsuarios() {
+	protected List<UsuarioPremium> todosLosUsuarios() {
 		return this.usuarios;
 	}
 
 	@Override
-	protected void almacenar(Usuario usuario) {
+	protected void almacenar(UsuarioPremium usuario) {
 		this.usuarios.add(usuario);
 	}
 

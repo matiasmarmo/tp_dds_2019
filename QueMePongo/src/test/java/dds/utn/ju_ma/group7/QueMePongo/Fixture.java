@@ -33,7 +33,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.EstadoDelClima;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.OpenWeatherMapProveedor;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
 import dds.utn.ju_ma.group7.QueMePongo.db.WithDbAccess;
 
 public class Fixture implements WithDbAccess {
@@ -73,8 +73,8 @@ public class Fixture implements WithDbAccess {
 	protected RepositorioUsuariosPersistente repositorioUsuariosPersistente;
 	protected RepositorioEventosPersistente repositorioEventosPersistente = new RepositorioEventosPersistente();
 
-	protected Usuario usuario;
-	protected Usuario otroUsuario;
+	protected UsuarioPremium usuario;
+	protected UsuarioPremium otroUsuario;
 
 	protected Guardarropa guardarropaCompleto;
 	protected Guardarropa guardarropaIncompleto;
