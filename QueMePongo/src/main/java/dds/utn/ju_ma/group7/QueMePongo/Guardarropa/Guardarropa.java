@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -36,7 +36,7 @@ public class Guardarropa {
 	public Guardarropa() {
 	}
 
-	public Guardarropa(UsuarioPremium usuarioCreador, RepositorioEventos repositorioEventos) {
+	public Guardarropa(Usuario usuarioCreador, RepositorioEventos repositorioEventos) {
 		this.prendas = new ArrayList<Prenda>();
 		this.repositorioEventos = repositorioEventos;
 		usuarioCreador.agregarGuardarropa(this);
@@ -63,7 +63,7 @@ public class Guardarropa {
 		this.agregarPrenda(prenda);
 	}
 
-	public boolean usuarioTieneAcceso(UsuarioPremium usuarioBuscado) {
+	public boolean usuarioTieneAcceso(Usuario usuarioBuscado) {
 		return usuarioBuscado.esDuenioDeGuardarropas(this);
 	}
 

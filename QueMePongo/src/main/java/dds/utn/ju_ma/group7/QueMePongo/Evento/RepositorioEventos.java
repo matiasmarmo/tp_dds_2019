@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public abstract class RepositorioEventos {
 	
@@ -13,14 +13,14 @@ public abstract class RepositorioEventos {
 	
 	protected abstract void almacenar(Evento evento);
 
-	public EventoUnico instanciarEventoUnico(UsuarioPremium usuario, Guardarropa guardarropas, Calendar fecha,
+	public EventoUnico instanciarEventoUnico(Usuario usuario, Guardarropa guardarropas, Calendar fecha,
 			String descripcion) {
 		EventoUnico evento = new EventoUnico(usuario, guardarropas, fecha, descripcion);
 		this.almacenar(evento);
 		return evento;
 	}
 
-	public EventoRepetitivo instanciarEventoRepetitivo(UsuarioPremium usuario, Guardarropa guardarropa, Calendar inicio,
+	public EventoRepetitivo instanciarEventoRepetitivo(Usuario usuario, Guardarropa guardarropa, Calendar inicio,
 			String descripcion, TipoRecurrencia recurrencia) {
 		EventoRepetitivo eventoRepetitivo = new EventoRepetitivo(usuario, guardarropa, descripcion, inicio,
 				recurrencia, this);
@@ -33,17 +33,17 @@ public abstract class RepositorioEventos {
 				.collect(Collectors.toList());
 	}
 
-	public List<Evento> eventosDelUsuario(UsuarioPremium usuario) {
+	public List<Evento> eventosDelUsuario(Usuario usuario) {
 		return this.todosLosEventos().stream().filter(evento -> evento.esDeUsuario(usuario)).collect(Collectors.toList());
 	}
 
-	public List<Sugerencia> sugerenciasAceptadasDelUsuario(UsuarioPremium usuario) {
+	public List<Sugerencia> sugerenciasAceptadasDelUsuario(Usuario usuario) {
 		return this.eventosDelUsuario(usuario).stream().map(evento -> evento.getSugerencias())
 				.flatMap(sugerencia -> sugerencia.stream())
 				.filter(sugerencia -> sugerencia.esDeEstado(EstadoSugerencia.ACEPTADA)).collect(Collectors.toList());
 	}
 
-	public List<Sugerencia> sugerenciasRechazadasDelUsuario(UsuarioPremium usuario) {
+	public List<Sugerencia> sugerenciasRechazadasDelUsuario(Usuario usuario) {
 		return this.eventosDelUsuario(usuario).stream().map(evento -> evento.getSugerencias())
 				.flatMap(sugerencia -> sugerencia.stream())
 				.filter(sugerencia -> sugerencia.esDeEstado(EstadoSugerencia.RECHAZADA)).collect(Collectors.toList());

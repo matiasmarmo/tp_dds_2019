@@ -13,7 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -24,11 +24,11 @@ public abstract class Evento {
 	
 	protected String descripcion;
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	protected UsuarioPremium usuario;
+	protected Usuario usuario;
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	protected Guardarropa guardarropa;
 	
-	public boolean esDeUsuario(UsuarioPremium usuario) {
+	public boolean esDeUsuario(Usuario usuario) {
 		return this.usuario == usuario;
 	}
 	
@@ -38,7 +38,7 @@ public abstract class Evento {
 	
 	public abstract Calendar getProximaFecha();
 	
-	public UsuarioPremium getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 

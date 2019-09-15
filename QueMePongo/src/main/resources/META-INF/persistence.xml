@@ -17,7 +17,6 @@
 		<class>dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado</class>
 		<class>dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario</class>
 		<class>dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis</class>
-		<class>dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium</class>
 		<class>dds.utn.ju_ma.group7.QueMePongo.Usuario.Sensibilidad</class>
 		<class>dds.utn.ju_ma.group7.QueMePongo.Evento.Evento</class>
 		<class>dds.utn.ju_ma.group7.QueMePongo.Evento.EventoRepetitivo</class>

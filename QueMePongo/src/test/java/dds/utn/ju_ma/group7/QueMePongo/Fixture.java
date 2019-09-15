@@ -36,7 +36,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.EstadoDelClima;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.OpenWeatherMapProveedor;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class Fixture implements WithGlobalEntityManager, TransactionalOps, EntityManagerOps {
 
@@ -75,8 +75,8 @@ public class Fixture implements WithGlobalEntityManager, TransactionalOps, Entit
 	protected RepositorioUsuariosPersistente repositorioUsuariosPersistente;
 	protected RepositorioEventosPersistente repositorioEventosPersistente = new RepositorioEventosPersistente();
 
-	protected UsuarioPremium usuario;
-	protected UsuarioPremium otroUsuario;
+	protected Usuario usuario;
+	protected Usuario otroUsuario;
 
 	protected Guardarropa guardarropaCompleto;
 	protected Guardarropa guardarropaIncompleto;

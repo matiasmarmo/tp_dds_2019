@@ -25,7 +25,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.ParteCuerpo;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class UsuarioPremium {
+public class Usuario {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -38,10 +38,10 @@ public class UsuarioPremium {
 	@JoinColumn(name = "id")
 	private List<InteresEnNotificaciones> notificadores;
 
-	public UsuarioPremium() {
+	public Usuario() {
 	}
 
-	public UsuarioPremium(List<InteresEnNotificaciones> notificadores) {
+	public Usuario(List<InteresEnNotificaciones> notificadores) {
 		this.guardarropas = new HashSet<Guardarropa>();
 		this.sensibilidad = new Sensibilidad();
 		this.notificadores = notificadores;

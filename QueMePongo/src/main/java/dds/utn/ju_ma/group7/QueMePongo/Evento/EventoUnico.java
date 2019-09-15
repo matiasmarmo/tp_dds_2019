@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 @Entity
 public class EventoUnico extends Evento {
@@ -29,7 +29,7 @@ public class EventoUnico extends Evento {
 	public EventoUnico() {
 	}
 
-	public EventoUnico(UsuarioPremium usuario, Guardarropa guardarropa, Calendar fecha, String descripcion) {
+	public EventoUnico(Usuario usuario, Guardarropa guardarropa, Calendar fecha, String descripcion) {
 		this.usuario = usuario;
 		this.guardarropa = guardarropa;
 		this.fecha = fecha;

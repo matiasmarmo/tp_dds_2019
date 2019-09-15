@@ -14,12 +14,12 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosMock;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorMock;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.Sugeridor;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.NotificadorMock;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class UsuarioTest extends Fixture {
 
 	private RepositorioUsuariosMock repositorioUsuariosMock;
-	private UsuarioPremium usuarioANotificar;
+	private Usuario usuarioANotificar;
 	private NotificadorMock notificador;
 	private Evento eventoANotificar;
 

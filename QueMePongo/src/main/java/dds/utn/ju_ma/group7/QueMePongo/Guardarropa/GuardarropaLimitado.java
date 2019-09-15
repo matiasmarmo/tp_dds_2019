@@ -6,14 +6,14 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.GuardarropaLlenoException;
 import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 @Entity
 public class GuardarropaLimitado extends Guardarropa {
 	
 	public GuardarropaLimitado() {}
 
-	public GuardarropaLimitado(UsuarioPremium usuarioCreador, RepositorioEventos repositorioEventos) {
+	public GuardarropaLimitado(Usuario usuarioCreador, RepositorioEventos repositorioEventos) {
 		super(usuarioCreador, repositorioEventos);
 	}
 

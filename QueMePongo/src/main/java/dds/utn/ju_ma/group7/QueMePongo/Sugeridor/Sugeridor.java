@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioPremium;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class Sugeridor {
 	
@@ -18,7 +18,7 @@ public class Sugeridor {
 		this.proveedorClima = proveedorClima;
 	}
 	
-	private List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos, Calendar fecha, UsuarioPremium usuario){
+	private List<Atuendo> filtrarAtuendosPorTemperatura(List<Atuendo> atuendos, Calendar fecha, Usuario usuario){
 		EstadoDelClima estadoDelClima = new EstadoDelClima(proveedorClima, fecha);
 		double temperatura = estadoDelClima.getTemperatura();
 		return atuendos.stream().filter(unAtuendo -> unAtuendo.esAdecuadoATemperatura(temperatura, usuario.getSensibilidad())).collect(Collectors.toList());
