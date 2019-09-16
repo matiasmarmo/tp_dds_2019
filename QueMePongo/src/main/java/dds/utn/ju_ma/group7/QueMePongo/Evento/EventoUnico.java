@@ -38,11 +38,6 @@ public class EventoUnico extends Evento {
 
 	@Override
 	public boolean esProximo(Calendar unaFecha) {
-
-		if (unaFecha.after(fecha)) {
-			throw new EventoInvalidoException("La fecha introducida ha caducado");
-		}
-
 		return ChronoUnit.DAYS.between(unaFecha.toInstant(), this.fecha.toInstant()) < 5;
 	}
 

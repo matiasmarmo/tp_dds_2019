@@ -15,6 +15,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
@@ -22,14 +25,14 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Guardarropa {
+public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 	@Id
 	@GeneratedValue
 	private Long id;
 
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "guardarropa")
 	protected List<Prenda> prendas;
-	
+
 	@Transient
 	private RepositorioEventos repositorioEventos;
 
@@ -40,6 +43,8 @@ public class Guardarropa {
 		this.prendas = new ArrayList<Prenda>();
 		this.repositorioEventos = repositorioEventos;
 		usuarioCreador.agregarGuardarropa(this);
+		this.entityManager().persist(this);
+		this.entityManager().flush();
 	}
 
 	private List<Prenda> getPrendasDisponibles(Calendar fechaReferencia) {

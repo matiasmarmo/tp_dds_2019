@@ -1,11 +1,10 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.ParteCuerpo;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Sensibilidad;
-
-import org.junit.Assert;
 
 public class AtuendoTest extends Fixture {
 	
@@ -52,4 +51,5 @@ public class AtuendoTest extends Fixture {
 		sensibilidad.setNivelSensibilidad(ParteCuerpo.TORSO, 50);
 		Assert.assertFalse(atuendoNegroConBuzo.esAdecuadoATemperatura(10, sensibilidad));
 	}
+	
 }

@@ -2,14 +2,11 @@ package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public abstract class RepositorioEventos {
-	
-	protected abstract List<Evento> todosLosEventos();
 	
 	protected abstract void almacenar(Evento evento);
 
@@ -27,37 +24,18 @@ public abstract class RepositorioEventos {
 		this.almacenar(eventoRepetitivo);
 		return eventoRepetitivo;
 	}
+	
+	public abstract List<Evento> eventosProximos(Calendar fecha);
 
-	public List<Evento> eventosProximos(Calendar fecha) {
-		return this.todosLosEventos().stream().filter(evento -> evento.esProximo(fecha) && !evento.fueSugerido(fecha))
-				.collect(Collectors.toList());
-	}
+	public abstract List<Evento> eventosDelUsuario(Usuario usuario);
 
-	public List<Evento> eventosDelUsuario(Usuario usuario) {
-		return this.todosLosEventos().stream().filter(evento -> evento.esDeUsuario(usuario)).collect(Collectors.toList());
-	}
+	public abstract List<Sugerencia> sugerenciasAceptadasDelUsuario(Usuario usuario);
 
-	public List<Sugerencia> sugerenciasAceptadasDelUsuario(Usuario usuario) {
-		return this.eventosDelUsuario(usuario).stream().map(evento -> evento.getSugerencias())
-				.flatMap(sugerencia -> sugerencia.stream())
-				.filter(sugerencia -> sugerencia.esDeEstado(EstadoSugerencia.ACEPTADA)).collect(Collectors.toList());
-	}
+	public abstract List<Sugerencia> sugerenciasRechazadasDelUsuario(Usuario usuario);
 
-	public List<Sugerencia> sugerenciasRechazadasDelUsuario(Usuario usuario) {
-		return this.eventosDelUsuario(usuario).stream().map(evento -> evento.getSugerencias())
-				.flatMap(sugerencia -> sugerencia.stream())
-				.filter(sugerencia -> sugerencia.esDeEstado(EstadoSugerencia.RECHAZADA)).collect(Collectors.toList());
-	}
+	public abstract List<Evento> obtenerEventosSugeridosDeUnGuardarropasParaFecha(Guardarropa guardarropa,
+			Calendar fechaReferencia);
 
-	public List<Evento> obtenerEventosSugeridosDeUnGuardarropasParaFecha(Guardarropa guardarropa,
-			Calendar fechaReferencia) {
-		return this.todosLosEventos().stream().filter(evento -> evento.esEnFecha(fechaReferencia)
-				&& evento.fueSugerido(fechaReferencia) && evento.suGuardarropasEs(guardarropa))
-				.collect(Collectors.toList());
-	}
-
-	public List<EventoUnico> obtenerEventosEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
-		return this.todosLosEventos().stream().flatMap(evento -> evento.instanciasEntreFechas(fechaInicio, fechaFin).stream())
-				.collect(Collectors.toList());
-	}
+	public abstract List<EventoUnico> obtenerEventosEntreFechas(Calendar fechaInicio, Calendar fechaFin);
+	
 }

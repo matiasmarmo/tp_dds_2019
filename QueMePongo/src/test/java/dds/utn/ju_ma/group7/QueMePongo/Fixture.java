@@ -128,6 +128,7 @@ public class Fixture implements WithGlobalEntityManager, TransactionalOps, Entit
 		usuario = repositorioUsuariosPersistente.instanciarUsuarioPremium(Arrays.asList());
 		otroUsuario = repositorioUsuariosPersistente.instanciarUsuarioGratis(Arrays.asList());
 		
+		this.beginTransaction();
 		guardarropaCompleto = new Guardarropa(usuario, repositorioEventosPersistente);
 		guardarropaIncompleto = new Guardarropa(usuario, repositorioEventosPersistente);
 
@@ -233,8 +234,6 @@ public class Fixture implements WithGlobalEntityManager, TransactionalOps, Entit
 		fechaLejana.setTime(new Date());
 		fechaLejana.add(Calendar.DATE, 100);
 		
-		this.beginTransaction();
-
 		eventoInvierno = repositorioEventosPersistente.instanciarEventoUnico(usuario, guardarropasVeranoEInvierno,
 				fechaProxima, "Un evento de invierno");
 		eventoVerano = repositorioEventosPersistente.instanciarEventoUnico(usuario, guardarropasVerano, fechaLejana,
