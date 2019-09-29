@@ -34,6 +34,26 @@ public class Usuario {
 	private Set<Guardarropa> guardarropas;
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Sensibilidad sensibilidad;
+	public Set<Guardarropa> getGuardarropas() {
+		return guardarropas;
+	}
+
+	public void setGuardarropas(Set<Guardarropa> guardarropas) {
+		this.guardarropas = guardarropas;
+	}
+
+	public List<InteresEnNotificaciones> getNotificadores() {
+		return notificadores;
+	}
+
+	public void setNotificadores(List<InteresEnNotificaciones> notificadores) {
+		this.notificadores = notificadores;
+	}
+
+	public void setSensibilidad(Sensibilidad sensibilidad) {
+		this.sensibilidad = sensibilidad;
+	}
+
 	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id")
 	private List<InteresEnNotificaciones> notificadores;

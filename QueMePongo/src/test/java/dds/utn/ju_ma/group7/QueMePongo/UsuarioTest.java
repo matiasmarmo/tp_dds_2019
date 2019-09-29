@@ -2,6 +2,8 @@ package dds.utn.ju_ma.group7.QueMePongo;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,6 +13,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Alertador.Alertador;
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosMock;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosMock;
+import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorMock;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.Sugeridor;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.NotificadorMock;
@@ -45,6 +48,16 @@ public class UsuarioTest extends Fixture {
 		Alertador alertador = new Alertador(new ProveedorMock().setHayTormentas(true).setHayNieve(false), this.repositorioUsuariosMock);
 		alertador.informarAlertas(Calendar.getInstance());
 		Assert.assertTrue(this.notificador.getFueNotificadoAlerta());
+	}
+	
+	@Test
+	public void sePuedePersistirElGuardarropasDeUnUsuario() {
+		this.entityManager().persist(usuario);
+		List<Usuario> usuariosPersistidos = this.entityManager().createQuery("from Usuario", Usuario.class).getResultList();
+		Usuario usuarioPersistido = usuariosPersistidos.stream()
+				.filter(unUsuario-> usuario == unUsuario)
+				.collect(Collectors.toList()).get(0);
+		Assert.assertTrue(usuario.getGuardarropas() == usuarioPersistido.getGuardarropas());
 	}
 
 }

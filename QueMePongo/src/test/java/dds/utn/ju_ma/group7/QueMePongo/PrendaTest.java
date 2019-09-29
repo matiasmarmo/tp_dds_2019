@@ -1,6 +1,10 @@
 package dds.utn.ju_ma.group7.QueMePongo;
 
 import org.junit.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.Assert;
 
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.ImagenInvalidaException;
@@ -49,21 +53,31 @@ public class PrendaTest extends Fixture {
 	public void sePuedeConsultarLaCategoriaDeLaPrenda() {
 		Assert.assertFalse(remeraNegra.esDeCategoria(CategoriaPrenda.INFERIOR));
 	}
-	
+
 	@Test(expected = ImagenInvalidaException.class)
 	public void elPathDeLaImagenDeLaPrendaNoPuedeSerNulo() {
 		remeraNegra.setImagen(null);
 	}
-	
+
 	@Test(expected = ImagenInvalidaException.class)
 	public void elPathDeLaImagenDeLaPrendaDebeSerValido() {
 		remeraNegra.setImagen("");
 	}
-	
+
 	@Test
 	public void imagenValida() {
 		String imagenRemeraGithub = "file:///../src/imagenRemeraGithub.png";
 		remeraNegra.setImagen(imagenRemeraGithub);
+	}
+
+	@Test
+	public void sePuedePersistirLaCategoriaDeDeUnaPrenda() {
+		this.entityManager().persist(remeraBlanca);
+		List<Prenda> prendasPersistidas = this.entityManager().createQuery("from Prenda", Prenda.class).getResultList();
+		Prenda remeraBlancaPersistida = prendasPersistidas.stream()
+				.filter(unaPrenda -> remeraBlanca == unaPrenda)
+				.collect(Collectors.toList()).get(0);
+		Assert.assertTrue(remeraBlanca.getCategoria() == remeraBlancaPersistida.getCategoria());
 	}
 
 }
