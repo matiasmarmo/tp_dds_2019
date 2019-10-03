@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -23,7 +24,7 @@ public class Atuendo {
 	@GeneratedValue
 	private Long id;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private List<Prenda> prendasSuperiores;
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Prenda prendaInferior;

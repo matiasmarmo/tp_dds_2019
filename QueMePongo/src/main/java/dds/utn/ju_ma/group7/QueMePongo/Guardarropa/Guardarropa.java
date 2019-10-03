@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -30,7 +31,7 @@ public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 	@GeneratedValue
 	private Long id;
 
-	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "guardarropa")
+	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "guardarropa", fetch = FetchType.LAZY)
 	protected List<Prenda> prendas;
 
 	@Transient
