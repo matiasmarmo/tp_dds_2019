@@ -1,0 +1,12 @@
+{{#partial "contenido"}}
+<div>
+	<form action="/altaPrendas/tipoPrenda" method="post">
+		<select name="tipoPrenda">
+			{{#each tiposPrenda}}
+				<option value="{{this}}">{{this}}</option>
+			{{/each}}
+		</select>
+		<input type="submit" value="Siguiente"></input>
+	</form>
+</div>
+{{/partial}} {{> layout.hbs}}

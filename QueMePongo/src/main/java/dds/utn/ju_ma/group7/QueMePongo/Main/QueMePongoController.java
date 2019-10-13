@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
@@ -50,6 +51,39 @@ public class QueMePongoController {
 		model.put("prendas", Arrays.asList(prenda));
     	ModelAndView modelAndView = new ModelAndView(model, "listadoPrendas.hbs");
     	return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public String altaPrendas(Request req, Response res) {
+		Map<String, List<String>> model = new HashMap<String, List<String>>();
+		model.put("tiposPrenda", 
+				Arrays.asList(TipoPrenda.values()).stream().map(value -> value.toString()).collect(Collectors.toList())
+				);
+		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/tipoPrenda.hbs");
+		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public String postTipoPrenda(Request req, Response res) {
+		req.session(true).attribute("tipoPrenda", req.queryParams("tipoPrenda"));
+		Map<String, List<String>> model = new HashMap<String, List<String>>();
+		model.put("tiposTela", 
+				Arrays.asList(TipoTela.values()).stream().map(value -> value.toString()).collect(Collectors.toList())
+				);
+		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/tipoTela.hbs");
+		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public String postTipoTela(Request req, Response res) {
+		req.session().attribute("tipoTela", req.queryParams("tipoTela"));
+		ModelAndView modelAndView = new ModelAndView(null, "altaPrenda/color.hbs");
+		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public String postColor(Request req, Response res) {
+		// Construir prenda
+		System.out.println(req.queryParams("colorPrimario"));
+		System.out.println(req.queryParams("colorSecundario"));
+		System.out.println(req.queryParams("tieneSecundario"));
+		return "Tu prenda está construida";
 	}
 
 }

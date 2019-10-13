@@ -30,6 +30,10 @@ public class Router {
         Spark.get("/guardarropas", controller::listarGuardarropas);
         Spark.get("/aceptar-sugerencias", controller::listarEventos);
         Spark.get("/guardarropas/prendas/:id", controller::listarPrendas);
+        Spark.get("/altaPrendas", controller::altaPrendas);
+        Spark.post("/altaPrendas/tipoPrenda", controller::postTipoPrenda);
+        Spark.post("/altaPrendas/tipoTela", controller::postTipoTela);
+        Spark.post("/altaPrendas/color", controller::postColor);
     }
 
 }
