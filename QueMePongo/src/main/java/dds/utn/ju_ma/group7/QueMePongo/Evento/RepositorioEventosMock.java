@@ -10,7 +10,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class RepositorioEventosMock extends RepositorioEventos {
 	
-	private List<Evento> eventos;
+	public List<Evento> eventos;
 	
 	public RepositorioEventosMock() {
 		this.eventos = new ArrayList<Evento>();

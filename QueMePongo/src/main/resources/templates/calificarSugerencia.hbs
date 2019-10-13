@@ -1,0 +1,14 @@
+<html>
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<div class="btn-group-vertical" role="group" aria-label="Basic example">
+		{{#each eventos}}
+		<a href="/eventos/sugerencias/{{id}}">
+       		<button type="button" class="btn btn-primary">{{descripcion}}</button>
+       	</a>
+ 		{{/each}}
+	</div>
+</body>
+</html>
