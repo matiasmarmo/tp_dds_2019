@@ -1,8 +1,17 @@
 package dds.utn.ju_ma.group7.QueMePongo.Main;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import spark.Spark;
+
+import com.github.jknack.handlebars.Handlebars;
+
+import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 import spark.ModelAndView;
+import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Router {
@@ -19,12 +28,14 @@ public class Router {
     
     
     public void configurar() {
-        // Configuración de rutas
+        QueMePongoController controller = new QueMePongoController();
         Spark.get("/test", (req, res) -> {
             HashMap<String, Object> viewModel = new HashMap();
             ModelAndView modelAndView = new ModelAndView(viewModel, "test.hbs");
-            return new HandlebarsTemplateEngine().render(modelAndView);
-        });
+            return modelAndView;
+        }, new HandlebarsTemplateEngine());
+        
+        Spark.get("/guardarropas", controller::listarGuardarropas);
     }
 
 }

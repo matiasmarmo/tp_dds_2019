@@ -33,6 +33,8 @@ public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 
 	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "guardarropa", fetch = FetchType.LAZY)
 	protected List<Prenda> prendas;
+	
+	private String nombreGuardarropas = "UnGuardarropa";
 
 	@Transient
 	private RepositorioEventos repositorioEventos;
@@ -79,6 +81,18 @@ public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 
 	public List<Atuendo> generarAtuendos(Calendar fechaReferencia) {
 		return GeneradorCombinaciones.generarAtuendos(this.getPrendasDisponibles(fechaReferencia));
+	}
+
+	public String getNombreGuardarropas() {
+		return nombreGuardarropas;
+	}
+
+	public void setNombreGuardarropas(String nombreGuardarropas) {
+		this.nombreGuardarropas = nombreGuardarropas;
+	}
+	
+	public Long getId() {
+		return this.id;
 	}
 
 }

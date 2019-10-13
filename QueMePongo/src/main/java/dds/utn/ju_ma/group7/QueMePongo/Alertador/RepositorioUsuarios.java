@@ -2,6 +2,7 @@ package dds.utn.ju_ma.group7.QueMePongo.Alertador;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.InteresEnNotificaciones;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
@@ -10,7 +11,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.UsuarioGratis;
 public abstract class RepositorioUsuarios {
 
 	protected abstract List<Usuario> todosLosUsuarios();
-	
+
 	protected abstract void almacenar(Usuario usuario);
 
 	public Usuario instanciarUsuarioGratis(List<InteresEnNotificaciones> notificadores) {
@@ -27,6 +28,11 @@ public abstract class RepositorioUsuarios {
 
 	public void informarUsuariosDe(Calendar fecha, TipoAlerta alerta) {
 		this.todosLosUsuarios().forEach(usuario -> usuario.notificarAlerta(fecha, alerta));
+	}
+
+	public Usuario obtenerUsuarioPorId(Long id) {
+		return this.todosLosUsuarios().stream().filter(usuario -> usuario.getId() == id).collect(Collectors.toList())
+				.get(0);
 	}
 
 }

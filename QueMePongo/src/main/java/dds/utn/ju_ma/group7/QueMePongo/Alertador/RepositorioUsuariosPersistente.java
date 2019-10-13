@@ -16,7 +16,7 @@ public class RepositorioUsuariosPersistente extends RepositorioUsuarios implemen
 	}
 
 	@Override
-	protected void almacenar(Usuario usuario) {
+	public void almacenar(Usuario usuario) {
 		this.withTransaction(() -> {
 			this.persist(usuario);
 		});

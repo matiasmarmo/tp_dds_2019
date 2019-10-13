@@ -107,5 +107,9 @@ public class Usuario {
 	public boolean esDuenioDeGuardarropas(Guardarropa guardarropa) {
 		return this.guardarropas.contains(guardarropa);
 	}
+	
+	public Long getId() {
+		return this.id;
+	}
 
 }

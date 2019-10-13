@@ -1,0 +1,28 @@
+{{#partial "contenido"}}
+<div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Guardarropa</th>
+				<th scope="col">Prendas</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{{#each guardarropas}}
+			<tr>
+				<th scope="row">{{@index}}</th>
+				<td>{{nombreGuardarropas}}</td>
+				<td>
+					<a href="/guardarropas/prendas/{{id}}">
+						<button type="button">Ver Prendas</button>
+					</a>
+				</td>
+			</tr>
+			{{/each}}
+
+		</tbody>
+	</table>
+</div>
+{{/partial}} {{> layout.hbs}}
