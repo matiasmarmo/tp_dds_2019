@@ -1,0 +1,19 @@
+{{#partial "contenido"}}
+	<h2>Sugerencias del evento {{id}}</h2>
+	<table class="table">
+		  <thead class="thead-dark">
+		    <tr>
+		      <th scope="col">Atuendo</th>
+		      <th scope="col">Estado</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			{{#each sugerencias}}
+ 			<tr>
+		      <td>{{atuendo}}</td>
+		      <td>{{estado}}</td>
+		    </tr>
+ 			{{/each}}
+		  </tbody>
+	</table>
+{{/partial}} {{> layout.hbs}}

@@ -20,7 +20,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 public abstract class Evento {
 	@Id
 	@GeneratedValue
-	private Long id;
+	public Long id;
 	
 	protected String descripcion;
 	@ManyToOne(cascade = CascadeType.PERSIST)

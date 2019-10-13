@@ -7,8 +7,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
+import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosMock;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
@@ -31,17 +35,6 @@ public class QueMePongoController {
 		usuario.agregarGuardarropa(new GuardarropaLimitado());
 		repositorioUsuariosPersistente.almacenar(usuario);
 		ModelAndView modelAndView = new ModelAndView(usuario, "listadoGuardarropas.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
-	}
-
-	public String listarEventos(Request req, Response res) {
-		RepositorioEventosMock repoEventos = new RepositorioEventosMock();
-		repoEventos.instanciarEventoUnico(null, null, null, "evento 1");
-		repoEventos.instanciarEventoUnico(null, null, null, "evento 2");
-		List<Evento> eventos = repoEventos.eventos;
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("eventos", eventos);
-		ModelAndView modelAndView = new ModelAndView(model, "calificarSugerencia.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
@@ -83,7 +76,30 @@ public class QueMePongoController {
 		System.out.println(req.queryParams("colorPrimario"));
 		System.out.println(req.queryParams("colorSecundario"));
 		System.out.println(req.queryParams("tieneSecundario"));
-		return "Tu prenda está construida";
+		return "Tu prenda esta construida";
 	}
+	
+	public String listarEventos(Request req, Response res) {
+    	RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+    	Evento e  = repoEventos.instanciarEventoUnico(null, null, null, "evento 1");
+    	Evento e2 = repoEventos.instanciarEventoUnico(null, null, null, "evento 2");
+    	List<Evento> eventos = repoEventos.todosLosEventos();
+    	Map<String, Object> model = new HashMap<String, Object>();
+    	model.put("eventos", eventos);
+    	ModelAndView modelAndView = new ModelAndView(model, "calificarSugerencia.hbs");
+        return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public String listarSugerencias(Request req, Response res) {
+    	String idEventoString = req.queryParams("id");
+//    	Long idEvento = Long.parseLong(idEventoString, 10);
+//    	RepositorioEventosMock repoEventos = new RepositorioEventosMock();
+//    	EventoUnico evento = repoEventos.eventos.stream().filter(unEvento -> unEvento.id == idEvento).collect(Collectors.toList()).get(0);
+    	Atuendo atuendo1 = new Atuendo(null, null, null, null);
+    	Sugerencia sugerencia1 = new Sugerencia(atuendo1);
+    	List<Sugerencia> sugerencias = Arrays.asList(sugerencia1);
+    	ModelAndView modelAndView = new ModelAndView(sugerencias, "listadoSugerencias.hbs");
+        return new HandlebarsTemplateEngine().render(modelAndView);
+    }
 
 }

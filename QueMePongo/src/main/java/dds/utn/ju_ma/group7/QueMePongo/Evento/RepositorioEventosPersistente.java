@@ -17,7 +17,11 @@ public class RepositorioEventosPersistente extends RepositorioEventos
 
 	@Override
 	protected void almacenar(Evento evento) {
-		this.persist(evento);
+		withTransaction(() -> this.persist(evento));
+	}
+	
+	public List<Evento> todosLosEventos() {
+		return this.entityManager().createQuery("from Evento", Evento.class).getResultList();
 	}
 
 	@Override
