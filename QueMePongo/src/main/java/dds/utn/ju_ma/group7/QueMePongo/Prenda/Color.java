@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.bytedeco.javacpp.opencv_shape.HistogramCostExtractor;
+
 @Entity
 public class Color {
 	@Id
@@ -16,6 +18,7 @@ public class Color {
 	private Integer rojo;
 	private Integer verde;
 	private Integer azul;
+	private String rgb;
 
 	public Color() {
 	}
@@ -24,6 +27,7 @@ public class Color {
 		this.rojo = rojo;
 		this.verde = verde;
 		this.azul = azul;
+		this.rgb = "#" + Integer.toHexString(rojo) + Integer.toHexString(verde) + Integer.toHexString(azul);
 	}
 
 	public int getRojo() {
@@ -36,6 +40,10 @@ public class Color {
 
 	public int getAzul() {
 		return azul;
+	}
+	
+	public String getRgb() {
+		return this.rgb;
 	}
 
 	public List<Integer> getComponentes() {
