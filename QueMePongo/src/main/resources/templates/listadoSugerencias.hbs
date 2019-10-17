@@ -1,14 +1,15 @@
 {{#partial "contenido"}}
-<h2>Sugerencias del evento {{idEvento}}</h2>
+<h2 class="titulo-seccion">Sugerencias para el evento {{idEvento}}</h2>
 <div>
 	<table class="table">
 		<thead>
 			<tr>
 				<th scope="col">#</th>
-				<th scope="col">Prendas Superiores</th>
-				<th scope="col">Prenda Inferior</th>
-				<th scope="col">Calzado</th>
-				<th scope="col">Accesorio</th>
+				<th scope="col">PRENDAS SUPERIORES</th>
+				<th scope="col">PRENDA INFERIOR</th>
+				<th scope="col">CALZADO</th>
+				<th scope="col">ACCESORIO</th>
+				<th scope="col">ESTADO</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -17,7 +18,7 @@
 				<th scope="row">{{@index}}</th>
 				<td>
 					{{#each atuendo.prendasSuperiores}}
-					<h6><u>PRENDA {{@index}}</u></h6>
+					<h6 style="color:#444444"><u>Prenda Superior {{@index}}</u></h6>
 					<ul>
 						<li>Tipo de prenda: <b>{{tipoPrenda}}</b></li>
 						<li>Tipo de tela: <b>{{tipoTela}}</b></li>
@@ -78,6 +79,15 @@
 							{{/if}}
 						</li>
 					</ul>
+				</td>
+				<td>
+					{{#if estado "PENDIENTE"}}
+					<p style="text-align: center;">PENDIENTE</p>
+					<div style="display:flex; flex-direction: column; justify-content: stretch; ">
+						<button type="button" class="btn btn-success" style="margin-bottom: 5px">Aceptar</button>
+						<button type="button" class="btn btn-danger">Rechazar</button>
+					</div>
+					{{/if}}
 				</td>
 			</tr>
 			{{/each}}
