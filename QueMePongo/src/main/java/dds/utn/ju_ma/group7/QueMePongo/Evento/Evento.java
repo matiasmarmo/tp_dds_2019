@@ -20,7 +20,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 public abstract class Evento {
 	@Id
 	@GeneratedValue
-	public Long id;
+	private Long id;
 	
 	protected String descripcion;
 	@ManyToOne(cascade = CascadeType.PERSIST)
@@ -54,6 +54,10 @@ public abstract class Evento {
 		return ChronoUnit.DAYS.between(unaFecha.toInstant(), otraFecha.toInstant());
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
 	public abstract boolean esProximo(Calendar unaFecha);
 	
 	public abstract boolean fueSugerido(Calendar fechaReferencia);

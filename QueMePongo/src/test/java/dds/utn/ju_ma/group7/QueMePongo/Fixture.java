@@ -125,10 +125,10 @@ public class Fixture implements WithGlobalEntityManager, TransactionalOps, Entit
 		
 		repositorioUsuariosPersistente = new RepositorioUsuariosPersistente();
 		
-		usuario = repositorioUsuariosPersistente.instanciarUsuarioPremium(Arrays.asList());
-		otroUsuario = repositorioUsuariosPersistente.instanciarUsuarioGratis(Arrays.asList());
-		
 		this.beginTransaction();
+		usuario = repositorioUsuariosPersistente.instanciarUsuarioPremium(Arrays.asList(), "", "");
+		otroUsuario = repositorioUsuariosPersistente.instanciarUsuarioGratis(Arrays.asList(), "", "");
+		
 		guardarropaCompleto = new Guardarropa(usuario, repositorioEventosPersistente);
 		guardarropaIncompleto = new Guardarropa(usuario, repositorioEventosPersistente);
 

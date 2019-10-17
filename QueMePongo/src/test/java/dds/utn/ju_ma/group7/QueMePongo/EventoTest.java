@@ -13,7 +13,6 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class EventoTest extends Fixture {
 	@Before

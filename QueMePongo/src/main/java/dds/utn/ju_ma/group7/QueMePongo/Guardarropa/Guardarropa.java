@@ -47,7 +47,6 @@ public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 		this.repositorioEventos = repositorioEventos;
 		usuarioCreador.agregarGuardarropa(this);
 		this.entityManager().persist(this);
-		this.entityManager().flush();
 	}
 
 	private List<Prenda> getPrendasDisponibles(Calendar fechaReferencia) {

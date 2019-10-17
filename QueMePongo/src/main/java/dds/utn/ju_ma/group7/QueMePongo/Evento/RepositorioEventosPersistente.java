@@ -17,7 +17,7 @@ public class RepositorioEventosPersistente extends RepositorioEventos
 
 	@Override
 	protected void almacenar(Evento evento) {
-		withTransaction(() -> this.persist(evento));
+		this.persist(evento);
 	}
 	
 	public List<Evento> todosLosEventos() {
