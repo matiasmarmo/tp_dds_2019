@@ -30,6 +30,9 @@ public class Usuario {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	private String username;
+	private String password; // TODO: Hashear si hace falta
 
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private Set<Guardarropa> guardarropas;
@@ -62,10 +65,12 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(List<InteresEnNotificaciones> notificadores) {
+	public Usuario(List<InteresEnNotificaciones> notificadores, String username, String password) {
 		this.guardarropas = new HashSet<Guardarropa>();
 		this.sensibilidad = new Sensibilidad();
 		this.notificadores = notificadores;
+		this.username = username;
+		this.password = password;
 	}
 
 	public void agregarGuardarropa(Guardarropa guardarropa) {
@@ -110,6 +115,22 @@ public class Usuario {
 	
 	public Long getId() {
 		return this.id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

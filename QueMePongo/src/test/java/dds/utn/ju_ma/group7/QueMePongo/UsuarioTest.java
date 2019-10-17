@@ -13,7 +13,6 @@ import dds.utn.ju_ma.group7.QueMePongo.Alertador.Alertador;
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosMock;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosMock;
-import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorMock;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.Sugeridor;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.NotificadorMock;
@@ -31,7 +30,7 @@ public class UsuarioTest extends Fixture {
 		this.repositorioUsuariosMock = new RepositorioUsuariosMock();
 		this.notificador = new NotificadorMock();
 		this.usuarioANotificar = this.repositorioUsuariosMock
-				.instanciarUsuarioGratis(Arrays.asList(this.notificador));
+				.instanciarUsuarioGratis(Arrays.asList(this.notificador), "", "");
 		this.eventoANotificar = new RepositorioEventosMock().instanciarEventoUnico(usuarioANotificar,
 				guardarropasVerano, fechaLejana, "Un evento para notificar");
 	}

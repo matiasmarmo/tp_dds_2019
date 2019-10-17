@@ -13,8 +13,8 @@ public class UsuarioGratis extends Usuario {
 	
 	public UsuarioGratis() {}
 
-	public UsuarioGratis(List<InteresEnNotificaciones> notificadores) {
-		super(notificadores);
+	public UsuarioGratis(List<InteresEnNotificaciones> notificadores, String username, String password) {
+		super(notificadores, username, password);
 	}
 
 	@Override
