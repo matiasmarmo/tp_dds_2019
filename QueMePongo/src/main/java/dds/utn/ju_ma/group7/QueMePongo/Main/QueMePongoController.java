@@ -20,16 +20,50 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
+import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
+import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class QueMePongoController {
+	
+	public String loginGet(Request req, Response res) {
+		return new HandlebarsTemplateEngine().render(new ModelAndView(null, "inicioSesion.hbs"));
+	}
+	
+	public void authFilter(Request req, Response res) {
+		String accessToken = req.session().attribute("auth-token");
+		if(accessToken == null) {
+			res.redirect("/login");
+		}
+		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(accessToken);
+		if(user == null) {
+			res.redirect("/login");
+		}
+	}
+	
+	public String loginPost(Request req, Response res) {
+		String username = req.queryParams("username");
+		String password = req.queryParams("password");
+		AuthenticatedUser authenticatedUser = AuthenticationService.loginUser(username, password);
+		req.session().attribute("auth-token", authenticatedUser.getAccessToken());
+		res.redirect("/quemepongo/guardarropas");
+		return null;
+	}
+	
+	public String logout(Request req, Response res) {
+		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		AuthenticationService.logoutUser(user);
+		req.session().removeAttribute("auth-token");
+		res.redirect("/login");
+		return null;
+	}
 
 	public String listarGuardarropas(Request req, Response res) {
 		RepositorioUsuariosPersistente repositorioUsuariosPersistente = new RepositorioUsuariosPersistente();
-		Usuario usuario = repositorioUsuariosPersistente.instanciarUsuarioGratis(Arrays.asList());
+		Usuario usuario = repositorioUsuariosPersistente.instanciarUsuarioGratis(Arrays.asList(), "", "");
 		Guardarropa guardarropa = new GuardarropaLimitado();
 		usuario.agregarGuardarropa(guardarropa);
 		usuario.agregarGuardarropa(new GuardarropaLimitado());

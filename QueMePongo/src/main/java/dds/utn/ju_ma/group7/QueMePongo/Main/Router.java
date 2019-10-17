@@ -27,14 +27,19 @@ public class Router {
             return modelAndView;
         }, new HandlebarsTemplateEngine());
         
-        Spark.get("/guardarropas", controller::listarGuardarropas);
-        Spark.get("/aceptar-sugerencias", controller::listarEventos);
-        Spark.get("/guardarropas/prendas/:id", controller::listarPrendas);
-        Spark.get("/altaPrendas", controller::altaPrendas);
-        Spark.post("/altaPrendas/tipoPrenda", controller::postTipoPrenda);
-        Spark.post("/altaPrendas/tipoTela", controller::postTipoTela);
-        Spark.post("/altaPrendas/color", controller::postColor);
-        Spark.get("/eventos/sugerencias", controller::listarSugerencias);
+
+        Spark.before("/quemepongo/*", controller::authFilter);
+        Spark.get("/login", controller::loginGet);
+        Spark.post("/login", controller::loginPost);
+        Spark.post("/logout", controller::logout);
+        Spark.get("/quemepongo/guardarropas", controller::listarGuardarropas);
+        Spark.get("/quemepongo/aceptar-sugerencias", controller::listarEventos);
+        Spark.get("/quemepongo/guardarropas/prendas/:id", controller::listarPrendas);
+        Spark.get("/quemepongo/altaPrendas", controller::altaPrendas);
+        Spark.post("/quemepongo/altaPrendas/tipoPrenda", controller::postTipoPrenda);
+        Spark.post("/quemepongo/altaPrendas/tipoTela", controller::postTipoTela);
+        Spark.post("/quemepongo/altaPrendas/color", controller::postColor);
+        Spark.get("/quemepongo/eventos/sugerencias", controller::listarSugerencias);
     }
 
 }
