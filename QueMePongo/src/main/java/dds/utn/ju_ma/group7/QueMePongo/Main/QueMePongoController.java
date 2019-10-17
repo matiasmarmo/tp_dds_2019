@@ -1,5 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Main;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -9,14 +10,13 @@ import java.util.stream.Collectors;
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
-import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
-import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosMock;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
+import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
@@ -91,14 +91,23 @@ public class QueMePongoController {
 	}
 	
 	public String listarSugerencias(Request req, Response res) {
-    	String idEventoString = req.queryParams("id");
-//    	Long idEvento = Long.parseLong(idEventoString, 10);
-//    	RepositorioEventosMock repoEventos = new RepositorioEventosMock();
-//    	EventoUnico evento = repoEventos.eventos.stream().filter(unEvento -> unEvento.id == idEvento).collect(Collectors.toList()).get(0);
-    	Atuendo atuendo1 = new Atuendo(null, null, null, null);
-    	Sugerencia sugerencia1 = new Sugerencia(atuendo1);
-    	List<Sugerencia> sugerencias = Arrays.asList(sugerencia1);
-    	ModelAndView modelAndView = new ModelAndView(sugerencias, "listadoSugerencias.hbs");
+    	String idEvento = req.queryParams("id");
+    	PrendaBuilder remeraNegraBuilder = new PrendaBuilder();
+    	remeraNegraBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(new Color(0, 0, 255));
+    	Prenda remeraNegra = remeraNegraBuilder.crearPrenda();
+    	PrendaBuilder shortBuilder = new PrendaBuilder();
+    	shortBuilder.setTipoPrenda(TipoPrenda.SHORT).setTipoTela(TipoTela.DRY_FIT).setColorPrimario(new Color(0, 0, 0));
+    	Prenda unShort = shortBuilder.crearPrenda();
+    	List<Prenda> prendasSupPobre = new ArrayList<Prenda>();
+    	prendasSupPobre.add(remeraNegra);
+    	prendasSupPobre.add(unShort);
+    	Atuendo atuendo = new Atuendo(prendasSupPobre, remeraNegra, remeraNegra, remeraNegra);
+    	Sugerencia sugerencia = new Sugerencia(atuendo);
+    	List<Sugerencia> sugerencias = Arrays.asList(sugerencia, sugerencia, sugerencia);
+    	Map<String, Object> model = new HashMap<String, Object>();
+    	model.put("sugerencias", sugerencias);
+    	model.put("idEvento", idEvento);
+    	ModelAndView modelAndView = new ModelAndView(model, "listadoSugerencias.hbs");
         return new HandlebarsTemplateEngine().render(modelAndView);
     }
 

@@ -34,7 +34,7 @@ public class Router {
         Spark.post("/altaPrendas/tipoPrenda", controller::postTipoPrenda);
         Spark.post("/altaPrendas/tipoTela", controller::postTipoTela);
         Spark.post("/altaPrendas/color", controller::postColor);
-        Spark.get("/eventos/sugerencias/:id", controller::listarSugerencias);
+        Spark.get("/eventos/sugerencias", controller::listarSugerencias);
     }
 
 }
