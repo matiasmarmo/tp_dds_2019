@@ -7,19 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
-import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
-import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
@@ -62,13 +58,16 @@ public class QueMePongoController {
 	}
 
 	public String listarGuardarropas(Request req, Response res) {
+		/*
 		RepositorioUsuariosPersistente repositorioUsuariosPersistente = new RepositorioUsuariosPersistente();
 		Usuario usuario = repositorioUsuariosPersistente.instanciarUsuarioGratis(Arrays.asList(), "", "");
 		Guardarropa guardarropa = new GuardarropaLimitado();
 		usuario.agregarGuardarropa(guardarropa);
 		usuario.agregarGuardarropa(new GuardarropaLimitado());
-		repositorioUsuariosPersistente.almacenar(usuario);
-		ModelAndView modelAndView = new ModelAndView(usuario, "listadoGuardarropas.hbs");
+		repositorioUsuariosPersistente.almacenar(usuario); */
+		
+		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		ModelAndView modelAndView = new ModelAndView(user.getUsuario(), "listadoGuardarropas.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
@@ -115,8 +114,8 @@ public class QueMePongoController {
 	
 	public String listarEventos(Request req, Response res) {
     	RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
-    	Evento e  = repoEventos.instanciarEventoUnico(null, null, null, "evento 1");
-    	Evento e2 = repoEventos.instanciarEventoUnico(null, null, null, "evento 2");
+    	repoEventos.instanciarEventoUnico(null, null, null, "evento 1");
+    	repoEventos.instanciarEventoUnico(null, null, null, "evento 2");
     	List<Evento> eventos = repoEventos.todosLosEventos();
     	Map<String, Object> model = new HashMap<String, Object>();
     	model.put("eventos", eventos);
