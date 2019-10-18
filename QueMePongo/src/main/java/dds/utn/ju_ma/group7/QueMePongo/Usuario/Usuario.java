@@ -30,7 +30,7 @@ public class Usuario {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String username;
 	private String password; // TODO: Hashear si hace falta
 
@@ -38,12 +38,18 @@ public class Usuario {
 	private Set<Guardarropa> guardarropas;
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Sensibilidad sensibilidad;
+
 	public Set<Guardarropa> getGuardarropas() {
 		return guardarropas;
 	}
 
 	public void setGuardarropas(Set<Guardarropa> guardarropas) {
 		this.guardarropas = guardarropas;
+	}
+
+	public Guardarropa obtenerGuardarropa(Long id) {
+		return this.guardarropas.stream().filter(guardarropa -> guardarropa.getId() == id).collect(Collectors.toList())
+				.get(0);
 	}
 
 	public List<InteresEnNotificaciones> getNotificadores() {
@@ -86,7 +92,8 @@ public class Usuario {
 		return this.guardarropas.stream().anyMatch(unGuardarropas -> unGuardarropas == guardarropasBuscado);
 	}
 
-	protected void verificarGuardarropas(Guardarropa guardarropa) {}
+	protected void verificarGuardarropas(Guardarropa guardarropa) {
+	}
 
 	public List<Atuendo> obtenerAtuendos() {
 		return this.guardarropas.stream().flatMap(unGuardarropa -> unGuardarropa.generarStreamDeAtuendos())
@@ -112,7 +119,7 @@ public class Usuario {
 	public boolean esDuenioDeGuardarropas(Guardarropa guardarropa) {
 		return this.guardarropas.contains(guardarropa);
 	}
-	
+
 	public Long getId() {
 		return this.id;
 	}
