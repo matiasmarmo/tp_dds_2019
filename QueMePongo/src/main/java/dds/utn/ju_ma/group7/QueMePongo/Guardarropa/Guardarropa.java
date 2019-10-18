@@ -94,4 +94,8 @@ public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 		return this.id;
 	}
 
+	public List<Prenda> getPrendas() {
+		return prendas;
+	}
+
 }

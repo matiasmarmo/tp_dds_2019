@@ -48,6 +48,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		usuario.agregarGuardarropa(guardarropaTestP);
     		persist(usuario);
     	});
+		entityManager().clear();
 
         Spark.port(9000);
         DebugScreen.enableDebugScreen();

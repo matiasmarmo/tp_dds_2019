@@ -58,23 +58,18 @@ public class QueMePongoController {
 	}
 
 	public String listarGuardarropas(Request req, Response res) {
-		/*
-		RepositorioUsuariosPersistente repositorioUsuariosPersistente = new RepositorioUsuariosPersistente();
-		Usuario usuario = repositorioUsuariosPersistente.instanciarUsuarioGratis(Arrays.asList(), "", "");
-		Guardarropa guardarropa = new GuardarropaLimitado();
-		usuario.agregarGuardarropa(guardarropa);
-		usuario.agregarGuardarropa(new GuardarropaLimitado());
-		repositorioUsuariosPersistente.almacenar(usuario); */
-		
 		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(req.session().attribute("auth-token"));
 		ModelAndView modelAndView = new ModelAndView(user.getUsuario(), "listadoGuardarropas.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
 	public String listarPrendas(Request req, Response res) {
-		Prenda prenda = new Prenda(TipoPrenda.BUZO, TipoTela.ALGODON, new Color(35,128,200), null);
+		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		//Prenda prenda = new Prenda(TipoPrenda.BUZO, TipoTela.ALGODON, new Color(35,128,200), null);
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("prendas", Arrays.asList(prenda));
+		model.put("prendas", user.getUsuario().getGuardarropas());
+		
+		
     	ModelAndView modelAndView = new ModelAndView(model, "listadoPrendas.hbs");
     	return new HandlebarsTemplateEngine().render(modelAndView);
 	}
