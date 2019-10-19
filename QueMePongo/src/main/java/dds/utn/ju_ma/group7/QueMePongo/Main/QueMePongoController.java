@@ -36,11 +36,12 @@ public class QueMePongoController {
 	}
 	
 	public void authFilter(Request req, Response res) {
-		Long accessToken = req.session().attribute("auth-token");
-		if(accessToken == null) {
+		String accessTokenString = req.cookie("quemepongo-auth-token");
+		if(accessTokenString == null) {
 			res.redirect("/login");
 		}
-		AuthenticatedUser user = this.authService.getAuthenticatedUser(accessToken);
+		Long accessTokenLong = Long.parseLong(accessTokenString);
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(accessTokenLong);
 		if(user == null) {
 			res.redirect("/login");
 		}
@@ -50,27 +51,27 @@ public class QueMePongoController {
 		String username = req.queryParams("username");
 		String password = req.queryParams("password");
 		AuthenticatedUser authenticatedUser = this.authService.loginUser(username, password);
-		req.session().attribute("auth-token", authenticatedUser.getAccessToken());
+		res.cookie("quemepongo-auth-token", authenticatedUser.getAccessToken().toString());
 		res.redirect("/quemepongo/guardarropas");
 		return null;
 	}
 	
 	public String logout(Request req, Response res) {
-		AuthenticatedUser user = this.authService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		this.authService.logoutUser(user);
-		req.session().removeAttribute("auth-token");
+		res.removeCookie("quemepongo-auth-token");
 		res.redirect("/login");
 		return null;
 	}
 
 	public String listarGuardarropas(Request req, Response res) {
-		AuthenticatedUser user = this.authService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		ModelAndView modelAndView = new ModelAndView(user.getUsuario(), "listadoGuardarropas.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
 	public String listarPrendas(Request req, Response res) {
-		AuthenticatedUser user = this.authService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		Map<String, Object> model = new HashMap<String, Object>();
 		Long id = Long.parseLong(req.params("id"));
 		model.put("prendas", user.getUsuario().obtenerGuardarropa(id).getPrendas());
