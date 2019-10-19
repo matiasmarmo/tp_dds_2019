@@ -65,11 +65,9 @@ public class QueMePongoController {
 
 	public String listarPrendas(Request req, Response res) {
 		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(req.session().attribute("auth-token"));
-		//Prenda prenda = new Prenda(TipoPrenda.BUZO, TipoTela.ALGODON, new Color(35,128,200), null);
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("prendas", user.getUsuario().getGuardarropas());
-		
-		
+		Long id = Long.parseLong(req.params("id"));
+		model.put("prendas", user.getUsuario().obtenerGuardarropa(id).getPrendas());
     	ModelAndView modelAndView = new ModelAndView(model, "listadoPrendas.hbs");
     	return new HandlebarsTemplateEngine().render(modelAndView);
 	}

@@ -28,7 +28,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
         	QueMePongoConfiguration.inicializar(100, "", "");
         	Usuario usuario = new RepositorioUsuariosPersistente().instanciarUsuarioGratis(Arrays.asList(), "mallocos@dds.com", "dds123");
         	GuardarropaLimitado guardarropaTestP;
-        	guardarropaTestP = new GuardarropaLimitado(usuario,null);
+        	guardarropaTestP = new GuardarropaLimitado(usuario, null);
         	
         	Color blanco = new Color(255, 255, 255);
         	Color negro = new Color(0, 0, 0);

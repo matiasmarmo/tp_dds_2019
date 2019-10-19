@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -31,7 +32,8 @@ public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 	@GeneratedValue
 	private Long id;
 
-	@OneToMany(cascade = CascadeType.PERSIST, mappedBy = "guardarropa", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name = "guardarropa_id")
 	protected List<Prenda> prendas;
 	
 	private String nombreGuardarropas = "UnGuardarropa";
