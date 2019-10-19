@@ -252,7 +252,7 @@ public class Fixture implements WithGlobalEntityManager, TransactionalOps, Entit
 		estadoDelClimaMock = mock(EstadoDelClima.class);
 		clima = mock(JsonObject.class);
 
-		this.entityManager().flush();
+		//this.entityManager().flush();
 	}
 	
 	@After

@@ -1,6 +1,8 @@
 package dds.utn.ju_ma.group7.QueMePongo.Main;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -41,7 +43,6 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		remeraBlancaBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(blanco);
     		Prenda remeraBlanca = remeraBlancaBuilder.crearPrenda();
     		
-    		
     		guardarropaTestP.agregarPrenda(remeraNegra);
     		guardarropaTestP.agregarPrenda(remeraBlanca);
     		
@@ -49,7 +50,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		persist(usuario);
     	});
 		entityManager().clear();
-
+		
         Spark.port(9000);
         DebugScreen.enableDebugScreen();
         Router.instance().configurar();

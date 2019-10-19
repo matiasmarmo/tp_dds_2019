@@ -25,16 +25,22 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class QueMePongoController {
 	
+	private AuthenticationService authService;
+	
+	public QueMePongoController(AuthenticationService authService) {
+		this.authService = authService;
+	}
+	
 	public String loginGet(Request req, Response res) {
 		return new HandlebarsTemplateEngine().render(new ModelAndView(null, "inicioSesion.hbs"));
 	}
 	
 	public void authFilter(Request req, Response res) {
-		String accessToken = req.session().attribute("auth-token");
+		Long accessToken = req.session().attribute("auth-token");
 		if(accessToken == null) {
 			res.redirect("/login");
 		}
-		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(accessToken);
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(accessToken);
 		if(user == null) {
 			res.redirect("/login");
 		}
@@ -43,28 +49,28 @@ public class QueMePongoController {
 	public String loginPost(Request req, Response res) {
 		String username = req.queryParams("username");
 		String password = req.queryParams("password");
-		AuthenticatedUser authenticatedUser = AuthenticationService.loginUser(username, password);
+		AuthenticatedUser authenticatedUser = this.authService.loginUser(username, password);
 		req.session().attribute("auth-token", authenticatedUser.getAccessToken());
 		res.redirect("/quemepongo/guardarropas");
 		return null;
 	}
 	
 	public String logout(Request req, Response res) {
-		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(req.session().attribute("auth-token"));
-		AuthenticationService.logoutUser(user);
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		this.authService.logoutUser(user);
 		req.session().removeAttribute("auth-token");
 		res.redirect("/login");
 		return null;
 	}
 
 	public String listarGuardarropas(Request req, Response res) {
-		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(req.session().attribute("auth-token"));
 		ModelAndView modelAndView = new ModelAndView(user.getUsuario(), "listadoGuardarropas.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
 	public String listarPrendas(Request req, Response res) {
-		AuthenticatedUser user = AuthenticationService.getAuthenticatedUser(req.session().attribute("auth-token"));
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(req.session().attribute("auth-token"));
 		Map<String, Object> model = new HashMap<String, Object>();
 		Long id = Long.parseLong(req.params("id"));
 		model.put("prendas", user.getUsuario().obtenerGuardarropa(id).getPrendas());

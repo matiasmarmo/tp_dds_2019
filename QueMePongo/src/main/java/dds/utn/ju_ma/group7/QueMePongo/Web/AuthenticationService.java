@@ -1,53 +1,53 @@
 package dds.utn.ju_ma.group7.QueMePongo.Web;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
+import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+
+import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuarios;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
-public class AuthenticationService {
-
-	private static AtomicInteger nextToken = new AtomicInteger(0);
-	private static List<AuthenticatedUser> authenticatedUsers = new ArrayList<AuthenticatedUser>();
-	private static RepositorioUsuariosPersistente repositorioUsuariosPersistente = new RepositorioUsuariosPersistente();
-
-	private static String getNextAuthToken() {
-		return Integer.toString(AuthenticationService.nextToken.getAndIncrement());
+public class AuthenticationService implements WithGlobalEntityManager, TransactionalOps, EntityManagerOps {
+	
+	private RepositorioUsuarios repositorioUsuarios;
+	
+	public AuthenticationService(RepositorioUsuarios repositorio) {
+		this.repositorioUsuarios = repositorio;
 	}
 
-	private static synchronized void addUserToAuthenticated(AuthenticatedUser usuario) {
-		AuthenticationService.authenticatedUsers.add(usuario);
+	private void addUserToAuthenticated(AuthenticatedUser usuario) {
+		withTransaction(() -> {
+			this.persist(usuario);
+		});
 	}
 
-	private static synchronized void removeUserFromAuthenticated(AuthenticatedUser usuario) {
-		AuthenticationService.authenticatedUsers.remove(usuario);
+	public void logoutUser(AuthenticatedUser usuario) {
+		withTransaction(() -> {
+			this.remove(usuario);
+		});
 	}
 
-	private static synchronized AuthenticatedUser findAuthenticatedUser(String accessToken) {
-		return AuthenticationService.authenticatedUsers.stream()
-				.filter(user -> user.getAccessToken().equals(accessToken)).findFirst().get();
+	public AuthenticatedUser getAuthenticatedUser(Long accessToken) {
+		List<AuthenticatedUser> userList = this.entityManager()
+				.createQuery("select u from AuthenticatedUser u join u.token t where t.token = :token", AuthenticatedUser.class)
+				.setParameter("token", accessToken)
+				.getResultList();
+		return userList.size() == 0 ? null : userList.get(0);
 	}
 
-	public static AuthenticatedUser loginUser(String username, String password) {
-		Usuario userToLogin = AuthenticationService.repositorioUsuariosPersistente.obtenerUsuarioParaLogear(username,
+	public AuthenticatedUser loginUser(String username, String password) {
+		Usuario userToLogin = this.repositorioUsuarios.obtenerUsuarioParaLogear(username,
 				password);
-		return AuthenticationService.authenticateUser(userToLogin);
+		return this.authenticateUser(userToLogin);
 	}
 
-	private static AuthenticatedUser authenticateUser(Usuario usuario) {
-		AuthenticatedUser newUser = new AuthenticatedUser(AuthenticationService.getNextAuthToken(), usuario);
-		AuthenticationService.addUserToAuthenticated(newUser);
+	private AuthenticatedUser authenticateUser(Usuario usuario) {
+		AuthToken token = new AuthToken();
+		AuthenticatedUser newUser = new AuthenticatedUser(token, usuario);
+		this.addUserToAuthenticated(newUser);
 		return newUser;
-	}
-
-	public static void logoutUser(AuthenticatedUser usuario) {
-		AuthenticationService.removeUserFromAuthenticated(usuario);
-	}
-
-	public static AuthenticatedUser getAuthenticatedUser(String accessToken) {
-		return AuthenticationService.findAuthenticatedUser(accessToken);
 	}
 
 }

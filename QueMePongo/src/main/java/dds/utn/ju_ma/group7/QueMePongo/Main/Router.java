@@ -2,6 +2,8 @@ package dds.utn.ju_ma.group7.QueMePongo.Main;
 
 import java.util.HashMap;
 
+import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
+import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -20,7 +22,7 @@ public class Router {
     
     
     public void configurar() {
-        QueMePongoController controller = new QueMePongoController();
+        QueMePongoController controller = new QueMePongoController(new AuthenticationService(new RepositorioUsuariosPersistente()));
         Spark.get("/test", (req, res) -> {
             HashMap<String, Object> viewModel = new HashMap<String, Object>();
             ModelAndView modelAndView = new ModelAndView(viewModel, "test.hbs");
