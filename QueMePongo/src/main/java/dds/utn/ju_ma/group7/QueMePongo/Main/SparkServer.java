@@ -9,7 +9,6 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
-import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
