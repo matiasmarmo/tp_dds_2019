@@ -1,21 +1,14 @@
 package dds.utn.ju_ma.group7.QueMePongo.Main;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.mockito.exceptions.PrintableInvocation;
-
-import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
-import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
-import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
-import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
@@ -125,22 +118,13 @@ public class QueMePongoController {
 	}
 	
 	public String listarSugerencias(Request req, Response res) {
-    	String idEvento = req.queryParams("id");
-    	PrendaBuilder remeraNegraBuilder = new PrendaBuilder();
-    	remeraNegraBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(new Color(0, 0, 255));
-    	Prenda remeraNegra = remeraNegraBuilder.crearPrenda();
-    	PrendaBuilder shortBuilder = new PrendaBuilder();
-    	shortBuilder.setTipoPrenda(TipoPrenda.SHORT).setTipoTela(TipoTela.DRY_FIT).setColorPrimario(new Color(0, 0, 0));
-    	Prenda unShort = shortBuilder.crearPrenda();
-    	List<Prenda> prendasSupPobre = new ArrayList<Prenda>();
-    	prendasSupPobre.add(remeraNegra);
-    	prendasSupPobre.add(unShort);
-    	Atuendo atuendo = new Atuendo(prendasSupPobre, remeraNegra, remeraNegra, remeraNegra);
-    	Sugerencia sugerencia = new Sugerencia(atuendo);
-    	List<Sugerencia> sugerencias = Arrays.asList(sugerencia, sugerencia, sugerencia);
+		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+		Long idEvento = Long.parseLong(req.queryParams("id"));
+    	Evento evento = repoEventos.obtenerEventoPorId(idEvento);
+    	List<Sugerencia> sugerencias = evento.getSugerencias();
     	Map<String, Object> model = new HashMap<String, Object>();
     	model.put("sugerencias", sugerencias);
-    	model.put("idEvento", idEvento);
+    	model.put("descripcionEvento", evento.getDescripcion());
     	ModelAndView modelAndView = new ModelAndView(model, "listadoSugerencias.hbs");
         return new HandlebarsTemplateEngine().render(modelAndView);
     }

@@ -24,7 +24,7 @@ public class EventoUnico extends Evento {
 	private Calendar fecha;
 	
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	private List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
+	public List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
 
 	public EventoUnico() {
 	}

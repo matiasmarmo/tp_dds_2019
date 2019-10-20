@@ -8,7 +8,11 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
+import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
@@ -43,13 +47,34 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		remeraBlancaBuilder.setTipoPrenda(TipoPrenda.REMERA).setTipoTela(TipoTela.ALGODON).setColorPrimario(blanco);
     		Prenda remeraBlanca = remeraBlancaBuilder.crearPrenda();
     		
+    		PrendaBuilder pantalonBuilder = new PrendaBuilder();
+        	pantalonBuilder.setTipoPrenda(TipoPrenda.JOGGIN).setTipoTela(TipoTela.NYLON).setColorPrimario(negro);
+        	Prenda unShort = pantalonBuilder.crearPrenda();
+        	
+        	PrendaBuilder zapatillasBuilder = new PrendaBuilder();
+        	zapatillasBuilder.setTipoPrenda(TipoPrenda.ZAPATILLAS).setTipoTela(TipoTela.NYLON).setColorPrimario(negro);
+        	Prenda zapatillas = zapatillasBuilder.crearPrenda();
+        	
+        	PrendaBuilder collarBuilder = new PrendaBuilder();
+        	collarBuilder.setTipoPrenda(TipoPrenda.COLLAR).setTipoTela(TipoTela.SEDA).setColorPrimario(negro);
+        	Prenda collar = collarBuilder.crearPrenda();
+    		
     		guardarropaTestP.agregarPrenda(remeraNegra);
     		guardarropaTestP.agregarPrenda(remeraBlanca);
+    		guardarropaTestP.agregarPrenda(unShort);
+    		guardarropaTestP.agregarPrenda(zapatillas);
+    		guardarropaTestP.agregarPrenda(collar);
     		
     		usuario.agregarGuardarropa(guardarropaTestP);
     		
     		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
     		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, Calendar.getInstance(), "Un Evento");
+    		
+    		Atuendo atuendo = new Atuendo(Arrays.asList(remeraBlanca, remeraNegra), unShort, zapatillas, collar);
+    		Sugerencia sugerencia = new Sugerencia(atuendo);
+    		
+    		EventoUnico evento = (EventoUnico) repoEventos.todosLosEventos().get(0);
+    		evento.sugerencias = Arrays.asList(sugerencia);
     		
     		persist(usuario);
     	});
