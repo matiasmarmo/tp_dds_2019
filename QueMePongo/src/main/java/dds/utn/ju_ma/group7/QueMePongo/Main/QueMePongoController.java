@@ -11,6 +11,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
@@ -128,5 +129,14 @@ public class QueMePongoController {
     	ModelAndView modelAndView = new ModelAndView(model, "listadoSugerencias.hbs");
         return new HandlebarsTemplateEngine().render(modelAndView);
     }
-
+	
+	public String listarSugerenciasAceptadas(Request req, Response res) {
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+		List<Sugerencia> sugerenciasAceptadas = repoEventos.sugerenciasAceptadasDelUsuario(user.getUsuario());
+    	Map<String, Object> model = new HashMap<String, Object>();
+    	model.put("sugerencias", sugerenciasAceptadas);
+    	ModelAndView modelAndView = new ModelAndView(model, "listadoSugerenciasAceptadas.hbs");
+        return new HandlebarsTemplateEngine().render(modelAndView);   
+	}
 }

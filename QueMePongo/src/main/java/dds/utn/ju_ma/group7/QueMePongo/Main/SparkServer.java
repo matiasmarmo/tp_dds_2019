@@ -69,12 +69,20 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		
     		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
     		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, Calendar.getInstance(), "Un Evento");
+    		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, Calendar.getInstance(), "Otro Evento");
     		
     		Atuendo atuendo = new Atuendo(Arrays.asList(remeraBlanca, remeraNegra), unShort, zapatillas, collar);
+    		Atuendo atuendoNegro = new Atuendo(Arrays.asList(remeraNegra), unShort, zapatillas, collar);
     		Sugerencia sugerencia = new Sugerencia(atuendo);
+    		Sugerencia sugerenciaAceptada = new Sugerencia(atuendo);
+    		Sugerencia sugerenciaAceptadaDos = new Sugerencia(atuendoNegro);
+    		sugerenciaAceptada.aceptar();
+    		sugerenciaAceptadaDos.aceptar();
     		
     		EventoUnico evento = (EventoUnico) repoEventos.todosLosEventos().get(0);
+    		EventoUnico eventoDos = (EventoUnico) repoEventos.todosLosEventos().get(1);
     		evento.sugerencias = Arrays.asList(sugerencia);
+    		eventoDos.sugerencias = Arrays.asList(sugerenciaAceptada,sugerenciaAceptadaDos);
     		
     		persist(usuario);
     	});
