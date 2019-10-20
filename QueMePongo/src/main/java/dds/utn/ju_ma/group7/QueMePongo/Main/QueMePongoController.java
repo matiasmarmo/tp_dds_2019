@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.mockito.exceptions.PrintableInvocation;
+
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
@@ -113,10 +115,9 @@ public class QueMePongoController {
 	}
 	
 	public String listarEventos(Request req, Response res) {
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
     	RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
-    	repoEventos.instanciarEventoUnico(null, null, null, "evento 1");
-    	repoEventos.instanciarEventoUnico(null, null, null, "evento 2");
-    	List<Evento> eventos = repoEventos.todosLosEventos();
+    	List<Evento> eventos = repoEventos.eventosDelUsuario(user.getUsuario());
     	Map<String, Object> model = new HashMap<String, Object>();
     	model.put("eventos", eventos);
     	ModelAndView modelAndView = new ModelAndView(model, "calificarSugerencia.hbs");

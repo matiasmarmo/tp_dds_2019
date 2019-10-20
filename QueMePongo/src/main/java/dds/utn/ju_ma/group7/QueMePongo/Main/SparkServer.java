@@ -1,14 +1,14 @@
 package dds.utn.ju_ma.group7.QueMePongo.Main;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Calendar;
 
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
@@ -47,6 +47,10 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		guardarropaTestP.agregarPrenda(remeraBlanca);
     		
     		usuario.agregarGuardarropa(guardarropaTestP);
+    		
+    		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+    		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, Calendar.getInstance(), "Un Evento");
+    		
     		persist(usuario);
     	});
 		entityManager().clear();
