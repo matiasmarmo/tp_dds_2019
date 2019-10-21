@@ -89,6 +89,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
 		entityManager().clear();
 		
         Spark.port(9000);
+        Spark.staticFiles.location("/images");
         DebugScreen.enableDebugScreen();
         Router.instance().configurar();
 	}
