@@ -2,12 +2,24 @@
 <h2 class="titulo-seccion">Sugerencias para el evento: {{evento.descripcion}}</h2>
 {{#if huboSugerenciaAceptada}}
 <div class="alert alert-success" role="alert">
-	La sugerencia ha sido aceptada. Para terminar de aceptar y/o rechazar haga click <a><b>aqui</b></a>
+	<div>La sugerencia ha sido aceptada. Para terminar de aceptar y/o rechazar haga click <a id="activadorAviso">
+			<a href="/quemepongo/eventos/sugerencias/rechazarPendientes?idEvento={{evento.id}}"><button type="submit"
+					class="btn btn-primary" data-toggle="tooltip" data-placement="right"
+					title="Las sugerencias que queden pendientes seran consideradas rechazadas">
+					aqui
+				</button></a>
+	</div>
 </div>
 {{/if}}
 {{#if huboSugerenciaRechazada}}
 <div class="alert alert-success" role="alert">
-	La sugerencia ha sido rechazada. Para terminar de aceptar y/o rechazar haga click <a><b>aqui</b></a>
+	<div>La sugerencia ha sido rechazada. Para terminar de aceptar y/o rechazar haga click <a id="activadorAviso">
+			<a href="/quemepongo/eventos/sugerencias/rechazarPendientes?idEvento={{evento.id}}"><button type="submit"
+					class="btn btn-primary" data-toggle="tooltip" data-placement="right"
+					title="Las sugerencias que queden pendientes seran consideradas rechazadas">
+					aqui
+				</button></a>
+	</div>
 </div>
 {{/if}}
 <div>

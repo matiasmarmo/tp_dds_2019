@@ -75,5 +75,7 @@ public abstract class Evento {
 	public abstract Sugerencia getSugerenciaPorId(Long id);
 	
 	public abstract boolean esEnFecha(Calendar fecha);
+	
+	public abstract void rechazarSugerenciasPendientes();
 
 }

@@ -97,5 +97,10 @@ public class EventoRepetitivo extends Evento {
 	public Sugerencia getSugerenciaPorId(Long id) {
 		return new Sugerencia();
 	}
+
+	@Override
+	public void rechazarSugerenciasPendientes() {
+		return;
+	}
 	
 }

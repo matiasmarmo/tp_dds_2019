@@ -168,8 +168,8 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		System.out.println(sugerencias.size());
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
-
-	public String mostrarEleccion(Request req, Response res) {
+	
+	public String ejecutarAccionSugerencia(Request req, Response res) {
 		String idEventoString = req.queryParams("idEvento");
 		Long idEvento = Long.parseLong(idEventoString);
 		Long idSugerencia = Long.parseLong(req.queryParams("idSugerencia"));
@@ -184,7 +184,16 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 			sugerencia.rechazar();
 			res.redirect("/quemepongo/eventos/sugerencias?id=" + idEventoString + "&huboSugerenciaRechazada=true");
 		}
-		return "redirigiendo...";
+		return "redirigiendo a sugerencias...";
+	}
+	
+	public String rechazarSugerenciasPendientes(Request req, Response res) {
+		Long idEvento = Long.parseLong(req.queryParams("idEvento"));
+		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+    	Evento evento = repoEventos.getEventoPorId(idEvento);
+    	evento.rechazarSugerenciasPendientes();
+		ModelAndView modelAndView = new ModelAndView(null, "sugerencias/finalizacionSugerencias.hbs");
+        return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
 	public String listarSugerenciasAceptadas(Request req, Response res) {

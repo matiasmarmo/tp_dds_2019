@@ -101,5 +101,10 @@ public class EventoUnico extends Evento {
 	public Sugerencia getSugerenciaPorId(Long id) {
 		return this.sugerencias.stream().filter(sugerencias -> sugerencias.getId() == id).collect(Collectors.toList()).get(0);
 	}
+	
+	@Override
+	public void rechazarSugerenciasPendientes() {
+		this.sugerencias.stream().forEach(sugerencias -> sugerencias.rechazarSiEsPendiente());
+	}
 
 }

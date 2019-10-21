@@ -75,5 +75,11 @@ public class Sugerencia {
 	public boolean esDeEstado(EstadoSugerencia estado) {
 		return this.estado == estado;
 	}
+	
+	public void rechazarSiEsPendiente() {
+		if (this.esDeEstado(EstadoSugerencia.PENDIENTE)) {
+			this.rechazar();
+		}
+	}
 
 }
