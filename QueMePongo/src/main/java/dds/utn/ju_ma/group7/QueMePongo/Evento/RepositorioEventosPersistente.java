@@ -72,7 +72,7 @@ public class RepositorioEventosPersistente extends RepositorioEventos
 				.collect(Collectors.toList());
 	}
 	
-	public Evento obtenerEventoPorId(Long id) {
+	public Evento getEventoPorId(Long id) {
 		return this.todosLosEventos().stream().filter(unEvento -> unEvento.getId() == id).collect(Collectors.toList()).get(0);
 	}
 

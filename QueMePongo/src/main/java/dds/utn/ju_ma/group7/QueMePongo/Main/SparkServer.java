@@ -9,7 +9,6 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
-import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
@@ -74,6 +73,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		Atuendo atuendo = new Atuendo(Arrays.asList(remeraBlanca, remeraNegra), unShort, zapatillas, collar);
     		Atuendo atuendoNegro = new Atuendo(Arrays.asList(remeraNegra), unShort, zapatillas, collar);
     		Sugerencia sugerencia = new Sugerencia(atuendo);
+    		Sugerencia otraSugerencia = new Sugerencia(atuendo);
     		Sugerencia sugerenciaAceptada = new Sugerencia(atuendo);
     		Sugerencia sugerenciaAceptadaDos = new Sugerencia(atuendoNegro);
     		sugerenciaAceptada.aceptar();
@@ -81,7 +81,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		
     		EventoUnico evento = (EventoUnico) repoEventos.todosLosEventos().get(0);
     		EventoUnico eventoDos = (EventoUnico) repoEventos.todosLosEventos().get(1);
-    		evento.sugerencias = Arrays.asList(sugerencia);
+    		evento.sugerencias = Arrays.asList(sugerencia, otraSugerencia, sugerenciaAceptada);
     		eventoDos.sugerencias = Arrays.asList(sugerenciaAceptada,sugerenciaAceptadaDos);
     		
     		persist(usuario);

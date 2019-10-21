@@ -24,6 +24,10 @@ public class Sugerencia {
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado;
 
+	public Long getId() {
+		return id;
+	}
+
 	public Sugerencia() {
 	}
 
@@ -46,6 +50,10 @@ public class Sugerencia {
 
 	public boolean fueAceptada() {
 		return this.esDeEstado(EstadoSugerencia.ACEPTADA);
+	}
+	
+	public boolean estaPendiente() {
+		return this.esDeEstado(EstadoSugerencia.PENDIENTE);
 	}
 
 	private void setEstado(EstadoSugerencia estado) {

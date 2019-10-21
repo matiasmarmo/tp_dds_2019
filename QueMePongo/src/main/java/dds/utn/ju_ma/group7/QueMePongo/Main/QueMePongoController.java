@@ -1,6 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo.Main;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
-import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
@@ -114,21 +114,44 @@ public class QueMePongoController {
     	List<Evento> eventos = repoEventos.eventosDelUsuario(user.getUsuario());
     	Map<String, Object> model = new HashMap<String, Object>();
     	model.put("eventos", eventos);
-    	ModelAndView modelAndView = new ModelAndView(model, "calificarSugerencia.hbs");
+    	ModelAndView modelAndView = new ModelAndView(model, "sugerencias/calificarSugerencia.hbs");
         return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 	
 	public String listarSugerencias(Request req, Response res) {
-		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		Long idEvento = Long.parseLong(req.queryParams("id"));
-    	Evento evento = repoEventos.obtenerEventoPorId(idEvento);
-    	List<Sugerencia> sugerencias = evento.getSugerencias();
+		boolean huboSugerenciaAceptada = req.queryParams("huboSugerenciaAceptada") != null;
+		boolean huboSugerenciaRechazada = req.queryParams("huboSugerenciaRechazada") != null;
+		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+    	Evento evento = repoEventos.getEventoPorId(idEvento);
+    	List<Sugerencia> sugerencias = evento.getSugerenciasPendientes(Calendar.getInstance());
     	Map<String, Object> model = new HashMap<String, Object>();
     	model.put("sugerencias", sugerencias);
-    	model.put("descripcionEvento", evento.getDescripcion());
-    	ModelAndView modelAndView = new ModelAndView(model, "listadoSugerencias.hbs");
+    	model.put("evento", evento);
+    	model.put("huboSugerenciaAceptada", huboSugerenciaAceptada);
+    	model.put("huboSugerenciaRechazada", huboSugerenciaRechazada);
+    	ModelAndView modelAndView = new ModelAndView(model, "sugerencias/listadoSugerencias.hbs");
+    	System.out.println(sugerencias.size());
         return new HandlebarsTemplateEngine().render(modelAndView);
     }
+	
+	public String mostrarEleccion(Request req, Response res) {
+		String idEventoString = req.queryParams("idEvento");
+		Long idEvento = Long.parseLong(idEventoString);
+		Long idSugerencia = Long.parseLong(req.queryParams("idSugerencia"));
+		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+    	Evento evento = repoEventos.getEventoPorId(idEvento);
+    	Sugerencia sugerencia = evento.getSugerenciaPorId(idSugerencia);
+		String accion = req.queryParams("accion");
+		if (accion.compareTo("aceptar") == 0) {
+			sugerencia.aceptar();
+			res.redirect("/quemepongo/eventos/sugerencias?id=" + idEventoString + "&huboSugerenciaAceptada=true");
+		} else if (accion.compareTo("rechazar") == 0) {
+			sugerencia.rechazar();
+			res.redirect("/quemepongo/eventos/sugerencias?id=" + idEventoString + "&huboSugerenciaRechazada=true");
+		}
+		return "redirigiendo...";
+	}
 	
 	public String listarSugerenciasAceptadas(Request req, Response res) {
 		AuthenticatedUser user = this.authService.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
@@ -136,7 +159,7 @@ public class QueMePongoController {
 		List<Sugerencia> sugerenciasAceptadas = repoEventos.sugerenciasAceptadasDelUsuario(user.getUsuario());
     	Map<String, Object> model = new HashMap<String, Object>();
     	model.put("sugerencias", sugerenciasAceptadas);
-    	ModelAndView modelAndView = new ModelAndView(model, "listadoSugerenciasAceptadas.hbs");
-        return new HandlebarsTemplateEngine().render(modelAndView);   
+    	ModelAndView modelAndView = new ModelAndView(model, "sugerencias/listadoSugerenciasAceptadas.hbs");
+        return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 }

@@ -42,6 +42,7 @@ public class Router {
         Spark.post("/quemepongo/prenda/color", controller::postColor);
         Spark.get("/quemepongo/sugerencias", controller::listarEventos);
         Spark.get("/quemepongo/eventos/sugerencias", controller::listarSugerencias);
+        Spark.get("/quemepongo/eventos/sugerencias/eleccion", controller::mostrarEleccion);
         Spark.get("/quemepongo/eventos/sugerencias/calificar", controller::listarSugerenciasAceptadas);
     }
 

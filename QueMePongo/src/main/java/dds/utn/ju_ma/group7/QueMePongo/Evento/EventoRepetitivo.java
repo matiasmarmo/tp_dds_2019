@@ -76,6 +76,10 @@ public class EventoRepetitivo extends Evento {
 		return new ArrayList<Sugerencia>();
 	}
 
+	public List<Sugerencia> getSugerenciasPendientes(Calendar fechaReferencia) {
+		return new ArrayList<Sugerencia>();
+	}
+
 	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
 		List<Calendar> fechas = this.tipoRecurrencia.todasLasFechasEnIntervalo(this.fechaUltimaInstancia, fechaFin);
 		List<EventoUnico> resultado = fechas.stream()
@@ -88,4 +92,10 @@ public class EventoRepetitivo extends Evento {
 	public boolean esEnFecha(Calendar fecha) {
 		return this.fechaSiguienteInstancia().compareTo(fecha) == 0;
 	}
+
+	@Override
+	public Sugerencia getSugerenciaPorId(Long id) {
+		return new Sugerencia();
+	}
+	
 }

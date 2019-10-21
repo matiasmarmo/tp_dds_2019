@@ -68,7 +68,11 @@ public abstract class Evento {
 	
 	public abstract List<Sugerencia> getSugerenciasAceptadas(Calendar fechaReferencia);
 	
+	public abstract List<Sugerencia> getSugerenciasPendientes(Calendar fechaReferencia);
+	
 	public abstract List<Sugerencia> getSugerencias();
+	
+	public abstract Sugerencia getSugerenciaPorId(Long id);
 	
 	public abstract boolean esEnFecha(Calendar fecha);
 

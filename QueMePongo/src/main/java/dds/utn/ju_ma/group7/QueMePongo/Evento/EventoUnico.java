@@ -79,6 +79,11 @@ public class EventoUnico extends Evento {
 	}
 
 	@Override
+	public List<Sugerencia> getSugerenciasPendientes(Calendar fechaReferencia) {
+		return this.sugerencias.stream().filter(sugerencia -> sugerencia.estaPendiente()).collect(Collectors.toList());
+	}
+
+	@Override
 	public List<EventoUnico> instanciasEntreFechas(Calendar fechaInicio, Calendar fechaFin) {
 		List<EventoUnico> resultado = new ArrayList<EventoUnico>();
 		if (this.esPosteriorA(fechaInicio) && this.esAnteriorA(fechaFin)) {
@@ -90,6 +95,11 @@ public class EventoUnico extends Evento {
 	@Override
 	public boolean esEnFecha(Calendar fecha) {
 		return this.fecha.compareTo(fecha) == 0;
+	}
+	
+	@Override
+	public Sugerencia getSugerenciaPorId(Long id) {
+		return this.sugerencias.stream().filter(sugerencias -> sugerencias.getId() == id).collect(Collectors.toList()).get(0);
 	}
 
 }
