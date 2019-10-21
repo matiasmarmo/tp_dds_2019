@@ -27,6 +27,13 @@ public class Color {
 		this.azul = azul;
 		this.rgb = "#" + Integer.toHexString(rojo) + Integer.toHexString(verde) + Integer.toHexString(azul);
 	}
+	
+	public static Color hexToRgb(String colorStr) {
+	    return new Color(
+	            Integer.valueOf( colorStr.substring( 1, 3 ), 16 ),
+	            Integer.valueOf( colorStr.substring( 3, 5 ), 16 ),
+	            Integer.valueOf( colorStr.substring( 5, 7 ), 16 ) );
+	}
 
 	public int getRojo() {
 		return rojo;

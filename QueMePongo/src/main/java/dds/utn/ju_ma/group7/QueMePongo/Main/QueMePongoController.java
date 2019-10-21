@@ -7,9 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
+import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
+import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
+import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
@@ -19,7 +26,7 @@ import spark.Request;
 import spark.Response;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
-public class QueMePongoController {
+public class QueMePongoController implements WithGlobalEntityManager, TransactionalOps, EntityManagerOps{
 	
 	private AuthenticationService authService;
 	
@@ -101,10 +108,19 @@ public class QueMePongoController {
 	}
 	
 	public String postColor(Request req, Response res) {
-		// Construir prenda
-		System.out.println(req.queryParams("colorPrimario"));
-		System.out.println(req.queryParams("colorSecundario"));
-		System.out.println(req.queryParams("tieneSecundario"));
+		withTransaction(() -> {
+			TipoPrenda tipoPrenda = TipoPrenda.valueOf(req.session().attribute("tipoPrenda"));
+			TipoTela tipoTela = TipoTela.valueOf(req.session().attribute("tipoTela"));
+			Color colorPrimario = Color.hexToRgb(req.queryParams("colorPrimario"));
+			PrendaBuilder prendaBuilder = new PrendaBuilder();
+			prendaBuilder.setTipoPrenda(tipoPrenda).setTipoTela(tipoTela).setColorPrimario(colorPrimario);
+			if(Boolean.valueOf(req.queryParams("tieneSecundario"))) {
+				Color colorSecundario = Color.hexToRgb(req.queryParams("colorSecundario"));
+				prendaBuilder.setColorSecundario(colorSecundario);
+			}
+	    	Prenda prenda = prendaBuilder.crearPrenda();
+	    	persist(prenda);
+		});
 		return "Tu prenda esta construida";
 	}
 	
