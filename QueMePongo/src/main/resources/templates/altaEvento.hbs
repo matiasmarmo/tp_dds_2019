@@ -1,0 +1,52 @@
+{{#partial "contenido"}}
+<div>
+	<form method='get' action='/conversor/millas'>
+		<div visibility: {{visibilidadNombreEvento}} style="align-content:center;text-align:center;margin-left:auto">
+			<br>
+			<br>
+			<img src="/1.png" style="height:auto;width:40%"></img>
+			<br>
+			<h2>Nombre del evento</h2>
+			<input name='nombreEvento' style="width:20%; text-align:center" placeholder="Escriba aquí..." value='{{nombreEvento}}'/>
+			<br>
+			<br>
+			<button type='submit'>Continuar!</button>
+				{{#if hayNombre}}
+					nombreEvento: {{nombreEvento}}
+				{{/if}}
+		</div>
+		<div visibility: {{visibilidadGuardarropas}} style="align-content:center;text-align:center;margin-left:auto">
+			<br>
+			<br>
+			<img src="/2.png" style="height:auto;width:40%"></img>
+			<br>
+			<h2>Seleccionar Guardarropas</h2>
+			<div>
+				<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Guardarropa</th>
+						<th scope="col">Seleccionar</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each todosLosGuardarropas}}
+					<tr>
+						<th scope="row">{{@index}}</th>
+						<td>{{nombreGuardarropas}}</td>
+						<td>
+							<button type="submit">Continuar!</button>
+						</td>
+					</tr>
+					{{/each}}
+				</tbody>
+				</table>
+			</div>
+			<br>
+			<br>
+			guardarropas: {{guardarropas}}
+		</div>
+	</form>
+</div>
+{{/partial}} {{> layout.hbs}}
