@@ -36,10 +36,11 @@ public class Router {
         Spark.post("/logout", controller::logout);
         Spark.get("/quemepongo/guardarropas", controller::listarGuardarropas);
         Spark.get("/quemepongo/guardarropas/:id", controller::listarPrendas);
-        Spark.get("/quemepongo/prenda", controller::altaPrendas);
-        Spark.post("/quemepongo/prenda/tipoPrenda", controller::postTipoPrenda);
+        Spark.get("/quemepongo/prenda/tipoPrenda", controller::postTipoPrenda);
         Spark.post("/quemepongo/prenda/tipoTela", controller::postTipoTela);
         Spark.post("/quemepongo/prenda/color", controller::postColor);
+        Spark.post("/quemepongo/prenda/confirmacion", controller::confirmacion);
+        Spark.post("/quemepongo/prenda/listo", controller::postConfirmacion);
         Spark.get("/quemepongo/sugerencias", controller::listarEventos);
         Spark.get("/quemepongo/eventos/sugerencias", controller::listarSugerencias);
         Spark.get("/quemepongo/eventos/sugerencias/eleccion", controller::mostrarEleccion);

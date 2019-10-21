@@ -1,12 +1,12 @@
 {{#partial "contenido"}}
 <div>
-	<form action="/quemepongo/prenda/color" method="post">
+	<form action="/quemepongo/prenda/confirmacion" method="post">
 		<p>Color primario</p>
 		<input type="color" name="colorPrimario"/>
 		<p>Secundario</p>
 		<input type="checkbox" name="tieneSecundario">Tiene color secundario?</input>
 		<input type="color" name="colorSecundario"/>
-		<input type="submit" value="Siguiente"></input>
+		<input type="submit" value="Siguiente" href="/quemepongo/prenda/confirmacion"></input>
 	</form>
 </div>
 {{/partial}} {{> layout.hbs}}
