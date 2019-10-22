@@ -53,15 +53,14 @@
 			<img src="/3.png" style="height:auto;width:40%"></img>
 			<br>
 			<h2>Elija fecha del evento</h2>
-			
-				<input name='fechaEvento' value="{{fechaEvento}}" style="width:20%; text-align:center" placeholder="Escriba aquí..."/>
-				<br>
-				<br>
-				<a
-					href="/quemepongo/altaEvento?nombreEvento={{nombreEvento}}&guardarropas={{guardarropas}}&fechaEvento={{fechaEvento}}">
-					<button type="reset">Seleccionar</button>
-				</a>
-			
+				<form method='get' action='/quemepongo/altaEvento'>
+					<input name="nombreEvento" type="hidden" value="{{nombreEvento}}">
+					<input name="guardarropas" type="hidden" value="{{guardarropas}}">
+					<input name='fechaEvento' value="{{fechaEvento}}" style="width:20%; text-align:center" placeholder="Escriba aquí..."/>
+					<br>
+					<br>
+					<button type="submit">Continuar</button>
+				</form>			
 		</div>
 		<div visibility: {{visibilidadConfirmacion}} style="align-content:center;text-align:center;margin-left:auto">
 			<br>
