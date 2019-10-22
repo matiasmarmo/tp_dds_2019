@@ -1,19 +1,17 @@
 {{#partial "contenido"}}
 <div>
-	<form method='get' action='/conversor/millas'>
 		<div visibility: {{visibilidadNombreEvento}} style="align-content:center;text-align:center;margin-left:auto">
 			<br>
 			<br>
 			<img src="/1.png" style="height:auto;width:40%"></img>
 			<br>
 			<h2>Nombre del evento</h2>
-			<input name='nombreEvento' style="width:20%; text-align:center" placeholder="Escriba aquí..." value='{{nombreEvento}}'/>
-			<br>
-			<br>
-			<button type='submit'>Continuar!</button>
-				{{#if hayNombre}}
-					nombreEvento: {{nombreEvento}}
-				{{/if}}
+			<form method='get' action='/quemepongo/altaEvento'>
+				<input name='nombreEvento' value="{{nombreEvento}}" style="width:20%; text-align:center" placeholder="Escriba aquí..."/>
+				<br>
+				<br>
+				<button type="submit">Continuar</button>
+			</form>
 		</div>
 		<div visibility: {{visibilidadGuardarropas}} style="align-content:center;text-align:center;margin-left:auto">
 			<br>
@@ -22,7 +20,7 @@
 			<br>
 			<h2>Seleccionar Guardarropas</h2>
 			<div>
-				<table class="table">
+				<table class="table" name='wqr' value='qqqq'>
 				<thead>
 					<tr>
 						<th scope="col">#</th>
@@ -36,7 +34,10 @@
 						<th scope="row">{{@index}}</th>
 						<td>{{nombreGuardarropas}}</td>
 						<td>
-							<button type="submit">Continuar!</button>
+							<a
+							href="/quemepongo/altaEvento?nombreEvento={{nombreEvento}}&guardarropas={{id}}">
+							<button type="submit">Seleccionar</button>
+							</a>
 						</td>
 					</tr>
 					{{/each}}
@@ -45,8 +46,62 @@
 			</div>
 			<br>
 			<br>
-			guardarropas: {{guardarropas}}
 		</div>
-	</form>
+		<div visibility: {{visibilidadCalendario}} style="align-content:center;text-align:center;margin-left:auto">
+			<br>
+			<br>
+			<img src="/3.png" style="height:auto;width:40%"></img>
+			<br>
+			<h2>Elija fecha del evento</h2>
+			
+				<input name='fechaEvento' value="{{fechaEvento}}" style="width:20%; text-align:center" placeholder="Escriba aquí..."/>
+				<br>
+				<br>
+				<a
+					href="/quemepongo/altaEvento?nombreEvento={{nombreEvento}}&guardarropas={{guardarropas}}&fechaEvento={{fechaEvento}}">
+					<button type="reset">Seleccionar</button>
+				</a>
+			
+		</div>
+		<div visibility: {{visibilidadConfirmacion}} style="align-content:center;text-align:center;margin-left:auto">
+			<br>
+			<br>
+			<img src="/4.png" style="height:auto;width:40%"></img>
+			<br>
+			<h2>Evento creado: </h2>
+			<br>
+			<h4> > Nombre evento: {{nombreEvento}}</h4>
+			<br>
+			<h4> > Guardarropas a usar: {{nombreGuardarropas}}</h4>
+			<br>
+			<h4> > Fecha seleccionada: {{fechaEvento}}</h4>
+			<br>
+			<a
+				href="/quemepongo/altaEvento">
+    			<button>Cancelar</button>
+    		</a>
+    		<a
+				{{#if todoOk}}
+    				href="/quemepongo/altaEvento?nombreEvento={{nombreEvento}}&guardarropas={{guardarropas}}&fechaEvento={{fechaEvento}}&confirmacion=ok">
+    				<button>Confirmar</button>
+  				{{else}}
+    				href="/quemepongo/altaEvento?nombreEvento={{nombreEvento}}&guardarropas={{guardarropas}}&fechaEvento={{fechaEvento}}">
+    				<button>Confirmar</button>
+  				{{/if}}
+			</a>
+		</div>
+		<div visibility: {{visibilidadEventoOk}} style="align-content:center;text-align:center;margin-left:auto">
+			<br>
+			<br>
+			<br>
+			<h2>Evento creado con exito!<h2>
+			<br>
+			<br>
+			<br>
+			<a
+				href="/quemepongo/guardarropas">
+    			<button>Volver al Inicio</button>
+			</a>
+		</div>
 </div>
 {{/partial}} {{> layout.hbs}}

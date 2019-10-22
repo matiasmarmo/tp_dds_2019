@@ -33,7 +33,10 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
         	QueMePongoConfiguration.inicializar(100, "", "");
         	Usuario usuario = new RepositorioUsuariosPersistente().instanciarUsuarioGratis(Arrays.asList(), "mallocos@dds.com", "dds123");
         	GuardarropaLimitado guardarropaTestP;
+        	GuardarropaLimitado otroGuardarropa;
+        	
         	guardarropaTestP = new GuardarropaLimitado(usuario, null);
+        	otroGuardarropa = new GuardarropaLimitado(usuario, null);
         	
         	Color blanco = new Color(255, 255, 255);
         	Color negro = new Color(0, 0, 0);
@@ -64,7 +67,13 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		guardarropaTestP.agregarPrenda(zapatillas);
     		guardarropaTestP.agregarPrenda(collar);
     		
+    		otroGuardarropa.agregarPrenda(remeraNegra);
+    		otroGuardarropa.agregarPrenda(unShort);
+    		otroGuardarropa.agregarPrenda(zapatillas);
+    		otroGuardarropa.agregarPrenda(collar);
+    		
     		usuario.agregarGuardarropa(guardarropaTestP);
+    		usuario.agregarGuardarropa(otroGuardarropa);
     		
     		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
     		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, Calendar.getInstance(), "Un Evento");

@@ -2,6 +2,7 @@ package dds.utn.ju_ma.group7.QueMePongo.Main;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,13 +13,16 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Evento;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
+import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
+import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
 import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
@@ -205,5 +209,73 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		model.put("sugerencias", sugerenciasAceptadas);
 		ModelAndView modelAndView = new ModelAndView(model, "sugerencias/listadoSugerenciasAceptadas.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public String altaEvento(Request req, Response res) {
+		AuthenticatedUser user = this.authService
+				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		String nombreEvento = req.queryParams("nombreEvento");
+		String guardarropas = req.queryParams("guardarropas");
+		String fechaEvento = req.queryParams("fechaEvento");
+		String confirmacion = req.queryParams("confirmacion");
+		HashMap<String, Object> viewModel = new HashMap<String, Object>();
+		viewModel = altaEventoController(viewModel);
+		if(req.queryParams().isEmpty()) {
+			viewModel.put("nombreEvento", nombreEvento);
+			viewModel.put("hayNombre", 0);
+			viewModel.put("visibilidadNombreEvento", "visible");
+			viewModel.put("guardarropas", guardarropas);
+			viewModel.put("hayGuardarropas", 0);
+			viewModel.put("todosLosGuardarropas",user.getUsuario().getGuardarropas());
+		}
+		else {
+			Boolean hayNombre = nombreEvento != null;
+			Boolean hayGuardarropas = guardarropas != null;
+			Boolean hayFechaEvento = fechaEvento != null;
+			Boolean hayConfirmacion = confirmacion != null;
+			if(hayNombre&&!hayGuardarropas) {
+				viewModel.put("nombreEvento", nombreEvento);
+				viewModel.put("todosLosGuardarropas",user.getUsuario().getGuardarropas());
+				viewModel.put("visibilidadGuardarropas", "visible");
+			}
+			else if(hayNombre&&hayGuardarropas&&!hayFechaEvento){
+				viewModel.put("nombreEvento", nombreEvento);
+				viewModel.put("guardarropas", guardarropas);
+				viewModel.put("todosLosGuardarropas",user.getUsuario().getGuardarropas());
+				viewModel.put("visibilidadCalendario", "visible");
+			}
+			else if(hayNombre&&hayGuardarropas&&hayFechaEvento&&!hayConfirmacion){
+				viewModel.put("nombreEvento", nombreEvento);
+				viewModel.put("guardarropas", guardarropas);
+				viewModel.put("nombreGuardarropas", user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas)).getNombreGuardarropas());
+				viewModel.put("fechaEvento", "2019-5-6");
+				viewModel.put("todoOk",true);
+				viewModel.put("visibilidadConfirmacion", "visible");
+			}
+			else if(hayNombre&&hayGuardarropas&&hayFechaEvento&&hayConfirmacion){
+				Calendar fecha = Calendar.getInstance();
+				fecha.setTime(new Date());
+				Usuario usuario = user.getUsuario();
+				Guardarropa guardarropaSeleccionado = user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas));
+				RepositorioEventosPersistente repositorioEventosPersistente = new RepositorioEventosPersistente();
+				EventoUnico eventoVerano = repositorioEventosPersistente.instanciarEventoUnico(usuario, guardarropaSeleccionado,
+						fecha,nombreEvento);
+				withTransaction(() -> {
+					this.entityManager().persist(eventoVerano);
+				});
+				viewModel.put("visibilidadEventoOk", "visible");
+			}
+		}
+		ModelAndView modelAndView = new ModelAndView(viewModel, "altaEvento.hbs");
+		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public HashMap<String, Object> altaEventoController(HashMap<String, Object> viewModel) {
+		viewModel.put("visibilidadNombreEvento", "hidden");
+		viewModel.put("visibilidadGuardarropas", "hidden");
+		viewModel.put("visibilidadCalendario", "hidden");
+		viewModel.put("visibilidadConfirmacion", "hidden");
+		viewModel.put("visibilidadEventoOk", "hidden");
+		return viewModel;
 	}
 }
