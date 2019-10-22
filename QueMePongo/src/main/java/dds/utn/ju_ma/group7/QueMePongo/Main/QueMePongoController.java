@@ -225,11 +225,7 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		viewModel = controlador.controladorPantallas(viewModel);
 		if(req.queryParams().isEmpty()) {
 			viewModel.put("nombreEvento", nombreEvento);
-			viewModel.put("hayNombre", 0);
 			viewModel.put("visibilidadNombreEvento", "visible");
-			viewModel.put("guardarropas", guardarropas);
-			viewModel.put("hayGuardarropas", 0);
-			viewModel.put("todosLosGuardarropas",user.getUsuario().getGuardarropas());
 		}
 		else {
 			Boolean hayNombre = nombreEvento != null;
