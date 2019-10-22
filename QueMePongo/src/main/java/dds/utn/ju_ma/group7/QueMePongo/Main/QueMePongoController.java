@@ -1,5 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo.Main;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -219,7 +221,8 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		String fechaEvento = req.queryParams("fechaEvento");
 		String confirmacion = req.queryParams("confirmacion");
 		HashMap<String, Object> viewModel = new HashMap<String, Object>();
-		viewModel = altaEventoController(viewModel);
+		AltaEventoController controlador = new AltaEventoController();
+		viewModel = controlador.controladorPantallas(viewModel);
 		if(req.queryParams().isEmpty()) {
 			viewModel.put("nombreEvento", nombreEvento);
 			viewModel.put("hayNombre", 0);
@@ -248,16 +251,16 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 				viewModel.put("nombreEvento", nombreEvento);
 				viewModel.put("guardarropas", guardarropas);
 				viewModel.put("nombreGuardarropas", user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas)).getNombreGuardarropas());
-				viewModel.put("fechaEvento", "2019-5-6");
-				viewModel.put("todoOk",true);
+				Boolean fechaCorrecta = controlador.esFechaValida(fechaEvento);
+				viewModel.put("fechaEvento", fechaEvento);
+				viewModel.put("todoOk",fechaCorrecta);
 				viewModel.put("visibilidadConfirmacion", "visible");
 			}
 			else if(hayNombre&&hayGuardarropas&&hayFechaEvento&&hayConfirmacion){
-				Calendar fecha = Calendar.getInstance();
-				fecha.setTime(new Date());
 				Usuario usuario = user.getUsuario();
 				Guardarropa guardarropaSeleccionado = user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas));
 				RepositorioEventosPersistente repositorioEventosPersistente = new RepositorioEventosPersistente();
+				Calendar fecha = controlador.generarFecha(fechaEvento);
 				EventoUnico eventoVerano = repositorioEventosPersistente.instanciarEventoUnico(usuario, guardarropaSeleccionado,
 						fecha,nombreEvento);
 				withTransaction(() -> {
@@ -268,14 +271,5 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		}
 		ModelAndView modelAndView = new ModelAndView(viewModel, "altaEvento.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
-	}
-	
-	public HashMap<String, Object> altaEventoController(HashMap<String, Object> viewModel) {
-		viewModel.put("visibilidadNombreEvento", "hidden");
-		viewModel.put("visibilidadGuardarropas", "hidden");
-		viewModel.put("visibilidadCalendario", "hidden");
-		viewModel.put("visibilidadConfirmacion", "hidden");
-		viewModel.put("visibilidadEventoOk", "hidden");
-		return viewModel;
 	}
 }
