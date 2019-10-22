@@ -1,5 +1,16 @@
 {{#partial "contenido"}}
 <h2 class="titulo-seccion">Estas son las sugerencias que previamente acepto, favor de calificarlas segun que tan bien abrigo gracias</h2>
+{{#if huboCalificacion}}
+<div class="alert alert-success" role="alert">
+	<div>La calificacion fue aceptada. Para terminar de aceptar y/o rechazar haga click <a id="activadorAviso">
+			<a href="/quemepongo/eventos/sugerencias/calificar"><button type="submit"
+					class="btn btn-primary" data-toggle="tooltip" data-placement="right"
+					title="Ha calificado con exito">
+					aqui
+				</button></a>
+	</div>
+</div>
+{{/if}}
 <div>
 	<table class="table">
 		<thead>
@@ -84,22 +95,25 @@
 					{{#if estado "ACEPTADA"}}
 					<p style="text-align: center;">ACEPTADA</p>
 						<div style="display:flex; flex-direction: column; justify-content: stretch; text-align: center">
-							<div class="dropdown">
+							<div class="dropdown" name="calif">
 							  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-bottom: 5px; text-align: center">Calificar</a>
 							  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-							  	<a class="dropdown-item" href="#">1</a>
-							    <a class="dropdown-item" href="#">2</a>
-							    <a class="dropdown-item" href="#">3</a>
-							    <a class="dropdown-item" href="#">4</a>
-							    <a class="dropdown-item" href="#">5</a>
-							    <a class="dropdown-item" href="#">6</a>
-							    <a class="dropdown-item" href="#">7</a>
-							    <a class="dropdown-item" href="#">8</a>
-							    <a class="dropdown-item" href="#">9</a>
-							    <a class="dropdown-item" href="#">10</a>
+							  	<a class="dropdown-item" value=1 href="#1">1</a>
+							    <a class="dropdown-item" value=2 href="#2">2</a>
+							    <a class="dropdown-item" value=3 href="#3">3</a>
+							    <a class="dropdown-item" value=4 href="#4">4</a>
+							    <a class="dropdown-item" value=5 href="#5">5</a>
+							    <a class="dropdown-item" value=6 href="#6">6</a>
+							    <a class="dropdown-item" value=7 href="#7">7</a>
+							    <a class="dropdown-item" value=8 href="#8">8</a>
+							    <a class="dropdown-item" value=9 href="#9">9</a>
+							    <a class="dropdown-item" value=10 href="#10">10</a>
 						  </div>
 						</div>
-						<button type="button" class="btn btn-light" style="margin-bottom: 5px; text-align: center; margin-left:13%; margin-top:5%; margin-right:13%">Enviar</button>
+							<a
+								href="/quemepongo/eventos/sugerencias/calificar/ejecutarCalificacion?idSugerencia={{id}}&calificacion=10">
+								<button type="button" class="btn btn-light" style="margin-bottom: 5px; text-align: center; margin-left:10%; margin-top:5%; margin-right:10%">Enviar</button>
+							</a>
 					</div>
 					{{/if}}
 				</td>

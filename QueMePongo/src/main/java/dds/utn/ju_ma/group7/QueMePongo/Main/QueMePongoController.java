@@ -205,12 +205,25 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 	public String listarSugerenciasAceptadas(Request req, Response res) {
 		AuthenticatedUser user = this.authService
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		boolean huboCalificacion = req.queryParams("huboCalificacion") != null;
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		List<Sugerencia> sugerenciasAceptadas = repoEventos.sugerenciasAceptadasDelUsuario(user.getUsuario());
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("sugerencias", sugerenciasAceptadas);
+		model.put("huboCalificacion", huboCalificacion);
 		ModelAndView modelAndView = new ModelAndView(model, "sugerencias/listadoSugerenciasAceptadas.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public String ejecutarCalificacion(Request req, Response res) {
+		AuthenticatedUser user = this.authService.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		Long idSugerencia = Long.parseLong(req.queryParams("idSugerencia"));
+		Long calificacion = Long.parseLong(req.queryParams("calificacion"));
+		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+		Sugerencia sugerencia = repoEventos.obtenerSugerenciaDelUsuario(user.getUsuario(), idSugerencia).get(0);
+		sugerencia.calificar(calificacion);
+		res.redirect("/quemepongo/eventos/sugerencias/calificar?huboCalificacion=true");
+		return "redirigiendo a sugerencias...";
 	}
 	
 	public String altaEvento(Request req, Response res) {
