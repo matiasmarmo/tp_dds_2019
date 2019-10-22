@@ -1,5 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
@@ -23,12 +25,18 @@ public class Sugerencia {
 	private Atuendo atuendo;
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado;
+	@Transient
+	private Long calificacion;
 
 	public Long getId() {
 		return id;
 	}
 
 	public Sugerencia() {
+	}
+	
+	public boolean esDichaSugerencia(Long unId) {
+		return id == unId;
 	}
 
 	public Sugerencia(Atuendo atuendo) {
@@ -67,6 +75,11 @@ public class Sugerencia {
 	public void rechazar() {
 		this.setEstado(EstadoSugerencia.RECHAZADA);
 	}
+	
+	public void calificar(Long calificacionUsuario) {
+		this.setEstado(EstadoSugerencia.CALIFICADA);
+		calificacion = calificacionUsuario;
+	}
 
 	public void deshacerOperacion() {
 		this.setEstado(EstadoSugerencia.PENDIENTE);
@@ -81,5 +94,5 @@ public class Sugerencia {
 			this.rechazar();
 		}
 	}
-
+	
 }

@@ -30,6 +30,8 @@ public abstract class RepositorioEventos {
 	public abstract List<Evento> eventosDelUsuario(Usuario usuario);
 
 	public abstract List<Sugerencia> sugerenciasAceptadasDelUsuario(Usuario usuario);
+	
+	public abstract List<Sugerencia> obtenerSugerenciaDelUsuario(Usuario usuario, Long idSugerencia);
 
 	public abstract List<Sugerencia> sugerenciasRechazadasDelUsuario(Usuario usuario);
 
