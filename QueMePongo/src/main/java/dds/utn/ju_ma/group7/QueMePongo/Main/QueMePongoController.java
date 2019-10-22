@@ -122,14 +122,14 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
-	public String postConfirmacion(Request req, Response res) {
-		withTransaction(() -> {
+	public String postPrendaLista(Request req, Response res) {
+			withTransaction(() -> {
 			TipoPrenda tipoPrenda = TipoPrenda.valueOf(req.session().attribute("tipoPrenda"));
 			TipoTela tipoTela = TipoTela.valueOf(req.session().attribute("tipoTela"));
 			Color colorPrimario = Color.hexToRgb(req.session().attribute("colorPrimario"));
 			PrendaBuilder prendaBuilder = new PrendaBuilder();
 			prendaBuilder.setTipoPrenda(tipoPrenda).setTipoTela(tipoTela).setColorPrimario(colorPrimario);
-			if (Boolean.valueOf(req.session().attribute("tieneSecundario"))) {
+			if (req.session().attribute("tieneSecundario") != null) {
 				Color colorSecundario = Color.hexToRgb(req.session().attribute("colorSecundario"));
 				prendaBuilder.setColorSecundario(colorSecundario);
 			}

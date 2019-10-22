@@ -40,7 +40,7 @@ public class Router {
         Spark.post("/quemepongo/prenda/tipoTela", controller::postTipoTela);
         Spark.post("/quemepongo/prenda/color", controller::postColor);
         Spark.post("/quemepongo/prenda/confirmacion", controller::confirmacion);
-        Spark.post("/quemepongo/prenda/listo", controller::postConfirmacion);
+        Spark.post("/quemepongo/prenda/listo", controller::postPrendaLista);
         Spark.get("/quemepongo/sugerencias", controller::listarEventos);
         Spark.get("/quemepongo/eventos/sugerencias", controller::listarSugerencias);
         Spark.get("/quemepongo/eventos/sugerencias/eleccion", controller::ejecutarAccionSugerencia);
