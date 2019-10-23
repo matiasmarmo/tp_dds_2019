@@ -78,7 +78,7 @@ public class Sugerencia {
 	
 	public void calificar(Long calificacionUsuario) {
 		this.setEstado(EstadoSugerencia.CALIFICADA);
-		calificacion = calificacionUsuario;
+		this.calificacion = calificacionUsuario;
 	}
 
 	public void deshacerOperacion() {

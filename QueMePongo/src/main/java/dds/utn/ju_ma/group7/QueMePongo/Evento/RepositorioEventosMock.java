@@ -44,10 +44,12 @@ public class RepositorioEventosMock extends RepositorioEventos {
 	}
 
 	@Override
-	public List<Sugerencia> obtenerSugerenciaDelUsuario(Usuario usuario, Long idSugerencia) {
+	public Sugerencia obtenerSugerenciaDelUsuario(Usuario usuario, Long idSugerencia) {
 		return this.eventosDelUsuario(usuario).stream().map(evento -> evento.getSugerencias())
 				.flatMap(sugerencia -> sugerencia.stream())
-				.filter(sugerencia -> sugerencia.esDichaSugerencia(idSugerencia)).collect(Collectors.toList());
+				.filter(sugerencia -> sugerencia.esDichaSugerencia(idSugerencia))
+				.findFirst()
+				.get();
 	}
 
 	@Override

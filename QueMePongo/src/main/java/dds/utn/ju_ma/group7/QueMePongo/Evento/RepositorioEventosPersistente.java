@@ -51,10 +51,10 @@ public class RepositorioEventosPersistente extends RepositorioEventos
 	}
 	
 	@Override
-	public List<Sugerencia> obtenerSugerenciaDelUsuario(Usuario usuario, Long id) {
+	public Sugerencia obtenerSugerenciaDelUsuario(Usuario usuario, Long id) {
 		String queryString = "select s from Evento e join e.sugerencias s where e.usuario = :usuario and s.id = :id";
 		return this.entityManager().createQuery(queryString, Sugerencia.class)
-				.setParameter("usuario", usuario).setParameter("id", id).getResultList();
+				.setParameter("usuario", usuario).setParameter("id", id).getResultList().get(0);
 	}
 
 	@Override
