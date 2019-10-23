@@ -36,40 +36,6 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 	public QueMePongoController(AuthenticationService authService) {
 		this.authService = authService;
 	}
-
-	public String loginGet(Request req, Response res) {
-		return new HandlebarsTemplateEngine().render(new ModelAndView(null, "inicioSesion.hbs"));
-	}
-
-	public void authFilter(Request req, Response res) {
-		String accessTokenString = req.cookie("quemepongo-auth-token");
-		if (accessTokenString == null) {
-			res.redirect("/login");
-		}
-		Long accessTokenLong = Long.parseLong(accessTokenString);
-		AuthenticatedUser user = this.authService.getAuthenticatedUser(accessTokenLong);
-		if (user == null) {
-			res.redirect("/login");
-		}
-	}
-
-	public String loginPost(Request req, Response res) {
-		String username = req.queryParams("username");
-		String password = req.queryParams("password");
-		AuthenticatedUser authenticatedUser = this.authService.loginUser(username, password);
-		res.cookie("quemepongo-auth-token", authenticatedUser.getAccessToken().toString());
-		res.redirect("/quemepongo/guardarropas");
-		return null;
-	}
-
-	public String logout(Request req, Response res) {
-		AuthenticatedUser user = this.authService
-				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
-		this.authService.logoutUser(user);
-		res.removeCookie("quemepongo-auth-token");
-		res.redirect("/login");
-		return null;
-	}
 	
 	public String seleccionarGuardarropas(Request req, Response res) {
 		AuthenticatedUser user = this.authService
@@ -86,23 +52,6 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		model.put("tiposPrenda", Arrays.asList(TipoPrenda.values()).stream().map(value -> value.toString())
 				.collect(Collectors.toList()));
 		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/tipoPrenda.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
-	}
-
-	public String listarGuardarropas(Request req, Response res) {
-		AuthenticatedUser user = this.authService
-				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
-		ModelAndView modelAndView = new ModelAndView(user.getUsuario(), "listadoGuardarropas.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
-	}
-
-	public String listarPrendas(Request req, Response res) {
-		AuthenticatedUser user = this.authService
-				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
-		Map<String, Object> model = new HashMap<String, Object>();
-		Long id = Long.parseLong(req.params("id"));
-		model.put("prendas", user.getUsuario().obtenerGuardarropa(id).getPrendas());
-		ModelAndView modelAndView = new ModelAndView(model, "listadoPrendas.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
