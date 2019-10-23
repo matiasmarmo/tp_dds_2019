@@ -1,12 +1,7 @@
-package dds.utn.ju_ma.group7.QueMePongo.Main;
-
-import java.util.HashMap;
+package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
-import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
-import spark.ModelAndView;
 import spark.Spark;
-import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class Router {
     static Router _instance;

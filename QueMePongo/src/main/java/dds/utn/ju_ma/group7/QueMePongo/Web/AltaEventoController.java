@@ -1,4 +1,4 @@
-package dds.utn.ju_ma.group7.QueMePongo.Main;
+package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,10 +1,8 @@
-package dds.utn.ju_ma.group7.QueMePongo.Main;
+package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
-import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

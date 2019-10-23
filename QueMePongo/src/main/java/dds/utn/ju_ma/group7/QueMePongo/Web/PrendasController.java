@@ -1,4 +1,4 @@
-package dds.utn.ju_ma.group7.QueMePongo.Main;
+package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,8 +16,6 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
-import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
-import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

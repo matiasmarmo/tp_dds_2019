@@ -1,4 +1,4 @@
-package dds.utn.ju_ma.group7.QueMePongo.Main;
+package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -15,8 +15,6 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
-import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticatedUser;
-import dds.utn.ju_ma.group7.QueMePongo.Web.AuthenticationService;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

@@ -1,4 +1,4 @@
-package dds.utn.ju_ma.group7.QueMePongo.Main;
+package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -13,6 +13,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.EventoUnico;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.GuardarropaLimitado;
+import dds.utn.ju_ma.group7.QueMePongo.Main.QueMePongoConfiguration;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Color;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
