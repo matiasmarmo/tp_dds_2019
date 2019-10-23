@@ -62,25 +62,13 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 		Long idSugerencia = Long.parseLong(req.queryParams("idSugerencia"));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		Evento evento = repoEventos.getEventoPorId(idEvento);
-		Sugerencia sugerencia = evento.getSugerenciaPorId(idSugerencia);
-		String accion = req.queryParams("accion");
-		if (accion.compareTo("aceptar") == 0) {
-			sugerencia.aceptar();
-			res.redirect("/quemepongo/eventos/sugerencias?id=" + idEventoString + "&huboSugerenciaAceptada=true");
-		} else if (accion.compareTo("rechazar") == 0) {
-			sugerencia.rechazar();
-			res.redirect("/quemepongo/eventos/sugerencias?id=" + idEventoString + "&huboSugerenciaRechazada=true");
-		}
-		return "redirigiendo a sugerencias...";
-	}
-
-	public String rechazarSugerenciasPendientes(Request req, Response res) {
-		Long idEvento = Long.parseLong(req.queryParams("idEvento"));
-		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
-		Evento evento = repoEventos.getEventoPorId(idEvento);
-		evento.rechazarSugerenciasPendientes();
-		ModelAndView modelAndView = new ModelAndView(null, "sugerencias/finalizacionSugerencias.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		Sugerencia sugerenciaAceptada = evento.getSugerenciaPorId(idSugerencia);
+		withTransaction(() -> {
+			sugerenciaAceptada.aceptar();
+			evento.getSugerencias().stream().filter(sugerencia -> sugerencia != sugerenciaAceptada)
+					.forEach(sugerencia -> sugerencia.rechazar());
+		});
+		return new HandlebarsTemplateEngine().render(new ModelAndView(null, "sugerencias/sugerenciaAceptada.hbs"));
 	}
 
 	public String listarSugerenciasAceptadas(Request req, Response res) {

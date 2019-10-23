@@ -41,8 +41,7 @@ public class Router {
         
         Spark.get("/quemepongo/calificacion-sugerencias", controller::listarSugerenciasParaCalificar);
         Spark.get("/quemepongo/eventos/sugerencias", controller::listarSugerenciasDeUnEvento);
-        Spark.get("/quemepongo/eventos/sugerencias/eleccion", controller::ejecutarAccionSugerencia);
-        Spark.get("/quemepongo/eventos/sugerencias/rechazarPendientes", controller::rechazarSugerenciasPendientes);
+        Spark.post("/quemepongo/eventos/sugerencias", controller::ejecutarAccionSugerencia);
         Spark.get("/quemepongo/eventos/sugerencias/calificar", controller::listarSugerenciasAceptadas);
         Spark.get("/quemepongo/eventos/sugerencias/calificar/ejecutarCalificacion", controller::ejecutarCalificacion);
         Spark.get("/quemepongo/altaEvento", controller::altaEvento);

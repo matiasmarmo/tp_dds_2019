@@ -38,6 +38,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
         	
         	guardarropaTestP = new GuardarropaLimitado(usuario, null);
         	otroGuardarropa = new GuardarropaLimitado(usuario, null);
+        	otroGuardarropa.setNombreGuardarropas("Gran guardarropas");
         	
         	Color blanco = new Color(255, 255, 255);
         	Color negro = new Color(0, 0, 0);
@@ -83,7 +84,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		Atuendo atuendo = new Atuendo(Arrays.asList(remeraBlanca, remeraNegra), unShort, zapatillas, collar);
     		Atuendo atuendoNegro = new Atuendo(Arrays.asList(remeraNegra), unShort, zapatillas, collar);
     		Sugerencia sugerencia = new Sugerencia(atuendo);
-    		Sugerencia otraSugerencia = new Sugerencia(atuendo);
+    		Sugerencia otraSugerencia = new Sugerencia(atuendoNegro);
     		Sugerencia sugerenciaAceptada = new Sugerencia(atuendo);
     		Sugerencia sugerenciaAceptadaDos = new Sugerencia(atuendoNegro);
     		sugerenciaAceptada.aceptar();
