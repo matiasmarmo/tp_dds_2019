@@ -1,10 +1,7 @@
 package dds.utn.ju_ma.group7.QueMePongo.Main;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +70,24 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		res.redirect("/login");
 		return null;
 	}
+	
+	public String seleccionarGuardarropas(Request req, Response res) {
+		AuthenticatedUser user = this.authService
+				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		ModelAndView modelAndView = new ModelAndView(user.getUsuario(), "altaPrenda/seleccionGuardarropas.hbs");
+		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
+	
+	public String guardarropasSeleccionado(Request req, Response res) {
+		String idGuardarropa = req.queryParams("idGuardarropa");
+		System.out.println(idGuardarropa);
+		req.session().attribute("idGuardarropa", idGuardarropa);
+		Map<String, List<String>> model = new HashMap<String, List<String>>();
+		model.put("tiposPrenda", Arrays.asList(TipoPrenda.values()).stream().map(value -> value.toString())
+				.collect(Collectors.toList()));
+		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/tipoPrenda.hbs");
+		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
 
 	public String listarGuardarropas(Request req, Response res) {
 		AuthenticatedUser user = this.authService
@@ -91,15 +106,8 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
-	public String postTipoPrenda(Request req, Response res) {
-		Map<String, List<String>> model = new HashMap<String, List<String>>();
-		model.put("tiposPrenda", Arrays.asList(TipoPrenda.values()).stream().map(value -> value.toString())
-				.collect(Collectors.toList()));
-		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/tipoPrenda.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
-	}
 
-	public String postTipoTela(Request req, Response res) {
+	public String postTipoPrenda(Request req, Response res) {
 		req.session(true).attribute("tipoPrenda", req.queryParams("tipoPrenda"));
 		Map<String, List<String>> model = new HashMap<String, List<String>>();
 		model.put("tiposTela",
@@ -108,13 +116,13 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
-	public String postColor(Request req, Response res) {
+	public String postTipoTela(Request req, Response res) {
 		req.session().attribute("tipoTela", req.queryParams("tipoTela"));
 		ModelAndView modelAndView = new ModelAndView(null, "altaPrenda/color.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
-	public String confirmacion(Request req, Response res) {
+	public String postColor(Request req, Response res) {
 		req.session().attribute("colorPrimario", req.queryParams("colorPrimario"));
 		req.session().attribute("colorSecundario", req.queryParams("colorSecundario"));
 		req.session().attribute("tieneSecundario", req.queryParams("tieneSecundario"));
@@ -129,7 +137,10 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 	}
 
 	public String postPrendaLista(Request req, Response res) {
-			withTransaction(() -> {
+		AuthenticatedUser user = this.authService
+				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		Guardarropa guardarropa = user.getUsuario().obtenerGuardarropa(Long.parseLong(req.session().attribute("idGuardarropa")));
+		withTransaction(() -> {
 			TipoPrenda tipoPrenda = TipoPrenda.valueOf(req.session().attribute("tipoPrenda"));
 			TipoTela tipoTela = TipoTela.valueOf(req.session().attribute("tipoTela"));
 			Color colorPrimario = Color.hexToRgb(req.session().attribute("colorPrimario"));
@@ -140,7 +151,8 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 				prendaBuilder.setColorSecundario(colorSecundario);
 			}
 			Prenda prenda = prendaBuilder.crearPrenda();
-			persist(prenda);
+			guardarropa.agregarPrenda(prenda);
+			persist(guardarropa);
 		});
 
 		ModelAndView modelAndView = new ModelAndView(null, "altaPrenda/prendaCreada.hbs");
@@ -174,7 +186,7 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		System.out.println(sugerencias.size());
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
-	
+
 	public String ejecutarAccionSugerencia(Request req, Response res) {
 		String idEventoString = req.queryParams("idEvento");
 		Long idEvento = Long.parseLong(idEventoString);
@@ -192,14 +204,14 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		}
 		return "redirigiendo a sugerencias...";
 	}
-	
+
 	public String rechazarSugerenciasPendientes(Request req, Response res) {
 		Long idEvento = Long.parseLong(req.queryParams("idEvento"));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
-    	Evento evento = repoEventos.getEventoPorId(idEvento);
-    	evento.rechazarSugerenciasPendientes();
+		Evento evento = repoEventos.getEventoPorId(idEvento);
+		evento.rechazarSugerenciasPendientes();
 		ModelAndView modelAndView = new ModelAndView(null, "sugerencias/finalizacionSugerencias.hbs");
-        return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
 
 	public String listarSugerenciasAceptadas(Request req, Response res) {
@@ -214,9 +226,10 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		ModelAndView modelAndView = new ModelAndView(model, "sugerencias/listadoSugerenciasAceptadas.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
-	
+
 	public String ejecutarCalificacion(Request req, Response res) {
-		AuthenticatedUser user = this.authService.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		AuthenticatedUser user = this.authService
+				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		Long idSugerencia = Long.parseLong(req.queryParams("idSugerencia"));
 		Long calificacion = Long.parseLong(req.queryParams("calificacion"));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
@@ -225,7 +238,7 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		res.redirect("/quemepongo/eventos/sugerencias/calificar?huboCalificacion=true");
 		return "redirigiendo a sugerencias...";
 	}
-	
+
 	public String altaEvento(Request req, Response res) {
 		AuthenticatedUser user = this.authService
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
@@ -236,42 +249,40 @@ public class QueMePongoController implements WithGlobalEntityManager, Transactio
 		HashMap<String, Object> viewModel = new HashMap<String, Object>();
 		AltaEventoController controlador = new AltaEventoController();
 		viewModel = controlador.controladorPantallas(viewModel);
-		if(req.queryParams().isEmpty()) {
+		if (req.queryParams().isEmpty()) {
 			viewModel.put("nombreEvento", nombreEvento);
 			viewModel.put("visibilidadNombreEvento", "visible");
-		}
-		else {
+		} else {
 			Boolean hayNombre = nombreEvento != null;
 			Boolean hayGuardarropas = guardarropas != null;
 			Boolean hayFechaEvento = fechaEvento != null;
 			Boolean hayConfirmacion = confirmacion != null;
-			if(hayNombre&&!hayGuardarropas) {
+			if (hayNombre && !hayGuardarropas) {
 				viewModel.put("nombreEvento", nombreEvento);
-				viewModel.put("todosLosGuardarropas",user.getUsuario().getGuardarropas());
+				viewModel.put("todosLosGuardarropas", user.getUsuario().getGuardarropas());
 				viewModel.put("visibilidadGuardarropas", "visible");
-			}
-			else if(hayNombre&&hayGuardarropas&&!hayFechaEvento){
+			} else if (hayNombre && hayGuardarropas && !hayFechaEvento) {
 				viewModel.put("nombreEvento", nombreEvento);
 				viewModel.put("guardarropas", guardarropas);
-				viewModel.put("todosLosGuardarropas",user.getUsuario().getGuardarropas());
+				viewModel.put("todosLosGuardarropas", user.getUsuario().getGuardarropas());
 				viewModel.put("visibilidadCalendario", "visible");
-			}
-			else if(hayNombre&&hayGuardarropas&&hayFechaEvento&&!hayConfirmacion){
+			} else if (hayNombre && hayGuardarropas && hayFechaEvento && !hayConfirmacion) {
 				viewModel.put("nombreEvento", nombreEvento);
 				viewModel.put("guardarropas", guardarropas);
-				viewModel.put("nombreGuardarropas", user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas)).getNombreGuardarropas());
+				viewModel.put("nombreGuardarropas",
+						user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas)).getNombreGuardarropas());
 				Boolean fechaCorrecta = controlador.esFechaValida(fechaEvento);
 				viewModel.put("fechaEvento", fechaEvento);
-				viewModel.put("todoOk",fechaCorrecta);
+				viewModel.put("todoOk", fechaCorrecta);
 				viewModel.put("visibilidadConfirmacion", "visible");
-			}
-			else if(hayNombre&&hayGuardarropas&&hayFechaEvento&&hayConfirmacion){
+			} else if (hayNombre && hayGuardarropas && hayFechaEvento && hayConfirmacion) {
 				Usuario usuario = user.getUsuario();
-				Guardarropa guardarropaSeleccionado = user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas));
+				Guardarropa guardarropaSeleccionado = user.getUsuario()
+						.obtenerGuardarropa(Long.parseLong(guardarropas));
 				RepositorioEventosPersistente repositorioEventosPersistente = new RepositorioEventosPersistente();
 				Calendar fecha = controlador.generarFecha(fechaEvento);
-				EventoUnico eventoVerano = repositorioEventosPersistente.instanciarEventoUnico(usuario, guardarropaSeleccionado,
-						fecha,nombreEvento);
+				EventoUnico eventoVerano = repositorioEventosPersistente.instanciarEventoUnico(usuario,
+						guardarropaSeleccionado, fecha, nombreEvento);
 				withTransaction(() -> {
 					this.entityManager().persist(eventoVerano);
 				});

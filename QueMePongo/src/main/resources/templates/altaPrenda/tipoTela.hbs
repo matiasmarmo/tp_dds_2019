@@ -1,9 +1,9 @@
 {{#partial "contenido"}}
 <div>
-	<form action="/quemepongo/prenda/color" method="post">
+	<form action="/quemepongo/prenda/tipoTela" method="post">
 		<select name="tipoTela">
 			{{#each tiposTela}}
-				<option value="{{this}}">{{this}}</option>
+			<option value="{{this}}">{{this}}</option>
 			{{/each}}
 		</select>
 		<input type="submit" value="Siguiente"></input>

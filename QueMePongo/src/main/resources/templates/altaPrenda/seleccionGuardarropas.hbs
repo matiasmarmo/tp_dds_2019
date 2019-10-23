@@ -1,0 +1,29 @@
+{{#partial "contenido"}}
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Guardarropa</th>
+                <th scope="col">Prendas</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each guardarropas}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                <td>{{nombreGuardarropas}}</td>
+                <td>
+                    <form method="post" action="/quemepongo/prenda/guardarropas">
+                        <input type="hidden" value="{{id}}" name="idGuardarropa" />
+                        <button type="submit">Seleccionar</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+    </table>
+</div>
+{{/partial}} {{> layout.hbs}}

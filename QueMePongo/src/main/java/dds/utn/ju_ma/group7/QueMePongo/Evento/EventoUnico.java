@@ -24,7 +24,7 @@ public class EventoUnico extends Evento {
 	private Calendar fecha;
 	
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	public List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
+	private List<Sugerencia> sugerencias = new ArrayList<Sugerencia>();
 
 	public EventoUnico() {
 	}
@@ -56,6 +56,10 @@ public class EventoUnico extends Evento {
 
 	public List<Sugerencia> getSugerencias() {
 		return sugerencias;
+	}
+	
+	public void setSugerencias(List<Sugerencia> sugerencias) {
+		this.sugerencias = sugerencias;
 	}
 
 	@Override
