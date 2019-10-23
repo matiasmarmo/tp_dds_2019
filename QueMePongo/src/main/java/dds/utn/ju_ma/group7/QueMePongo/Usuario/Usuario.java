@@ -39,8 +39,11 @@ public class Usuario {
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Sensibilidad sensibilidad;
 
-	public Set<Guardarropa> getGuardarropas() {
-		return guardarropas;
+	public List<Guardarropa> getGuardarropas() {
+		return guardarropas.stream().sorted(
+				(unGuardarropas, otroGuardarroas) 
+					-> unGuardarropas.getNombreGuardarropas().compareTo(otroGuardarroas.getNombreGuardarropas()))
+				.collect(Collectors.toList());
 	}
 
 	public void setGuardarropas(Set<Guardarropa> guardarropas) {
