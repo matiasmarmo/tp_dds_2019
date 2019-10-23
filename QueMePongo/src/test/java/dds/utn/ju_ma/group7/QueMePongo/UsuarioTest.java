@@ -56,7 +56,7 @@ public class UsuarioTest extends Fixture {
 		Usuario usuarioPersistido = usuariosPersistidos.stream()
 				.filter(unUsuario-> usuario == unUsuario)
 				.collect(Collectors.toList()).get(0);
-		Assert.assertTrue(usuario.getGuardarropas() == usuarioPersistido.getGuardarropas());
+		Assert.assertTrue(usuario.getGuardarropas().get(0) == usuarioPersistido.getGuardarropas().get(0));
 	}
 
 }
