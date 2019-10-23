@@ -28,13 +28,6 @@ public class Router {
         GuardarropasController guardarropasController = new GuardarropasController(authService);
         PrendasController prendasController = new PrendasController(authService);
         EventosController controller = new EventosController(authService);
-        
-        Spark.get("/test", (req, res) -> {
-            HashMap<String, Object> viewModel = new HashMap<String, Object>();
-            ModelAndView modelAndView = new ModelAndView(viewModel, "test.hbs");
-            return modelAndView;
-        }, new HandlebarsTemplateEngine());
-        
 
         Spark.before("/quemepongo/*", authController::authFilter);
         Spark.get("/login", authController::loginGet);
