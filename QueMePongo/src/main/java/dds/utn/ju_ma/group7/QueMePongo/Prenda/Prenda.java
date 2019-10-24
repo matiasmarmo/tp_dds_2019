@@ -32,6 +32,7 @@ public class Prenda implements InterfazPrenda {
 	private Color colorSecundario;
 	@Transient
 	private BufferedImage imagen;
+	private String rutaPrenda;
 
 	public boolean esPrendaNula() {
 		return false;
@@ -80,11 +81,15 @@ public class Prenda implements InterfazPrenda {
 	}
 
 	public BufferedImage getImagen() {
+		if(this.rutaPrenda != null) {
+			this.setImagen(this.rutaPrenda);
+		}
 		return this.imagen;
 	}
 
 	public void setImagen(String path) {
 		try {
+			this.rutaPrenda = path;
 			this.imagen = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			throw new ImagenInvalidaException("No se pudo cargar la imagen");
