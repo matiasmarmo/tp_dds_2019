@@ -84,5 +84,9 @@ public enum TipoPrenda {
 	public ParteCuerpo getParteCuerpo() {
 		return this.parteCuerpo;
 	}
+
+	public List<TipoTela> getTelasPosibles() {
+		return telasPosibles;
+	}
 	
 }

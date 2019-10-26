@@ -50,8 +50,9 @@ public class PrendasController implements WithGlobalEntityManager, Transactional
 	public String postTipoPrenda(Request req, Response res) {
 		req.session(true).attribute("tipoPrenda", req.queryParams("tipoPrenda"));
 		Map<String, List<String>> model = new HashMap<String, List<String>>();
+		TipoPrenda tipoPrendaSeleccionada =  TipoPrenda.valueOf(req.session().attribute("tipoPrenda"));
 		model.put("tiposTela",
-				Arrays.asList(TipoTela.values()).stream().map(value -> value.toString()).collect(Collectors.toList()));
+				Arrays.asList(tipoPrendaSeleccionada.getTelasPosibles().toArray()).stream().map(value -> value.toString()).collect(Collectors.toList()));
 		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/tipoTela.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
