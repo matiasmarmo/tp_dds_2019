@@ -6,7 +6,7 @@
 			<img src="/1.png" style="height:auto;width:40%"></img>
 			<br>
 			<h2>Nombre del evento</h2>
-			<form method='get' action='/quemepongo/altaEvento'>
+			<form method='get' action='/quemepongo/eventos/new'>
 				<input name='nombreEvento' value="{{nombreEvento}}" style="width:20%; text-align:center" placeholder="Escriba aquí..."/>
 				<br>
 				<br>
@@ -35,7 +35,7 @@
 						<td>{{nombreGuardarropas}}</td>
 						<td>
 							<a
-							href="/quemepongo/altaEvento?nombreEvento={{nombreEvento}}&guardarropas={{id}}">
+							href="/quemepongo/eventos/new?nombreEvento={{nombreEvento}}&guardarropas={{id}}">
 							<button type="submit">Seleccionar</button>
 							</a>
 						</td>
@@ -53,7 +53,7 @@
 			<img src="/3.png" style="height:auto;width:40%"></img>
 			<br>
 			<h2>Elija fecha del evento</h2>
-				<form method='get' action='/quemepongo/altaEvento'>
+				<form method='get' action='/quemepongo/eventos/new'>
 					<input name="nombreEvento" type="hidden" value="{{nombreEvento}}">
 					<input name="guardarropas" type="hidden" value="{{guardarropas}}">
 					<input name='fechaEvento' value="{{fechaEvento}}" style="width:20%; text-align:center" placeholder="dd-mm-yyyy"/>
@@ -76,15 +76,15 @@
 			<h4> > Fecha seleccionada: {{fechaEvento}}</h4>
 			<br>
 			<a
-				href="/quemepongo/altaEvento">
+				href="/quemepongo/eventos/new">
     			<button>Cancelar</button>
     		</a>
     		<a
 				{{#if todoOk}}
-    				href="/quemepongo/altaEvento?nombreEvento={{nombreEvento}}&guardarropas={{guardarropas}}&fechaEvento={{fechaEvento}}&confirmacion=ok">
+    				href="/quemepongo/eventos/new?nombreEvento={{nombreEvento}}&guardarropas={{guardarropas}}&fechaEvento={{fechaEvento}}&confirmacion=ok">
     				<button>Confirmar</button>
   				{{else}}
-    				href="/quemepongo/altaEvento?nombreEvento={{nombreEvento}}&guardarropas={{guardarropas}}">
+    				href="/quemepongo/eventos/new?nombreEvento={{nombreEvento}}&guardarropas={{guardarropas}}">
     				<button>Confirmar</button>
   				{{/if}}
 			</a>
