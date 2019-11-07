@@ -38,6 +38,17 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 		ModelAndView modelAndView = new ModelAndView(model, "sugerencias/calificarSugerencia.hbs");
 		return new HandlebarsTemplateEngine().render(modelAndView);
 	}
+	
+	public String listarEventos(Request req, Response res) {
+		AuthenticatedUser user = this.authService
+				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
+		List<Evento> eventos = repoEventos.eventosDelUsuario(user.getUsuario());
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("eventos", eventos);
+		ModelAndView modelAndView = new ModelAndView(model, "listadoEventos.hbs");
+		return new HandlebarsTemplateEngine().render(modelAndView);
+	}
 
 	public String listarSugerenciasDeUnEvento(Request req, Response res) {
 		Long idEvento = Long.parseLong(req.queryParams("id"));

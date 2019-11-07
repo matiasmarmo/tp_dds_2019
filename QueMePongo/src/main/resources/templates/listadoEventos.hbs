@@ -1,0 +1,17 @@
+{{#partial "contenido"}}
+<h2>Eventos</h2>
+<div class="btn-group-vertical" role="group" aria-label="Basic example">
+	{{#each eventos}}
+	<a href="/quemepongo/eventos">
+		<button type="button" class="btn btn-primary">{{descripcion}}</button>
+	</a>
+	{{/each}}
+</div>
+<br>
+<div style="margin-right:auto;margin-left:80%">
+<a 
+	href="/quemepongo/eventos/new">
+	<button class="buttonAltaEvento">Nuevo Evento</button>
+</a>
+</div>
+{{/partial}} {{> layout.hbs}}

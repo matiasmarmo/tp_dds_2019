@@ -46,6 +46,7 @@ public class Router {
         Spark.get("/quemepongo/eventos/sugerencias/calificacion", controller::listarSugerenciasAceptadas);
         Spark.post("/quemepongo/eventos/sugerencias/calificacion", controller::ejecutarCalificacion);
         Spark.get("/quemepongo/eventos/new", controller::altaEvento);
+        Spark.get("/quemepongo/eventos", controller::listarEventos);
     }
 
 }
