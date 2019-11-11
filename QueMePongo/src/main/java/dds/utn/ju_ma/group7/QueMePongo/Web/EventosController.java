@@ -33,21 +33,16 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		List<Evento> eventos = repoEventos.eventosDelUsuario(user.getUsuario());
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("eventos", eventos);
-		ModelAndView modelAndView = new ModelAndView(model, "sugerencias/calificarSugerencia.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder().attribute("eventos", eventos).view("sugerencias/calificarSugerencia.hbs")
+				.render();
 	}
-	
+
 	public String listarEventos(Request req, Response res) {
 		AuthenticatedUser user = this.authService
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		List<Evento> eventos = repoEventos.eventosDelUsuario(user.getUsuario());
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("eventos", eventos);
-		ModelAndView modelAndView = new ModelAndView(model, "listadoEventos.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder().attribute("eventos", eventos).view("listadoEventos.hbs").render();
 	}
 
 	public String listarSugerenciasDeUnEvento(Request req, Response res) {
@@ -57,14 +52,10 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		Evento evento = repoEventos.getEventoPorId(idEvento);
 		List<Sugerencia> sugerencias = evento.getSugerenciasPendientes(Calendar.getInstance());
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("sugerencias", sugerencias);
-		model.put("evento", evento);
-		model.put("huboSugerenciaAceptada", huboSugerenciaAceptada);
-		model.put("huboSugerenciaRechazada", huboSugerenciaRechazada);
-		ModelAndView modelAndView = new ModelAndView(model, "sugerencias/listadoSugerencias.hbs");
-		System.out.println(sugerencias.size());
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder().attribute("sugerencias", sugerencias).attribute("evento", evento)
+				.attribute("huboSugerenciaAceptada", huboSugerenciaAceptada)
+				.attribute("huboSugerenciaRechazada", huboSugerenciaRechazada)
+				.view("sugerencias/listadoSugerencias.hbs").render();
 	}
 
 	public String ejecutarAccionSugerencia(Request req, Response res) {
@@ -79,7 +70,7 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 			evento.getSugerencias().stream().filter(sugerencia -> sugerencia != sugerenciaAceptada)
 					.forEach(sugerencia -> sugerencia.rechazar());
 		});
-		return new HandlebarsTemplateEngine().render(new ModelAndView(null, "sugerencias/sugerenciaAceptada.hbs"));
+		return new HandlebarsViewBuilder().view("sugerencias/sugerenciaAceptada.hbs").render();
 	}
 
 	public String listarSugerenciasAceptadas(Request req, Response res) {
@@ -87,10 +78,8 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		List<Sugerencia> sugerenciasAceptadas = repoEventos.sugerenciasAceptadasDelUsuario(user.getUsuario());
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("sugerencias", sugerenciasAceptadas);
-		ModelAndView modelAndView = new ModelAndView(model, "sugerencias/listadoSugerenciasAceptadas.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder().attribute("sugerencias", sugerenciasAceptadas)
+				.view("sugerencias/listadoSugerenciasAceptadas.hbs").render();
 	}
 
 	public String ejecutarCalificacion(Request req, Response res) {

@@ -39,42 +39,40 @@ public class PrendasController implements WithGlobalEntityManager, Transactional
 	public String guardarropasSeleccionado(Request req, Response res) {
 		String idGuardarropa = req.queryParams("idGuardarropa");
 		req.session().attribute("idGuardarropa", idGuardarropa);
-		Map<String, List<String>> model = new HashMap<String, List<String>>();
-		model.put("tiposPrenda", Arrays.asList(TipoPrenda.values()).stream().map(value -> value.toString())
-				.collect(Collectors.toList()));
-		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/tipoPrenda.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder()
+				.attribute("tiposPrenda", Arrays.asList(TipoPrenda.values()).stream().map(value -> value.toString()).collect(Collectors.toList()))
+				.view("altaPrenda/tipoPrenda.hbs")
+				.render();
 	}
 
 
 	public String postTipoPrenda(Request req, Response res) {
 		req.session(true).attribute("tipoPrenda", req.queryParams("tipoPrenda"));
-		Map<String, List<String>> model = new HashMap<String, List<String>>();
 		TipoPrenda tipoPrendaSeleccionada =  TipoPrenda.valueOf(req.session().attribute("tipoPrenda"));
-		model.put("tiposTela",
-				Arrays.asList(tipoPrendaSeleccionada.getTelasPosibles().toArray()).stream().map(value -> value.toString()).collect(Collectors.toList()));
-		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/tipoTela.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder()
+				.attribute("tiposTela",
+						Arrays.asList(tipoPrendaSeleccionada.getTelasPosibles().toArray()).stream().map(value -> value.toString()).collect(Collectors.toList()))
+				.view("altaPrenda/tipoTela.hbs")
+				.render();
 	}
 
 	public String postTipoTela(Request req, Response res) {
 		req.session().attribute("tipoTela", req.queryParams("tipoTela"));
-		ModelAndView modelAndView = new ModelAndView(null, "altaPrenda/color.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder().view("altaPrenda/color.hbs").render();
 	}
 
 	public String postColor(Request req, Response res) {
 		req.session().attribute("colorPrimario", req.queryParams("colorPrimario"));
 		req.session().attribute("colorSecundario", req.queryParams("colorSecundario"));
 		req.session().attribute("tieneSecundario", req.queryParams("tieneSecundario"));
-		Map<String, String> model = new HashMap<String, String>();
-		model.put("tipoPrenda", req.session().attribute("tipoPrenda").toString());
-		model.put("tipoTela", req.session().attribute("tipoTela").toString());
-		model.put("colorPrimario", req.queryParams("colorPrimario"));
-		model.put("colorSecundario", req.queryParams("colorSecundario"));
-		model.put("tieneSecundario", req.queryParams("tieneSecundario"));
-		ModelAndView modelAndView = new ModelAndView(model, "altaPrenda/mostrarPrenda.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder()
+				.attribute("tipoPrenda", req.session().attribute("tipoPrenda").toString())
+				.attribute("tipoTela", req.session().attribute("tipoTela").toString())
+				.attribute("colorPrimario", req.queryParams("colorPrimario"))
+				.attribute("colorSecundario", req.queryParams("colorSecundario"))
+				.attribute("tieneSecundario", req.queryParams("tieneSecundario"))
+				.view("altaPrenda/mostrarPrenda.hbs")
+				.render();
 	}
 
 	public String postPrendaLista(Request req, Response res) {
@@ -96,8 +94,7 @@ public class PrendasController implements WithGlobalEntityManager, Transactional
 			persist(guardarropa);
 		});
 
-		ModelAndView modelAndView = new ModelAndView(null, "altaPrenda/prendaCreada.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder().view("altaPrenda/prendaCreada.hbs").render();
 	}
 
 }

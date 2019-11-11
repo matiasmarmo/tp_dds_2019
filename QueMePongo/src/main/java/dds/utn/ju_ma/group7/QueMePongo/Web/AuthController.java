@@ -1,13 +1,8 @@
 package dds.utn.ju_ma.group7.QueMePongo.Web;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.InvalidLoginException;
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class AuthController {
 	
@@ -18,7 +13,7 @@ public class AuthController {
 	}
 	
 	public String loginGet(Request req, Response res) {
-		return new HandlebarsTemplateEngine().render(new ModelAndView(null, "inicioSesion.hbs"));
+		return new HandlebarsViewBuilder().view("inicioSesion.hbs").render();
 	}
 
 	public void authFilter(Request req, Response res) {
@@ -40,9 +35,10 @@ public class AuthController {
 		try {
 			authenticatedUser = this.authService.loginUser(username, password);
 		} catch (InvalidLoginException e) {
-			Map<String, String> model = new HashMap<String, String>();
-			model.put("loginError", e.getMessage());
-			return new HandlebarsTemplateEngine().render(new ModelAndView(model, "inicioSesion.hbs"));
+			return new HandlebarsViewBuilder()
+					.attribute("loginError", e.getMessage())
+					.view("inicioSesion.hbs")
+					.render();
 		}
 		res.cookie("quemepongo-auth-token", authenticatedUser.getAccessToken().toString());
 		res.redirect("/quemepongo/guardarropas");

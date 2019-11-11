@@ -1,8 +1,5 @@
 package dds.utn.ju_ma.group7.QueMePongo.Web;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -26,11 +23,11 @@ public class GuardarropasController {
 	public String listarPrendas(Request req, Response res) {
 		AuthenticatedUser user = this.authService
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
-		Map<String, Object> model = new HashMap<String, Object>();
 		Long id = Long.parseLong(req.params("id"));
-		model.put("prendas", user.getUsuario().obtenerGuardarropa(id).getPrendas());
-		ModelAndView modelAndView = new ModelAndView(model, "listadoPrendas.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		return new HandlebarsViewBuilder()
+				.attribute("prendas", user.getUsuario().obtenerGuardarropa(id).getPrendas())
+				.view("listadoPrendas.hbs")
+				.render();
 	}
 
 }
