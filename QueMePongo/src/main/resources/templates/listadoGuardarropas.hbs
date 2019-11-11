@@ -18,6 +18,10 @@
 					<a href="guardarropas/{{id}}">
 						<button type="button">Ver Prendas</button>
 					</a>
+					<form method="post" action="prenda/guardarropas">
+						<input type="hidden" name="idGuardarropa" value="{{id}}" />
+						<button type="submit">Agregar prenda</button>
+					</form>
 				</td>
 			</tr>
 			{{/each}}

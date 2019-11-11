@@ -29,13 +29,6 @@ public class PrendasController implements WithGlobalEntityManager, Transactional
 		this.authService = authService;
 	}
 	
-	public String seleccionarGuardarropas(Request req, Response res) {
-		AuthenticatedUser user = this.authService
-				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
-		ModelAndView modelAndView = new ModelAndView(user.getUsuario(), "altaPrenda/seleccionGuardarropas.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
-	}
-	
 	public String guardarropasSeleccionado(Request req, Response res) {
 		String idGuardarropa = req.queryParams("idGuardarropa");
 		req.session().attribute("idGuardarropa", idGuardarropa);
