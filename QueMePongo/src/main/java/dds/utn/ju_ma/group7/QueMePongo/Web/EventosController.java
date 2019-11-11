@@ -51,7 +51,7 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 	}
 
 	public String listarSugerenciasDeUnEvento(Request req, Response res) {
-		Long idEvento = Long.parseLong(req.queryParams("id"));
+		Long idEvento = Long.parseLong(req.params("id"));
 		boolean huboSugerenciaAceptada = req.queryParams("huboSugerenciaAceptada") != null;
 		boolean huboSugerenciaRechazada = req.queryParams("huboSugerenciaRechazada") != null;
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
@@ -68,9 +68,9 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 	}
 
 	public String ejecutarAccionSugerencia(Request req, Response res) {
-		String idEventoString = req.queryParams("idEvento");
+		String idEventoString = req.params("idEvento");
 		Long idEvento = Long.parseLong(idEventoString);
-		Long idSugerencia = Long.parseLong(req.queryParams("idSugerencia"));
+		Long idSugerencia = Long.parseLong(req.params("idSugerencia"));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		Evento evento = repoEventos.getEventoPorId(idEvento);
 		Sugerencia sugerenciaAceptada = evento.getSugerenciaPorId(idSugerencia);

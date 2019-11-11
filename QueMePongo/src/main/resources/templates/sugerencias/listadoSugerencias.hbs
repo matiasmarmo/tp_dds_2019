@@ -83,9 +83,7 @@
 				<td>
 					<p>{{estado}}</p>
 					<div style="display:flex; flex-direction: column; justify-content: stretch; ">
-						<form method="post" action="/quemepongo/eventos/sugerencias">
-							<input type="hidden" name="idEvento" value="{{evento.id}}" />
-							<input type="hidden" name="idSugerencia" value="{{id}}" />
+						<form method="post" action="/quemepongo/eventos/{{evento.id}}/sugerencias/{{id}}">
 							<button type="submit" class="btn btn-success" style="margin-bottom: 5px">Aceptar</button>
 						</form>
 					</div>

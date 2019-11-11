@@ -2,14 +2,13 @@
 <h2>Eventos</h2>
 <div class="btn-group-vertical" role="group" aria-label="Basic example">
 	{{#each eventos}}
-	<a href="/quemepongo/eventos/sugerencias?id={{id}}">
+	<a href="/quemepongo/eventos/{{id}}/sugerencias">
 		<button type="button" class="btn btn-primary">{{descripcion}}</button>
 	</a>
 	{{/each}}
 </div>
 
-<a
-	href="/quemepongo/eventos/new">
+<a href="/quemepongo/eventos/new">
 	<button class="buttonAltaEvento">Nuevo Evento</button>
 </a>
 
