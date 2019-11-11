@@ -1,12 +1,14 @@
 package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuarios;
+import dds.utn.ju_ma.group7.QueMePongo.Excepciones.InvalidLoginException;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public class AuthenticationService implements WithGlobalEntityManager, TransactionalOps, EntityManagerOps {
@@ -37,9 +39,14 @@ public class AuthenticationService implements WithGlobalEntityManager, Transacti
 		return userList.size() == 0 ? null : userList.get(0);
 	}
 
-	public AuthenticatedUser loginUser(String username, String password) {
-		Usuario userToLogin = this.repositorioUsuarios.obtenerUsuarioParaLogear(username,
-				password);
+	public AuthenticatedUser loginUser(String username, String password) throws InvalidLoginException {
+		Usuario userToLogin;
+		try {
+			userToLogin = this.repositorioUsuarios.obtenerUsuarioParaLogear(username,
+					password);
+		} catch (NoSuchElementException e) {
+			throw new InvalidLoginException(username, "El usuario " + username + " no existe o la contraseña es incorrecta"); 
+		}
 		return this.authenticateUser(userToLogin);
 	}
 
