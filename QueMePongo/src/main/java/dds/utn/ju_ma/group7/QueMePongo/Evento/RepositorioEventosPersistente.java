@@ -14,12 +14,11 @@ import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 public class RepositorioEventosPersistente extends RepositorioEventos
 		implements WithGlobalEntityManager, TransactionalOps, EntityManagerOps {
 
-
 	@Override
 	protected void almacenar(Evento evento) {
 		this.persist(evento);
 	}
-	
+
 	public List<Evento> todosLosEventos() {
 		return this.entityManager().createQuery("from Evento", Evento.class).getResultList();
 	}
@@ -46,22 +45,29 @@ public class RepositorioEventosPersistente extends RepositorioEventos
 	@Override
 	public List<Sugerencia> sugerenciasAceptadasDelUsuario(Usuario usuario) {
 		String queryString = "select s from Evento e join e.sugerencias s where e.usuario = :usuario and s.estado = 'ACEPTADA'";
-		return this.entityManager().createQuery(queryString, Sugerencia.class)
-				.setParameter("usuario", usuario).getResultList();
+		return this.entityManager().createQuery(queryString, Sugerencia.class).setParameter("usuario", usuario)
+				.getResultList();
 	}
-	
+
+	@Override
+	public List<Sugerencia> sugerenciasCalificablesDelUsuario(Usuario usuario) {
+		String queryString = "select s from Evento e join e.sugerencias s where e.usuario = :usuario and s.estado in ('ACEPTADA', 'CALIFICADA')";
+		return this.entityManager().createQuery(queryString, Sugerencia.class).setParameter("usuario", usuario)
+				.getResultList();
+	}
+
 	@Override
 	public Sugerencia obtenerSugerenciaDelUsuario(Usuario usuario, Long id) {
 		String queryString = "select s from Evento e join e.sugerencias s where e.usuario = :usuario and s.id = :id";
-		return this.entityManager().createQuery(queryString, Sugerencia.class)
-				.setParameter("usuario", usuario).setParameter("id", id).getResultList().get(0);
+		return this.entityManager().createQuery(queryString, Sugerencia.class).setParameter("usuario", usuario)
+				.setParameter("id", id).getResultList().get(0);
 	}
 
 	@Override
 	public List<Sugerencia> sugerenciasRechazadasDelUsuario(Usuario usuario) {
 		String queryString = "select s from Evento e join e.sugerencias s where e.usuario = :usuario and s.estado = 'RECHAZADA'";
-		return this.entityManager().createQuery(queryString, Sugerencia.class)
-				.setParameter("usuario", usuario).getResultList();
+		return this.entityManager().createQuery(queryString, Sugerencia.class).setParameter("usuario", usuario)
+				.getResultList();
 	}
 
 	@Override
@@ -78,9 +84,10 @@ public class RepositorioEventosPersistente extends RepositorioEventos
 				.flatMap(evento -> evento.instanciasEntreFechas(fechaInicio, fechaFin).stream())
 				.collect(Collectors.toList());
 	}
-	
+
 	public Evento getEventoPorId(Long id) {
-		return this.todosLosEventos().stream().filter(unEvento -> unEvento.getId() == id).collect(Collectors.toList()).get(0);
+		return this.todosLosEventos().stream().filter(unEvento -> unEvento.getId() == id).collect(Collectors.toList())
+				.get(0);
 	}
 
 }

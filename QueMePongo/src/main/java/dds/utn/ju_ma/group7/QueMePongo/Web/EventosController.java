@@ -72,9 +72,9 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 		AuthenticatedUser user = this.authService
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
-		List<Sugerencia> sugerenciasAceptadas = repoEventos.sugerenciasAceptadasDelUsuario(user.getUsuario());
-		return new HandlebarsViewBuilder().attribute("sugerencias", sugerenciasAceptadas)
-				.view("sugerencias/listadoSugerenciasAceptadas.hbs").render();
+		List<Sugerencia> sugerenciasCalificables = repoEventos.sugerenciasCalificablesDelUsuario(user.getUsuario());
+		return new HandlebarsViewBuilder().attribute("sugerencias", sugerenciasCalificables)
+				.view("sugerencias/listadoSugerenciasCalificables.hbs").render();
 	}
 
 	public String ejecutarCalificacion(Request req, Response res) {

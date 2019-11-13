@@ -92,7 +92,7 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		
     		EventoUnico evento = (EventoUnico) repoEventos.todosLosEventos().get(0);
     		EventoUnico eventoDos = (EventoUnico) repoEventos.todosLosEventos().get(1);
-    		evento.setSugerencias(Arrays.asList(sugerencia, otraSugerencia, sugerenciaAceptada));
+    		evento.setSugerencias(Arrays.asList(sugerencia, otraSugerencia));
     		eventoDos.setSugerencias(Arrays.asList(sugerenciaAceptada,sugerenciaAceptadaDos));
     		
     		persist(usuario);

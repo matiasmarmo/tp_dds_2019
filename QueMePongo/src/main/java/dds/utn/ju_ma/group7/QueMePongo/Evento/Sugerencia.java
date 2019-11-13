@@ -94,5 +94,9 @@ public class Sugerencia {
 			this.rechazar();
 		}
 	}
+
+	public Long getCalificacion() {
+		return this.calificacion;
+	}
 	
 }

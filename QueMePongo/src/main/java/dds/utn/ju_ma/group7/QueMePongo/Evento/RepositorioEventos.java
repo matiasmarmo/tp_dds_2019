@@ -7,7 +7,7 @@ import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
 public abstract class RepositorioEventos {
-	
+
 	protected abstract void almacenar(Evento evento);
 
 	public EventoUnico instanciarEventoUnico(Usuario usuario, Guardarropa guardarropas, Calendar fecha,
@@ -19,18 +19,18 @@ public abstract class RepositorioEventos {
 
 	public EventoRepetitivo instanciarEventoRepetitivo(Usuario usuario, Guardarropa guardarropa, Calendar inicio,
 			String descripcion, TipoRecurrencia recurrencia) {
-		EventoRepetitivo eventoRepetitivo = new EventoRepetitivo(usuario, guardarropa, descripcion, inicio,
-				recurrencia, this);
+		EventoRepetitivo eventoRepetitivo = new EventoRepetitivo(usuario, guardarropa, descripcion, inicio, recurrencia,
+				this);
 		this.almacenar(eventoRepetitivo);
 		return eventoRepetitivo;
 	}
-	
+
 	public abstract List<Evento> eventosProximos(Calendar fecha);
 
 	public abstract List<Evento> eventosDelUsuario(Usuario usuario);
 
 	public abstract List<Sugerencia> sugerenciasAceptadasDelUsuario(Usuario usuario);
-	
+
 	public abstract Sugerencia obtenerSugerenciaDelUsuario(Usuario usuario, Long idSugerencia);
 
 	public abstract List<Sugerencia> sugerenciasRechazadasDelUsuario(Usuario usuario);
@@ -39,5 +39,7 @@ public abstract class RepositorioEventos {
 			Calendar fechaReferencia);
 
 	public abstract List<EventoUnico> obtenerEventosEntreFechas(Calendar fechaInicio, Calendar fechaFin);
-	
+
+	public abstract List<Sugerencia> sugerenciasCalificablesDelUsuario(Usuario usuario);
+
 }
