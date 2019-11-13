@@ -46,14 +46,10 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 
 	public String listarSugerenciasDeUnEvento(Request req, Response res) {
 		Long idEvento = Long.parseLong(req.params("id"));
-		boolean huboSugerenciaAceptada = req.queryParams("huboSugerenciaAceptada") != null;
-		boolean huboSugerenciaRechazada = req.queryParams("huboSugerenciaRechazada") != null;
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		Evento evento = repoEventos.getEventoPorId(idEvento);
-		List<Sugerencia> sugerencias = evento.getSugerenciasPendientes(Calendar.getInstance());
+		List<Sugerencia> sugerencias = evento.getSugerencias();
 		return new HandlebarsViewBuilder().attribute("sugerencias", sugerencias).attribute("evento", evento)
-				.attribute("huboSugerenciaAceptada", huboSugerenciaAceptada)
-				.attribute("huboSugerenciaRechazada", huboSugerenciaRechazada)
 				.view("sugerencias/listadoSugerencias.hbs").render();
 	}
 
