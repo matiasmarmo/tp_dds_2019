@@ -1,9 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
@@ -16,10 +13,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.PrendaBuilder;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoPrenda;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.TipoTela;
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class PrendasController implements WithGlobalEntityManager, TransactionalOps, EntityManagerOps {
 	

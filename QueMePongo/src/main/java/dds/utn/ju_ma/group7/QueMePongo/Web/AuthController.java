@@ -41,7 +41,7 @@ public class AuthController {
 					.render();
 		}
 		res.cookie("quemepongo-auth-token", authenticatedUser.getAccessToken().toString());
-		res.redirect("/quemepongo/guardarropas");
+		res.redirect("/quemepongo/eventos");
 		return null;
 	}
 
