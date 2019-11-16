@@ -77,9 +77,20 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     		usuario.agregarGuardarropa(guardarropaTestP);
     		usuario.agregarGuardarropa(otroGuardarropa);
     		
+    		Calendar maniana = Calendar.getInstance();
+    		maniana.add(Calendar.DATE, 1);
+    		Calendar en5dias = Calendar.getInstance();
+    		en5dias.add(Calendar.DATE, 5);
+    		Calendar en20dias = Calendar.getInstance();
+    		en20dias.add(Calendar.DATE, 20);
+    		Calendar en30dias = Calendar.getInstance();
+    		en30dias.add(Calendar.DATE, 30);
+    		
     		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
-    		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, Calendar.getInstance(), "Un Evento");
-    		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, Calendar.getInstance(), "Otro Evento");
+    		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, maniana, "Un Evento");
+    		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, en5dias, "Otro Evento");
+    		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, en20dias, "Cumple Pablo");
+    		repoEventos.instanciarEventoUnico(usuario, guardarropaTestP, en30dias, "Cumple de 15");
     		
     		Atuendo atuendo = new Atuendo(Arrays.asList(remeraBlanca, remeraNegra), unShort, zapatillas, collar);
     		Atuendo atuendoNegro = new Atuendo(Arrays.asList(remeraNegra), unShort, zapatillas, collar);

@@ -3,6 +3,7 @@ package dds.utn.ju_ma.group7.QueMePongo.Web;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -41,6 +42,7 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
 		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
 		List<Evento> eventos = repoEventos.eventosDelUsuario(user.getUsuario());
+		eventos.forEach(evento -> evento.transformarFechaAString());
 		return new HandlebarsViewBuilder().attribute("eventos", eventos).view("listadoEventos.hbs").render();
 	}
 

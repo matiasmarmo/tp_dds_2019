@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
@@ -21,6 +22,9 @@ public abstract class Evento {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
+	@Transient
+	protected String fechaMostrable;
 	
 	protected String descripcion;
 	@ManyToOne(cascade = CascadeType.PERSIST)
@@ -34,6 +38,10 @@ public abstract class Evento {
 	
 	public String getDescripcion() {
 		return this.descripcion;
+	}
+	
+	public String getFechaMostrable() {
+		return this.fechaMostrable;
 	}
 	
 	public abstract Calendar getProximaFecha();
@@ -78,4 +86,5 @@ public abstract class Evento {
 	
 	public abstract void rechazarSugerenciasPendientes();
 
+	public void transformarFechaAString() {};
 }

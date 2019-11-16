@@ -1,8 +1,12 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
@@ -110,5 +115,11 @@ public class EventoUnico extends Evento {
 	public void rechazarSugerenciasPendientes() {
 		this.sugerencias.stream().forEach(sugerencias -> sugerencias.rechazarSiEsPendiente());
 	}
-
+	
+	@Override
+	public void transformarFechaAString() {
+		Date date = fecha.getTime();
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		this.fechaMostrable = dateFormat.format(date);
+	};
 }
