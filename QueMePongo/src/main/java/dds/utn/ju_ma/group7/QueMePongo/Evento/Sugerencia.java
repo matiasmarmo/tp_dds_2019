@@ -25,7 +25,7 @@ public class Sugerencia {
 	private Atuendo atuendo;
 	@Enumerated(EnumType.STRING)
 	private EstadoSugerencia estado;
-	@Transient
+	
 	private Long calificacion;
 
 	public Long getId() {
@@ -76,8 +76,14 @@ public class Sugerencia {
 		this.setEstado(EstadoSugerencia.RECHAZADA);
 	}
 	
+	public boolean fueCalificada() {
+		return this.calificacion != null;
+	}
+	
 	public void calificar(Long calificacionUsuario) {
-		this.setEstado(EstadoSugerencia.CALIFICADA);
+		if(!this.fueCalificada()) {
+			this.setEstado(EstadoSugerencia.CALIFICADA);
+		}
 		this.calificacion = calificacionUsuario;
 	}
 
