@@ -1,6 +1,8 @@
 package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import dds.utn.ju_ma.group7.QueMePongo.Alertador.RepositorioUsuariosPersistente;
+import spark.Filter;
+import spark.Route;
 import spark.Spark;
 
 public class Router {
@@ -15,6 +17,18 @@ public class Router {
         return _instance;
     }
     
+    private void get(String path, Route route) {
+    	Spark.get("/quemepongo" + path, route);
+    }
+    
+    private void post(String path, Route route) {
+    	Spark.post("/quemepongo" + path, route);
+    }
+    
+    private void before(String path, Filter filter) {
+    	Spark.before("/quemepongo" + path, filter);
+    }
+    
     
     public void configurar() {
     	AuthenticationService authService = new AuthenticationService(new RepositorioUsuariosPersistente());
@@ -24,28 +38,28 @@ public class Router {
         PrendasController prendasController = new PrendasController(authService);
         EventosController controller = new EventosController(authService);
 
-        Spark.before("/quemepongo/*", authController::authFilter);
+        this.before("/*", authController::authFilter);
         Spark.get("/login", authController::loginGet);
         Spark.post("/login", authController::loginPost);
         Spark.post("/logout", authController::logout);
         
-        Spark.get("/quemepongo/guardarropas", guardarropasController::listarGuardarropas);
-        Spark.get("/quemepongo/guardarropas/:id", guardarropasController::listarPrendas);
+        this.get("/guardarropas", guardarropasController::listarGuardarropas);
+        this.get("/guardarropas/:id", guardarropasController::listarPrendas);
         
-        Spark.post("/quemepongo/prenda/guardarropas", prendasController::guardarropasSeleccionado);
-        Spark.post("/quemepongo/prenda/tipoPrenda", prendasController::postTipoPrenda);
-        Spark.post("/quemepongo/prenda/tipoTela", prendasController::postTipoTela);
-        Spark.post("/quemepongo/prenda/color", prendasController::postColor);
-        Spark.post("/quemepongo/prenda/listo", prendasController::postPrendaLista);
+        this.post("/prenda/guardarropas", prendasController::guardarropasSeleccionado);
+        this.post("/prenda/tipoPrenda", prendasController::postTipoPrenda);
+        this.post("/prenda/tipoTela", prendasController::postTipoTela);
+        this.post("/prenda/color", prendasController::postColor);
+        this.post("/prenda/listo", prendasController::postPrendaLista);
         
-        Spark.get("/quemepongo/calificacion-sugerencias", controller::listarSugerenciasParaCalificar);
-        Spark.get("/quemepongo/eventos/:id/sugerencias", controller::listarSugerenciasDeUnEvento);
-        Spark.post("/quemepongo/eventos/:idEvento/sugerencias/:idSugerencia", controller::ejecutarAccionSugerencia);
+        this.get("/calificacion-sugerencias", controller::listarSugerenciasParaCalificar);
+        this.get("/eventos/:id/sugerencias", controller::listarSugerenciasDeUnEvento);
+        this.post("/eventos/:idEvento/sugerencias/:idSugerencia", controller::ejecutarAccionSugerencia);
         
-        Spark.get("/quemepongo/eventos/sugerencias/calificacion", controller::listarSugerenciasAceptadas);
-        Spark.post("/quemepongo/eventos/sugerencias/calificacion", controller::ejecutarCalificacion);
-        Spark.get("/quemepongo/eventos/new", controller::altaEvento);
-        Spark.get("/quemepongo/eventos", controller::listarEventos);
+        this.get("/eventos/sugerencias/calificacion", controller::listarSugerenciasAceptadas);
+        this.post("/eventos/sugerencias/calificacion", controller::ejecutarCalificacion);
+        this.get("/eventos/new", controller::altaEvento);
+        this.get("/eventos", controller::listarEventos);
     }
 
 }
