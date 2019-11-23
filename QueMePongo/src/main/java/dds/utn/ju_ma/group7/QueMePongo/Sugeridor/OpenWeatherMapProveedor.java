@@ -8,13 +8,19 @@ public class OpenWeatherMapProveedor extends HttpProveedor {
 
 	private String lon_CABA = "-58.450001";
 	private String lat_CABA = "-34.599998";
+	
+	@Override
+	protected String api() {
+		return "http://api.openweathermap.org/data/2.5/forecast/";
+	}
 
-	protected String api =  "http://api.openweathermap.org/data/2.5/forecast/";
-
-	protected String key_id =  "a40660bcb12fb0790f9455769b86f8ed";
+	@Override
+	protected String key_id() {
+		return "a40660bcb12fb0790f9455769b86f8ed";
+	}
 
 	protected WebResource parametrosRequest(WebResource resource) {
-		return resource.queryParam("lon", lon_CABA).queryParam("lat", lat_CABA).queryParam("appid", key_id);
+		return resource.queryParam("lon", lon_CABA).queryParam("lat", lat_CABA).queryParam("appid", key_id());
 	}
 
 	protected Calendar strignJsonToCalendar(String fecha) {

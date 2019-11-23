@@ -21,9 +21,9 @@ public abstract class HttpProveedor implements ProveedorClima {
 
 	protected Client client;
 
-	protected String api;
+	protected abstract String api();
 
-	protected String key_id;
+	protected abstract String key_id();
 
 	protected abstract WebResource parametrosRequest(WebResource resource);
 
@@ -52,7 +52,7 @@ public abstract class HttpProveedor implements ProveedorClima {
 	}
 
 	private JsonObject obtenerRespuestaJson() {
-		WebResource resource = this.client.resource(api);
+		WebResource resource = this.client.resource(api());
 		ClientResponse response = parametrosRequest(resource).accept(MediaType.APPLICATION_JSON)
 				.get(ClientResponse.class);
 

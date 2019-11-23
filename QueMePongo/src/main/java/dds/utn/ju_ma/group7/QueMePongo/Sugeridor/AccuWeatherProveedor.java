@@ -5,13 +5,19 @@ import javax.json.JsonObject;
 import com.sun.jersey.api.client.WebResource;
 
 public class AccuWeatherProveedor extends HttpProveedor {
+	
+	@Override
+	protected String api() {
+		return "http://dataservice.accuweather.com/forecasts/v1/daily/5day/7894";
+	}
 
-	protected String api = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/7894";
-
-	protected String key_id = "0yMLbaqAcUXajQDilhGxZNGZnhWDl1SP";
+	@Override
+	protected String key_id() {
+		return "0yMLbaqAcUXajQDilhGxZNGZnhWDl1SP";
+	}
 
 	protected WebResource parametrosRequest(WebResource resource) {
-		return resource.queryParam("apikey", key_id).queryParam("language", "es-ar").queryParam("details", "true")
+		return resource.queryParam("apikey", key_id()).queryParam("language", "es-ar").queryParam("details", "true")
 				.queryParam("metrics", "true");
 	}
 
@@ -74,4 +80,5 @@ public class AccuWeatherProveedor extends HttpProveedor {
 	public boolean hayClimaVentoso(JsonObject clima, Calendar fecha) {
 		return getClimaPeriodo(clima, fecha).getJsonObject("Wind").getJsonObject("Speed").getJsonNumber("Value").doubleValue() > 30;
 	}
+
 }

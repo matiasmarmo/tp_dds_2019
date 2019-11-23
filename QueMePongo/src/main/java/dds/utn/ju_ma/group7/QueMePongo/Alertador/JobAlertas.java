@@ -24,6 +24,7 @@ public class JobAlertas {
 	
 	public static void main(String[] args) {
 		new JobAlertas(new AccuWeatherProveedor()).run();
+		System.exit(0);
 	}
 
 }
