@@ -110,7 +110,10 @@ public class SparkServer implements WithGlobalEntityManager, TransactionalOps, E
     	});
 		entityManager().clear();
 		
-        Spark.port(9000);
+		String portEnvVariable = System.getenv("PORT");
+		int port = portEnvVariable != null ? Integer.parseInt(portEnvVariable) : 8080;
+		
+        Spark.port(port);
         Spark.staticFiles.location("/images");
         DebugScreen.enableDebugScreen();
         Router.instance().configurar();

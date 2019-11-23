@@ -2,20 +2,12 @@ package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.AccuWeatherProveedor;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.ProveedorClima;
 import dds.utn.ju_ma.group7.QueMePongo.Sugeridor.Sugeridor;
 
-public class JobEventos extends TimerTask {
-	
-	public static Timer instanciarJobEventos(ProveedorClima proveedorClima, long periodo) {
-		JobEventos job = new JobEventos(proveedorClima);
-		Timer timer = new Timer(false);
-		timer.scheduleAtFixedRate(job, 0, periodo);
-		return timer;
-	}
+public class JobEventos {
 	
 	private Sugeridor sugeridor;
 	private RepositorioEventos repositorioEventos;
@@ -25,10 +17,13 @@ public class JobEventos extends TimerTask {
 		this.repositorioEventos = new RepositorioEventosPersistente();
 	}
 	
-	@Override
 	public void run() {
 		List<Evento> eventosProximos = this.repositorioEventos.eventosProximos(Calendar.getInstance());
 		eventosProximos.forEach(unEvento -> this.sugeridor.sugerir(unEvento));
+	}
+	
+	public static void main(String[] args) {
+		new JobEventos(new AccuWeatherProveedor()).run();
 	}
 
 }
