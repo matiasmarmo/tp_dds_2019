@@ -10,7 +10,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;

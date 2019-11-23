@@ -1,7 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Evento;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
