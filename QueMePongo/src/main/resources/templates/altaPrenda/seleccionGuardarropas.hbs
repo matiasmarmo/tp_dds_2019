@@ -1,5 +1,6 @@
 {{#partial "contenido"}}
 <div>
+    <h3>Seleccione el guardarropas para la primera prenda</h3>
     <table class="table">
         <thead>
             <tr>
@@ -16,8 +17,10 @@
                 <td>{{nombreGuardarropas}}</td>
                 <td>
                     <form method="post" action="/quemepongo/prenda/guardarropas">
-                        <input type="hidden" value="{{id}}" name="idGuardarropa" />
-                        <button type="submit">Seleccionar</button>
+                        <div class="form-group">
+                            <input type="hidden" value="{{id}}" name="idGuardarropa" />
+                            <button type="submit" class="btn btn-primary">Seleccionar</button>
+                        </div>
                     </form>
                 </td>
             </tr>
