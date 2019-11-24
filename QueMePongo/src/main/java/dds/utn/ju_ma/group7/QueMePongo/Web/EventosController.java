@@ -27,15 +27,6 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 		this.authService = authService;
 	}
 
-	public String listarSugerenciasParaCalificar(Request req, Response res) {
-		AuthenticatedUser user = this.authService
-				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
-		RepositorioEventosPersistente repoEventos = new RepositorioEventosPersistente();
-		List<Evento> eventos = repoEventos.eventosDelUsuario(user.getUsuario());
-		return new HandlebarsViewBuilder().attribute("eventos", eventos).view("sugerencias/calificarSugerencia.hbs")
-				.render();
-	}
-
 	public String listarEventos(Request req, Response res) {
 		AuthenticatedUser user = this.authService
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));

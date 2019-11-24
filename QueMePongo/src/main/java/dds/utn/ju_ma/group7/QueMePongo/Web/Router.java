@@ -52,7 +52,6 @@ public class Router {
         this.post("/prenda/color", prendasController::postColor);
         this.post("/prenda/listo", prendasController::postPrendaLista);
         
-        this.get("/calificacion-sugerencias", controller::listarSugerenciasParaCalificar);
         this.get("/eventos/:id/sugerencias", controller::listarSugerenciasDeUnEvento);
         this.post("/eventos/:idEvento/sugerencias/:idSugerencia", controller::ejecutarAccionSugerencia);
         
