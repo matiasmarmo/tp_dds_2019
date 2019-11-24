@@ -72,12 +72,10 @@ public class EventoUnico extends Evento {
 
 	@Override
 	public void serSugerido(List<Sugerencia> sugerencias) {
-		if (sugerencias.isEmpty()) {
-			throw new EventoInvalidoException("No hay sugerencias");
-		} else {
-			this.sugerencias = sugerencias;
+		if (!sugerencias.isEmpty()) {
+			this.usuario.notificar(this, "Tenés nuevas sugerencias!");
 		}
-		this.usuario.notificar(this, "Tenés nuevas sugerencias!");
+		this.sugerencias = sugerencias;
 	}
 
 	@Override

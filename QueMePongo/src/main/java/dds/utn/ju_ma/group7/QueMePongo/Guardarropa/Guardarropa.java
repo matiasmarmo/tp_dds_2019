@@ -22,6 +22,7 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dds.utn.ju_ma.group7.QueMePongo.Atuendo.Atuendo;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventos;
+import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Prenda.Prenda;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
@@ -35,13 +36,20 @@ public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "guardarropa_id")
 	protected List<Prenda> prendas;
-	
+
 	private String nombreGuardarropas = "UnGuardarropa";
 
 	@Transient
 	private RepositorioEventos repositorioEventos;
 
 	public Guardarropa() {
+	}
+
+	private Guardarropa withRepositorioEventos(RepositorioEventos repositorioEventos) {
+		if(this.repositorioEventos == null) {
+			this.repositorioEventos = repositorioEventos;
+		}
+		return this;
 	}
 
 	public Guardarropa(Usuario usuarioCreador, RepositorioEventos repositorioEventos) {
@@ -52,7 +60,9 @@ public class Guardarropa implements WithGlobalEntityManager, TransactionalOps {
 	}
 
 	private List<Prenda> getPrendasDisponibles(Calendar fechaReferencia) {
-		List<Prenda> prendasOcupadas = this.repositorioEventos
+		List<Prenda> prendasOcupadas = this
+				.withRepositorioEventos(new RepositorioEventosPersistente())
+				.repositorioEventos
 				.obtenerEventosSugeridosDeUnGuardarropasParaFecha(this, fechaReferencia).stream()
 				.flatMap(evento -> evento.getSugerenciasAceptadas(fechaReferencia).stream())
 				.flatMap(sugerencia -> sugerencia.todasLasPrendas().stream()).collect(Collectors.toList());
