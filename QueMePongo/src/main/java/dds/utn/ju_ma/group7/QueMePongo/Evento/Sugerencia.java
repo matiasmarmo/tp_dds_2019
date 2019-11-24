@@ -75,14 +75,8 @@ public class Sugerencia {
 		this.setEstado(EstadoSugerencia.RECHAZADA);
 	}
 	
-	public boolean fueCalificada() {
-		return this.calificacion != null;
-	}
-	
 	public void calificar(Long calificacionUsuario) {
-		if(!this.fueCalificada()) {
-			this.setEstado(EstadoSugerencia.CALIFICADA);
-		}
+		this.setEstado(EstadoSugerencia.CALIFICADA);
 		this.calificacion = calificacionUsuario;
 	}
 

@@ -24,18 +24,19 @@
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.2.1</version>
 				<configuration>
-			                <filters>
-			                    <filter>
-			                        <!-- filter out signature files from signed dependencies, else repackaging fails with security ex -->
-			                        <artifact>*:*</artifact>
-			                        <excludes>
-			                            <exclude>META-INF/*.SF</exclude>
-			                            <exclude>META-INF/*.DSA</exclude>
-			                            <exclude>META-INF/*.RSA</exclude>
-			                        </excludes>
-			                    </filter>
+					<filters>
+						<filter>
+							<!-- filter out signature files from signed dependencies, else repackaging 
+								fails with security ex -->
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/*.SF</exclude>
+								<exclude>META-INF/*.DSA</exclude>
+								<exclude>META-INF/*.RSA</exclude>
+							</excludes>
+						</filter>
 					</filters>
-			        </configuration>
+				</configuration>
 				<executions>
 					<execution>
 						<id>que-me-pongo-server</id>
@@ -106,9 +107,14 @@
 
 	<dependencies>
 		<dependency>
-		    <groupId>org.javassist</groupId>
-		    <artifactId>javassist</artifactId>
-		    <version>3.23.1-GA</version>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>mysql-socket-factory-connector-j-8</artifactId>
+			<version>1.0.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.23.1-GA</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -151,9 +157,9 @@
 			<version>3.6.3</version>
 			<exclusions>
 				<exclusion>
-			            <artifactId>javassist</artifactId>
-			            <groupId>org.javassist</groupId>
-			        </exclusion>
+					<artifactId>javassist</artifactId>
+					<groupId>org.javassist</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -166,10 +172,10 @@
 			<artifactId>jpa-java8-extras</artifactId>
 			<version>1.0-alpha-1</version>
 			<exclusions>
-			        <exclusion>
-			            <artifactId>javassist</artifactId>
-			            <groupId>org.javassist</groupId>
-			        </exclusion>
+				<exclusion>
+					<artifactId>javassist</artifactId>
+					<groupId>org.javassist</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>

@@ -28,25 +28,27 @@
 		<class>dds.utn.ju_ma.group7.QueMePongo.Web.AuthToken</class>
 
 		<properties>
-			<property name="hibernate.archive.autodetection" value="class"/>
+			<property name="hibernate.archive.autodetection"
+				value="class" />
 
-			<!-- <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" 
-				/> <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/quemepongo?serverTimezone=UTC" 
-				/> <property name="hibernate.connection.username" value="root" /> <property 
-				name="hibernate.connection.password" value="NddX.1000%?/gHx117" /> -->
+			<property name="hibernate.connection.driver_class"
+				value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url"
+				value="jdbc:mysql://google/que_me_pongo?cloudSqlInstance=que-me-pongo-259920:us-central1:que-me-pongo-db&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;useSSL=false" />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password"
+				value="dds123" />
 
-			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
-			<property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db"/>
-			<property name="hibernate.connection.username" value="sa"/>
-			<property name="hibernate.connection.password" value=""/>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+			<!-- <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/> 
+				<property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db"/> 
+				<property name="hibernate.connection.username" value="sa"/> <property name="hibernate.connection.password" 
+				value=""/> <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/> -->
 
 
-			<property name="hibernate.show_sql" value="false"/>
-			<property name="hibernate.format_sql" value="true"/>
-			<property name="use_sql_comments" value="true"/>
-			<property name="hibernate.hbm2ddl.auto" value="update"/>
-			<property name="hibernate.hbm2ddl.auto" value="create"/>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="use_sql_comments" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 		</properties>
 
 	</persistence-unit>
