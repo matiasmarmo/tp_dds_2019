@@ -79,8 +79,9 @@ const vmConfig = {
 
 
 
-exports.createInstance = (event, context) => {
+exports.createInstance = (req, res) => {
     const vmName = "instancia-job-sugerencias-" + Date.now();
+    var success = true
     try {
         compute.zone(zone)
             .createVM(vmName, vmConfig)
@@ -95,11 +96,15 @@ exports.createInstance = (event, context) => {
             .then(() => {
                 const message = 'VM created with success, Cloud Function finished execution.';
                 console.log(message);
+                success = true;
             })
             .catch(err => {
                 console.log(err);
+                success = false;
             });
     } catch (err) {
         console.log(err);
+        success = false;
     }
+    success ? res.status(200) : res.status(500);
 };
