@@ -57,8 +57,14 @@ public class Router {
         
         this.get("/eventos/sugerencias/calificacion", controller::listarSugerenciasAceptadas);
         this.post("/eventos/sugerencias/calificacion", controller::ejecutarCalificacion);
-        this.get("/eventos/new", controller::altaEvento);
         this.get("/eventos", controller::listarEventos);
+        
+        this.get("/eventos/new", controller::altaNuevoEvento);
+        this.post("/eventos/new/nombre", controller::postNombreEvento);
+        this.post("/eventos/new/guardarropas", controller::postGuardarropasEvento);
+        this.get("/eventos/new/fecha", controller::getFormFechaEvento);
+        this.post("/eventos/new/fecha", controller::postFechaEvento);
+        this.post("/eventos/new", controller::confirmarEvento);
     }
 
 }

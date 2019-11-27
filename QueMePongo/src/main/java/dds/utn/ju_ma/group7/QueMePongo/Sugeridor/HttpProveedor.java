@@ -82,7 +82,6 @@ public abstract class HttpProveedor implements ProveedorClima {
 		List<JsonObject> pronosticoBuscadoLista = pronosticos
 				.filter(pronostico -> fechaCoincide(pronostico.getString(campoFecha()), fecha))
 				.collect(Collectors.toList());
-
 		if (pronosticoBuscadoLista.size() == 0) {
 			throw new FechaInexistenteException("No existe la fecha buscada dentro del pronostico de 5 dias");
 		} else {

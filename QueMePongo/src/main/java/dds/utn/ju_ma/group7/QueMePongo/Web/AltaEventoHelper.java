@@ -4,10 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Map;
 
-public class AltaEventoController {
-	public HashMap<String, Object> controladorPantallas(HashMap<String, Object> viewModel) {
+public class AltaEventoHelper {
+	public Map<String, Object> controladorPantallas(Map<String, Object> viewModel) {
 		viewModel.put("visibilidadNombreEvento", "hidden");
 		viewModel.put("visibilidadGuardarropas", "hidden");
 		viewModel.put("visibilidadCalendario", "hidden");

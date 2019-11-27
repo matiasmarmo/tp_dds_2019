@@ -1,7 +1,6 @@
 package dds.utn.ju_ma.group7.QueMePongo.Web;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
@@ -14,10 +13,8 @@ import dds.utn.ju_ma.group7.QueMePongo.Evento.RepositorioEventosPersistente;
 import dds.utn.ju_ma.group7.QueMePongo.Evento.Sugerencia;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
-import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class EventosController implements WithGlobalEntityManager, TransactionalOps, EntityManagerOps {
 
@@ -82,58 +79,123 @@ public class EventosController implements WithGlobalEntityManager, Transactional
 		res.redirect("/quemepongo/eventos/sugerencias/calificacion");
 		return "redirigiendo a sugerencias...";
 	}
-
-	public String altaEvento(Request req, Response res) {
+	
+	public String altaNuevoEvento(Request req, Response res) {
+		return new HandlebarsViewBuilder()
+				.attribute("nombreEvento", "")
+				.attribute("visibilidadNombreEvento", "visible")
+				.attribute("visibilidadGuardarropas", "hidden")
+				.attribute("visibilidadCalendario", "hidden")
+				.attribute("visibilidadConfirmacion", "hidden")
+				.attribute("visibilidadEventoOk", "hidden")
+				.view("altaEvento.hbs")
+				.render();
+	}
+	
+	public String postNombreEvento(Request req, Response res) {
+		String nombreEvento = req.queryParams("nombreEvento");
+		if(nombreEvento == null || nombreEvento.isEmpty()) {
+			res.redirect("/quemepongo/eventos/new");
+			return "";
+		}
+		req.session().attribute("nombreEvento", nombreEvento);
+		
 		AuthenticatedUser user = this.authService
 				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
-		String nombreEvento = req.queryParams("nombreEvento");
+		
+		return new HandlebarsViewBuilder()
+				.attribute("nombreEvento", nombreEvento)
+				.attribute("todosLosGuardarropas", user.getUsuario().getGuardarropas())
+				.attribute("visibilidadNombreEvento", "hidden")
+				.attribute("visibilidadGuardarropas", "visible")
+				.attribute("visibilidadCalendario", "hidden")
+				.attribute("visibilidadConfirmacion", "hidden")
+				.attribute("visibilidadEventoOk", "hidden")
+				.view("altaEvento.hbs")
+				.render();
+	}
+	
+	public String postGuardarropasEvento(Request req, Response res) {
 		String guardarropas = req.queryParams("guardarropas");
+		req.session().attribute("guardarropas", guardarropas);
+		
+		res.redirect("/quemepongo/eventos/new/fecha");
+		return "";
+	}
+	
+	public String getFormFechaEvento(Request req, Response res) {
+		AuthenticatedUser user = this.authService
+				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		return new HandlebarsViewBuilder()
+				.attribute("nombreEvento", req.session().attribute("nombreEvento"))
+				.attribute("guardarropas", req.session().attribute("guardarropas"))
+				.attribute("todosLosGuardarropas", user.getUsuario().getGuardarropas())
+				.attribute("visibilidadNombreEvento", "hidden")
+				.attribute("visibilidadGuardarropas", "hidden")
+				.attribute("visibilidadCalendario", "visible")
+				.attribute("visibilidadConfirmacion", "hidden")
+				.attribute("visibilidadEventoOk", "hidden")
+				.view("altaEvento.hbs")
+				.render();
+	}
+	
+	public String postFechaEvento(Request req, Response res) {
 		String fechaEvento = req.queryParams("fechaEvento");
-		String confirmacion = req.queryParams("confirmacion");
-		HashMap<String, Object> viewModel = new HashMap<String, Object>();
-		AltaEventoController controlador = new AltaEventoController();
-		viewModel = controlador.controladorPantallas(viewModel);
-		if (req.queryParams().isEmpty()) {
-			viewModel.put("nombreEvento", nombreEvento);
-			viewModel.put("visibilidadNombreEvento", "visible");
-		} else {
-			Boolean hayNombre = nombreEvento != null;
-			Boolean hayGuardarropas = guardarropas != null;
-			Boolean hayFechaEvento = fechaEvento != null;
-			Boolean hayConfirmacion = confirmacion != null;
-			if (hayNombre && !hayGuardarropas) {
-				viewModel.put("nombreEvento", nombreEvento);
-				viewModel.put("todosLosGuardarropas", user.getUsuario().getGuardarropas());
-				viewModel.put("visibilidadGuardarropas", "visible");
-			} else if (hayNombre && hayGuardarropas && !hayFechaEvento) {
-				viewModel.put("nombreEvento", nombreEvento);
-				viewModel.put("guardarropas", guardarropas);
-				viewModel.put("todosLosGuardarropas", user.getUsuario().getGuardarropas());
-				viewModel.put("visibilidadCalendario", "visible");
-			} else if (hayNombre && hayGuardarropas && hayFechaEvento && !hayConfirmacion) {
-				viewModel.put("nombreEvento", nombreEvento);
-				viewModel.put("guardarropas", guardarropas);
-				viewModel.put("nombreGuardarropas",
-						user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas)).getNombreGuardarropas());
-				Boolean fechaCorrecta = controlador.esFechaValida(fechaEvento);
-				viewModel.put("fechaEvento", fechaEvento);
-				viewModel.put("todoOk", fechaCorrecta);
-				viewModel.put("visibilidadConfirmacion", "visible");
-			} else if (hayNombre && hayGuardarropas && hayFechaEvento && hayConfirmacion) {
-				Usuario usuario = user.getUsuario();
-				Guardarropa guardarropaSeleccionado = user.getUsuario()
-						.obtenerGuardarropa(Long.parseLong(guardarropas));
-				RepositorioEventosPersistente repositorioEventosPersistente = new RepositorioEventosPersistente();
-				Calendar fecha = controlador.generarFecha(fechaEvento);
-				EventoUnico eventoVerano = repositorioEventosPersistente.instanciarEventoUnico(usuario,
-						guardarropaSeleccionado, fecha, nombreEvento);
-				withTransaction(() -> {
-					this.entityManager().persist(eventoVerano);
-				});
-				viewModel.put("visibilidadEventoOk", "visible");
-			}
+		req.session().attribute("fechaEvento", fechaEvento);
+
+		AuthenticatedUser user = this.authService
+				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		
+		String guardarropas = req.session().attribute("guardarropas");
+		
+		Boolean fechaCorrecta = new AltaEventoHelper().esFechaValida(fechaEvento);
+		
+		if(!fechaCorrecta) {
+			res.redirect("/quemepongo/eventos/new/fecha");
+			return "";
 		}
-		ModelAndView modelAndView = new ModelAndView(viewModel, "altaEvento.hbs");
-		return new HandlebarsTemplateEngine().render(modelAndView);
+		
+		return new HandlebarsViewBuilder()
+				.attribute("nombreEvento", req.session().attribute("nombreEvento"))
+				.attribute("guardarropas", guardarropas)
+				.attribute("nombreGuardarropas", user.getUsuario().obtenerGuardarropa(Long.parseLong(guardarropas)).getNombreGuardarropas())
+				.attribute("fechaEvento", req.session().attribute("fechaEvento"))
+				.attribute("todoOk", fechaCorrecta)
+				.attribute("visibilidadNombreEvento", "hidden")
+				.attribute("visibilidadGuardarropas", "hidden")
+				.attribute("visibilidadCalendario", "hidden")
+				.attribute("visibilidadConfirmacion", "visible")
+				.attribute("visibilidadEventoOk", "hidden")
+				.view("altaEvento.hbs")
+				.render();
+	}
+	
+	public String confirmarEvento(Request req, Response res) {
+		
+		AuthenticatedUser user = this.authService
+				.getAuthenticatedUser(Long.parseLong(req.cookie("quemepongo-auth-token")));
+		Usuario usuario = user.getUsuario();
+		
+		Guardarropa guardarropaSeleccionado = user.getUsuario()
+				.obtenerGuardarropa(Long.parseLong(req.session().attribute("guardarropas")));
+		RepositorioEventosPersistente repositorioEventosPersistente = new RepositorioEventosPersistente();
+		
+		Calendar fecha = new AltaEventoHelper().generarFecha(req.session().attribute("fechaEvento"));
+		
+		EventoUnico eventoVerano = repositorioEventosPersistente.instanciarEventoUnico(usuario,
+				guardarropaSeleccionado, fecha, req.session().attribute("nombreEvento"));
+		
+		withTransaction(() -> {
+			this.entityManager().persist(eventoVerano);
+		});
+		
+		return new HandlebarsViewBuilder()
+				.attribute("visibilidadNombreEvento", "hidden")
+				.attribute("visibilidadGuardarropas", "hidden")
+				.attribute("visibilidadCalendario", "hidden")
+				.attribute("visibilidadConfirmacion", "hidden")
+				.attribute("visibilidadEventoOk", "visible")
+				.view("altaEvento.hbs")
+				.render();
 	}
 }
