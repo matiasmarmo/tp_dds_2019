@@ -16,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import dds.utn.ju_ma.group7.QueMePongo.Excepciones.EventoInvalidoException;
 import dds.utn.ju_ma.group7.QueMePongo.Guardarropa.Guardarropa;
 import dds.utn.ju_ma.group7.QueMePongo.Usuario.Usuario;
 
